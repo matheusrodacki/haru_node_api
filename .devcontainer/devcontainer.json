@@ -1,7 +1,8 @@
-{
-  "name": "Node.js & MySQL",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "nestjs",
-  "workspaceFolder": "/workspace",
-  "postCreateCommand": "npm install"
-}
+  {
+    "name": "Node.js & MySQL",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "postCreateCommand": "npm install",
+    "remoteUser": "node"
+  }

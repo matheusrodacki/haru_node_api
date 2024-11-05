@@ -1,14 +1,19 @@
-version: '3'
+version: '3.7'
 
 services:
-  nestjs:
-    build:
-      context: ..
-      dockerfile: Dockerfile
+  app:
+    image: mcr.microsoft.com/vscode/devcontainers/typescript-node:0-18
     volumes:
       - ..:/workspace:cached
+    command: "sleep infinity"
     ports:
-      - '3000:3000'
+      - "3000:3000"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=my_database
     depends_on:
       - mysql
 
@@ -21,9 +26,9 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      - '3306:3306'
+      - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
 
 volumes:
-  mysql_data:
+  mysql-data:
