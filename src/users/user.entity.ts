@@ -11,15 +11,18 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class User {
-  @ApiProperty({ description: 'The unique identifier of the user' })
+  @ApiProperty({ description: 'The unique identifier of the user', example: 1 })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ description: 'The name of the user' })
+  @ApiProperty({ description: 'The name of the user', example: 'John Doe' })
   @Column()
   name: string;
 
-  @ApiProperty({ description: 'The email of the user' })
+  @ApiProperty({
+    description: 'The email of the user',
+    example: 'john.doe@example.com',
+  })
   @Column()
   email: string;
 
@@ -30,6 +33,10 @@ export class User {
   @ApiProperty({ description: 'The salt used for hashing the password' })
   @Column()
   salt: string;
+
+  @ApiProperty({ description: 'The status of the user', example: 1 })
+  @Column({ default: 1 })
+  status: number;
 
   @ApiProperty({
     description: 'The organization to which the user belongs',

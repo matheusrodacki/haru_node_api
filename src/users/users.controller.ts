@@ -3,12 +3,12 @@ import { UsersService } from './users.service';
 import { User } from './user.entity';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateUserDto } from './create-user.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -42,26 +42,8 @@ export class UsersController {
     status: 400,
     description: 'Cannot create a user without an organization.',
   })
-  @ApiBody({
-    description: 'The user data to create a new user',
-    schema: {
-      type: 'object',
-      properties: {
-        name: { type: 'string', example: 'John Doe' },
-        email: { type: 'string', example: 'john.doe@example.com' },
-        organization: {
-          type: 'object',
-          properties: {
-            id: { type: 'number', example: 1 },
-          },
-          required: ['id'],
-        },
-      },
-      required: ['name', 'email', 'organization'],
-    },
-  })
   @Post()
-  create(@Body() user: User): Promise<User> {
-    return this.usersService.create(user);
+  create(@Body() CreateUserDto: CreateUserDto): Promise<User> {
+    return this.usersService.create(CreateUserDto);
   }
 }

@@ -1,4 +1,4 @@
-import { INestApplication, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,7 +6,6 @@ import { UsersModule } from './users/users.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 @Module({
   imports: [
@@ -38,24 +37,3 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
   providers: [AppService],
 })
 export class AppModule {}
-
-export function setupSwagger(app: INestApplication): void {
-  const options = new DocumentBuilder()
-    .setTitle('Haru Digital - API Documentation')
-    .setDescription(
-      'This is the API documentation for our system. Here you can find all the available endpoints, their descriptions, and expected parameters.',
-    )
-    .setVersion('1.0')
-    .setTermsOfService('https://harudigital.com/terms')
-    .setContact(
-      'Developer Team',
-      'https://hdsoltec.com',
-      'equipehdbrasil@gmail.com',
-    )
-    .setLicense('Restricted Use License', 'https://harudigital.com/license')
-    .addBearerAuth()
-    .build();
-
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
-}
