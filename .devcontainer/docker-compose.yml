@@ -2,10 +2,10 @@ version: '3.7'
 
 services:
   app:
-    image: node:latest
+    image: node:23
     volumes:
-      - ..:/workspace:cached
-    command: "sh -c 'export $(cat /workspace/.env | xargs) && sleep infinity'"
+      - ..:/workspaces:cached
+    command: "sh -c 'export $(cat /workspaces/.env | xargs) && sleep infinity'"
     ports:
       - '8000:8000'
     environment:
@@ -13,7 +13,7 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=my_database
+      - MYSQL_DATABASE=haru_db_v
     depends_on:
       - mysql
 
@@ -24,7 +24,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: my_database
       MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: haru_db_v
     ports:
       - '3306:3306'
     volumes:
