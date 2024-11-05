@@ -10,8 +10,8 @@ import { join } from 'path';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
+      host: process.env.MYSQL_HOST || 'mysql',
+      port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
       username: 'user',
       password: 'password',
       database: 'my_database',
