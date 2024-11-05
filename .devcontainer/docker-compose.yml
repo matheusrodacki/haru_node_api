@@ -5,7 +5,7 @@ services:
     image: node:latest
     volumes:
       - ..:/workspace:cached
-    command: 'sleep infinity'
+    command: "sh -c 'export $(cat /workspace/.env | xargs) && sleep infinity'"
     ports:
       - '8000:8000'
     environment:

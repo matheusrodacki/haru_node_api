@@ -1,17 +1,27 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Organization } from '../organizations/organization.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class User {
+  @ApiProperty({ description: 'The unique identifier of the user' })
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty({ description: 'The name of the user' })
   @Column()
   name: string;
 
+  @ApiProperty({ description: 'The email of the user' })
   @Column()
   email: string;
 
-  @ManyToOne(() => Organization, (organization) => organization.users)
+  @ApiProperty({
+    description: 'The organization to which the user belongs',
+    type: () => Organization,
+  })
+  @ManyToOne(() => Organization, (organization) => organization.users, {
+    nullable: false,
+  })
   organization: Organization;
 }
