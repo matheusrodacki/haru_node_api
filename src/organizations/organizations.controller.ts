@@ -1,7 +1,13 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 import { Organization } from './organization.entity';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBody,
+} from '@nestjs/swagger';
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -26,6 +32,16 @@ export class OrganizationsController {
     return this.organizationsService.findOne(id);
   }
 
+  @ApiBody({
+    description: 'The organization data to create a new organization',
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Tech Corp' },
+      },
+      required: ['name'],
+    },
+  })
   @Post()
   create(@Body() organization: Organization): Promise<Organization> {
     return this.organizationsService.create(organization);

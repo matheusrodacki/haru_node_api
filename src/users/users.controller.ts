@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users')
 @Controller('users')
@@ -30,6 +30,24 @@ export class UsersController {
   @ApiResponse({
     status: 400,
     description: 'Cannot create a user without an organization.',
+  })
+  @ApiBody({
+    description: 'The user data to create a new user',
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'John Doe' },
+        email: { type: 'string', example: 'john.doe@example.com' },
+        organization: {
+          type: 'object',
+          properties: {
+            id: { type: 'number', example: 1 },
+          },
+          required: ['id'],
+        },
+      },
+      required: ['name', 'email', 'organization'],
+    },
   })
   @Post()
   create(@Body() user: User): Promise<User> {

@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Organization } from '../organizations/organization.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -24,4 +31,12 @@ export class User {
     nullable: false,
   })
   organization: Organization;
+
+  @ApiProperty({ description: 'The date the user was created' })
+  @CreateDateColumn()
+  created_at: Date;
+
+  @ApiProperty({ description: 'The date the user was last updated' })
+  @UpdateDateColumn()
+  updated_at: Date;
 }

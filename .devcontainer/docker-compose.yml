@@ -3,11 +3,13 @@ services:
     image: node:23
     volumes:
       - ..:/workspaces/haru_node_api:cached
-    command: "sleep infinity"
+    command: 'sleep infinity'
     ports:
       - '8000:8000'
+    env_file:
+      - ../.env
     environment:
-      - MYSQL_HOST=mysql
+      - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_PORT=3306
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
@@ -29,6 +31,8 @@ services:
       - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
+    deploy:
+      replicas: ${MYSQL_REPLICAS}
 
 volumes:
   mysql-data:
