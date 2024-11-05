@@ -1,19 +1,17 @@
-version: '3.7'
-
 services:
   app:
     image: node:23
     volumes:
-      - ..:/workspaces:cached
-    command: "sh -c 'export $(cat /workspaces/.env | xargs) && sleep infinity'"
+      - ..:/workspaces/haru_node_api:cached
+    command: "sleep infinity"
     ports:
       - '8000:8000'
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=haru_db_v
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     depends_on:
       - mysql
 
@@ -22,9 +20,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: my_database
-      MYSQL_USER: user
-      MYSQL_PASSWORD: haru_db_v
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - '3306:3306'
     volumes:
