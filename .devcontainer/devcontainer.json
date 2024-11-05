@@ -3,6 +3,16 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
     "workspaceFolder": "/workspace",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "dbaeumer.vscode-eslint",
+          "esbenp.prettier-vscode",
+          "ms-azuretools.vscode-docker",
+          "github.copilot"
+          ]
+      }
+    },
     "postCreateCommand": "npm install",
     "remoteUser": "node"
   }
