@@ -19,6 +19,10 @@ export class Organization {
   @Column()
   name: string;
 
+  @ApiProperty({ description: 'The status of the organization' })
+  @Column()
+  state: number;
+
   @ApiProperty({
     description: 'The users belonging to the organization',
     type: () => [User],

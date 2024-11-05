@@ -23,6 +23,14 @@ export class User {
   @Column()
   email: string;
 
+  @ApiProperty({ description: 'The hashed password of the user' })
+  @Column()
+  passwordHash: string;
+
+  @ApiProperty({ description: 'The salt used for hashing the password' })
+  @Column()
+  salt: string;
+
   @ApiProperty({
     description: 'The organization to which the user belongs',
     type: () => Organization,
