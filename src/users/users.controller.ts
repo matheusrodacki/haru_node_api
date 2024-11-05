@@ -27,6 +27,10 @@ export class UsersController {
     status: 201,
     description: 'The user has been successfully created.',
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Cannot create a user without an organization.',
+  })
   @Post()
   create(@Body() user: User): Promise<User> {
     return this.usersService.create(user);
