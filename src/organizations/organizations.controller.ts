@@ -17,9 +17,9 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { OrganizationDto } from './organization.dto';
+import { OrganizationDto } from './dto/organization.dto';
 import { plainToClass } from 'class-transformer';
-import { CreateOrganizationDto } from './create.organization.dto';
+import { CreateOrganizationDto } from './dto/create.organization.dto';
 
 @ApiTags('organizations')
 @Controller('organizations')
