@@ -6,6 +6,8 @@ import {
   Param,
   UseGuards,
   ParseIntPipe,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 import {
@@ -21,6 +23,7 @@ import { OrganizationDto } from './dto/organization.dto';
 import { CreateOrganizationDto } from './dto/create.organization.dto';
 import { UserDto } from 'src/users/dto/user.dto';
 import { UsersService } from 'src/users/users.service';
+import { UpdateOrganizationDto } from './dto/update.organization.dto';
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -102,5 +105,37 @@ export class OrganizationsController {
     @Body() createOrganizationDto: CreateOrganizationDto,
   ): Promise<OrganizationDto> {
     return await this.organizationsService.create(createOrganizationDto);
+  }
+
+  //Update an organization
+  @ApiOperation({ summary: 'Update an organization' })
+  @ApiResponse({
+    status: 200,
+    description: 'The organization has been successfully updated.',
+    type: OrganizationDto,
+  })
+  @ApiResponse({ status: 404, description: 'Organization not found' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateOrganizationDto: UpdateOrganizationDto,
+  ): Promise<OrganizationDto> {
+    return await this.organizationsService.update(id, updateOrganizationDto);
+  }
+
+  //Delete an organization
+  @ApiOperation({ summary: 'Delete an organization' })
+  @ApiResponse({
+    status: 200,
+    description: 'The organization has been successfully deleted.',
+  })
+  @ApiResponse({ status: 404, description: 'Organization not found' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return await this.organizationsService.remove(id);
   }
 }

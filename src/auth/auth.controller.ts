@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import {
   ApiBearerAuth,
@@ -7,7 +7,6 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from './jwt-auth.guard';
 
 @ApiTags('auth')
 @ApiBearerAuth()
@@ -38,16 +37,5 @@ export class AuthController {
       loginDto.password,
     );
     return { accessToken };
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Protected route example' })
-  @ApiResponse({
-    status: 200,
-    description: 'Access granted to protected route.',
-  })
-  @Post('protected')
-  async protectedRoute(): Promise<string> {
-    return 'You have accessed a protected route';
   }
 }
