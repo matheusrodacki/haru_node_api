@@ -34,6 +34,24 @@ export class UsersService {
     });
   }
 
+  async findByOrganizationId(organizationId: number): Promise<User[]> {
+    const org = await this.organizationsRepository.findOne({
+      where: { id: organizationId },
+    });
+    if (!org) {
+      throw new NotFoundException('Organization not found');
+    }
+
+    const queryBuilder = this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.organization', 'organization')
+      .where('organization.id = :organizationId', { organizationId });
+
+    const users = await queryBuilder.getMany();
+
+    return users;
+  }
+
   async findByEmail(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { email } });
   }

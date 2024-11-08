@@ -19,11 +19,16 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { OrganizationDto } from './dto/organization.dto';
 import { CreateOrganizationDto } from './dto/create.organization.dto';
+import { UserDto } from 'src/users/dto/user.dto';
+import { UsersService } from 'src/users/users.service';
 
 @ApiTags('organizations')
 @Controller('organizations')
 export class OrganizationsController {
-  constructor(private readonly organizationsService: OrganizationsService) {}
+  constructor(
+    private readonly organizationsService: OrganizationsService,
+    private readonly usersService: UsersService,
+  ) {}
 
   //Find all organizations
   @ApiOperation({ summary: 'Get all organizations' })
@@ -57,6 +62,22 @@ export class OrganizationsController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<OrganizationDto> {
     return await this.organizationsService.findOne(id);
+  }
+
+  // Get users of an organization
+  @ApiOperation({ summary: 'Get users of an organization' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of users in the organization',
+    type: [UserDto],
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID of the organization',
+  })
+  @Get(':id/users')
+  async getUsers(@Param('id') id: number): Promise<UserDto[]> {
+    return await this.usersService.findByOrganizationId(id);
   }
 
   //Create an organization

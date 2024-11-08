@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
@@ -10,7 +10,7 @@ import { Organization } from 'src/organizations/organization.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Organization]),
-    OrganizationsModule,
+    forwardRef(() => OrganizationsModule),
     JwtModule.register({
       secret: 'secretKey',
       signOptions: { expiresIn: '1h' },
