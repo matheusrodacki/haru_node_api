@@ -17,7 +17,6 @@ import {
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
-import { plainToClass } from 'class-transformer';
 import { UserDto } from './user.dto';
 
 @ApiTags('users')
@@ -32,8 +31,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<UserDto[]> {
-    const users = await this.usersService.findAll();
-    return users.map((user) => plainToClass(UserDto, user));
+    return await this.usersService.findAll();
   }
 
   //Find one user
@@ -43,8 +41,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserDto> {
-    const user = await this.usersService.findOne(id);
-    return plainToClass(UserDto, user);
+    return await this.usersService.findOne(id);
   }
 
   //Create a new user
@@ -57,7 +54,6 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    const user = await this.usersService.create(createUserDto);
-    return plainToClass(UserDto, user);
+    return this.usersService.create(createUserDto);
   }
 }

@@ -85,9 +85,6 @@ export class OrganizationsController {
   async create(
     @Body() createOrganizationDto: CreateOrganizationDto,
   ): Promise<OrganizationDto> {
-    const organization = this.organizationsService.create(
-      createOrganizationDto,
-    );
-    return plainToClass(OrganizationDto, organization);
+    return this.organizationsService.create(createOrganizationDto);
   }
 }
