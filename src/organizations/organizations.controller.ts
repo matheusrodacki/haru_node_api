@@ -18,7 +18,6 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { OrganizationDto } from './dto/organization.dto';
-import { plainToClass } from 'class-transformer';
 import { CreateOrganizationDto } from './dto/create.organization.dto';
 
 @ApiTags('organizations')
@@ -37,10 +36,7 @@ export class OrganizationsController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<OrganizationDto[]> {
-    const organizations = await this.organizationsService.findAll();
-    return organizations.map((organization) =>
-      plainToClass(OrganizationDto, organization),
-    );
+    return await this.organizationsService.findAll();
   }
 
   //Find one organization
@@ -60,8 +56,7 @@ export class OrganizationsController {
   async findOne(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<OrganizationDto> {
-    const organization = await this.organizationsService.findOne(id);
-    return plainToClass(OrganizationDto, organization);
+    return await this.organizationsService.findOne(id);
   }
 
   //Create an organization
