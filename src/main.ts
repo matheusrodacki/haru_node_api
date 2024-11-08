@@ -1,11 +1,12 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Configuração global de validação do DTO
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -14,24 +15,18 @@ async function bootstrap() {
     }),
   );
 
+  //app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  // Configuração básica do Swagger
   const config = new DocumentBuilder()
-    .setTitle('Haru Digital - API Documentation')
-    .setDescription(
-      'This is the API documentation for our system. Here you can find all the available endpoints, their descriptions, and expected parameters.',
-    )
+    .setTitle('API Documentation')
     .setVersion('1.0')
-    .setTermsOfService('https://harudigital.com/terms')
-    .setContact(
-      'Developer Team',
-      'https://hdsoltec.com',
-      'equipehdbrasil@gmail.com',
-    )
-    .setLicense('Restricted Use License', 'https://harudigital.com/license')
-    .addBearerAuth()
+    .addBearerAuth() // Se estiver usando autenticação JWT
     .build();
 
-  const documentFactory = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(process.env.PORT ?? 8001);
 }

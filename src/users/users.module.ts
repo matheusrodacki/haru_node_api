@@ -5,10 +5,11 @@ import { UsersController } from './users.controller';
 import { User } from './user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { OrganizationsModule } from 'src/organizations/organizations.module';
+import { Organization } from 'src/organizations/organization.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Organization]),
     OrganizationsModule,
     JwtModule.register({
       secret: 'secretKey',

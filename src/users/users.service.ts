@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from './create-user.dto';
+import { CreateUserDto } from './create.user.dto';
 import { Organization } from 'src/organizations/organization.entity';
 
 @Injectable()
@@ -32,11 +32,22 @@ export class UsersService {
     });
   }
 
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { email } });
+  }
+
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { name, email, password, organization } = createUserDto;
+    const { name, email, password, organizationId } = createUserDto;
+
+    const existingUser = await this.usersRepository.findOne({
+      where: { email },
+    });
+    if (existingUser) {
+      throw new BadRequestException('Email is already in use');
+    }
 
     const org = await this.organizationsRepository.findOne({
-      where: { id: organization.id },
+      where: { id: organizationId },
     });
 
     if (!org) {
@@ -47,10 +58,8 @@ export class UsersService {
 
     // Generate salt and hash password
     const user = new User();
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
+    const passwordHash = await bcrypt.hash(password, 10);
 
-    user.salt = salt;
     user.passwordHash = passwordHash;
     user.name = name;
     user.email = email;

@@ -1,49 +1,63 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { User } from './user.entity';
+// users/users.controller.ts
 import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UseGuards,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { UsersService } from './users.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateUserDto } from './create.user.dto';
+import {
+  ApiTags,
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
-  ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CreateUserDto } from './create-user.dto';
+import { plainToClass } from 'class-transformer';
+import { UserDto } from './user.dto';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ status: 200, description: 'Return all users.' })
+  //Find all users
+  @ApiOperation({ summary: 'Retrieve all users' })
+  @ApiResponse({ status: 200, description: 'List of users', type: [UserDto] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  async findAll(): Promise<UserDto[]> {
+    const users = await this.usersService.findAll();
+    return users.map((user) => plainToClass(UserDto, user));
   }
 
-  @ApiOperation({ summary: 'Get a user by ID' })
-  @ApiResponse({ status: 200, description: 'Return a user by ID.' })
+  //Find one user
+  @ApiOperation({ summary: 'Retrieve a user by ID' })
+  @ApiResponse({ status: 200, description: 'User data', type: UserDto })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: number): Promise<User> {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserDto> {
+    const user = await this.usersService.findOne(id);
+    return plainToClass(UserDto, user);
   }
 
+  //Create a new user
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({
     status: 201,
-    description: 'The user has been successfully created.',
+    description: 'User created successfully',
+    type: UserDto,
   })
-  @ApiResponse({
-    status: 400,
-    description: 'Cannot create a user without an organization.',
-  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @Post()
-  create(@Body() CreateUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.create(CreateUserDto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
+    const user = await this.usersService.create(createUserDto);
+    return plainToClass(UserDto, user);
   }
 }
