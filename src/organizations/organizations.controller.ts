@@ -80,6 +80,6 @@ export class OrganizationsController {
   async create(
     @Body() createOrganizationDto: CreateOrganizationDto,
   ): Promise<OrganizationDto> {
-    return this.organizationsService.create(createOrganizationDto);
+    return await this.organizationsService.create(createOrganizationDto);
   }
 }
