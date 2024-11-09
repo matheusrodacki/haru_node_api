@@ -3,7 +3,7 @@ import { Client } from '../../clients/client.entity';
 
 export class UserDto {
   @ApiProperty({ description: 'User ID', example: 1 })
-  id: number;
+  user_id: number;
 
   @ApiProperty({ description: 'User name', example: 'John Doe' })
   name: string;

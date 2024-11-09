@@ -46,7 +46,7 @@ export class UsersController {
     } else if (user.role === Role.ADMIN) {
       return await this.usersService.findByClientId(user.clientId);
     } else if (user.role === Role.OPERATOR) {
-      return [await this.usersService.findOne(user.id)];
+      return [await this.usersService.findOne(user.user_id)];
     } else {
       throw new ForbiddenException('Access denied');
     }

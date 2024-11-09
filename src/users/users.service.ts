@@ -26,16 +26,16 @@ export class UsersService {
     return this.usersRepository.find({ relations: ['client'] });
   }
 
-  findOne(id: number): Promise<User> {
+  findOne(user_id: number): Promise<User> {
     return this.usersRepository.findOne({
-      where: { id },
+      where: { user_id },
       relations: ['client'],
     });
   }
 
-  async findByClientId(clientId: number): Promise<User[]> {
+  async findByClientId(client_id: number): Promise<User[]> {
     const client = await this.clientsRepository.findOne({
-      where: { client_id: clientId },
+      where: { client_id },
     });
     if (!client) {
       throw new NotFoundException('Client not found');
@@ -44,7 +44,7 @@ export class UsersService {
     const queryBuilder = this.usersRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.client', 'client')
-      .where('client.client_id = :clientId', { clientId });
+      .where('client.client_id = :client_id', { client_id });
 
     const users = await queryBuilder.getMany();
 
@@ -88,13 +88,13 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(user_id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.usersRepository.findOne({
-      where: { id },
+      where: { user_id },
       relations: ['client'],
     });
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      throw new NotFoundException(`User with ID ${user_id} not found`);
     }
 
     // Update email if provided and not already in use
@@ -141,10 +141,10 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async remove(id: number): Promise<void> {
-    const user = await this.usersRepository.findOne({ where: { id } });
+  async remove(user_id: number): Promise<void> {
+    const user = await this.usersRepository.findOne({ where: { user_id } });
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      throw new NotFoundException(`User with ID ${user_id} not found`);
     }
     await this.usersRepository.remove(user);
   }
