@@ -24,6 +24,9 @@ export class User {
   @Column()
   passwordHash: string;
 
+  @Column({ nullable: true })
+  phone: string;
+
   @Column()
   role: string;
 
