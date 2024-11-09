@@ -29,6 +29,7 @@ export class SeedService implements OnModuleInit {
         name: 'John Doe',
         email: 'john.doe@example.com',
         password: 'yourpassword',
+        phone: '1234567890',
         role: 'superadmin',
         clientId: clients[0].client_id,
       } as CreateUserDto);

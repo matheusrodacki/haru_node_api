@@ -6,10 +6,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Client } from '../clients/client.entity';
 import { Exclude } from 'class-transformer';
+import { Client } from 'src/clients/entities/client.entity';
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   user_id: number;

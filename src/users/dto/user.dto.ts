@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Client } from '../../clients/client.entity';
+import { Client } from '../../clients/entities/client.entity';
 
 export class UserDto {
   @ApiProperty({ description: 'User ID', example: 1 })

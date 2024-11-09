@@ -27,7 +27,7 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Role } from 'src/enum/roles.enum';
 import { Roles } from 'src/auth/roles.decorator';
 
-@ApiTags('clients')
+@ApiTags('Clients')
 @Controller('clients')
 export class ClientsController {
   constructor(

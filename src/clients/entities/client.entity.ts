@@ -5,13 +5,15 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
-import { User } from '../users/user.entity';
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
 import { Exclude } from 'class-transformer';
+import { User } from 'src/users/entities/user.entity';
+import { Individual } from 'src/individuals/entities/individual.entity';
 
-@Entity()
+@Entity('clients')
 export class Client {
   @PrimaryGeneratedColumn()
   client_id: number;
@@ -36,6 +38,12 @@ export class Client {
   updated_at: Date;
 
   // Relationships
+  @OneToOne(() => Individual, (individual) => individual.client, {
+    cascade: true,
+    nullable: true,
+  })
+  individual?: Individual;
+
   @Exclude()
   @OneToMany(() => User, (user) => user.client)
   users: User[];
