@@ -6,8 +6,8 @@ services:
     command: 'sleep infinity'
     ports:
       - '8000:8000'
-    env_file:
-      - ../.env
+    # env_file:
+    #   - ../.env
     environment:
       - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_PORT=3306
