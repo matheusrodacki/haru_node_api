@@ -1,5 +1,4 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -7,12 +6,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
 
 @ApiTags('auth')
 @ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({ summary: 'Authenticate user' })
   @ApiResponse({ status: 201, description: 'User successfully authenticated.' })
@@ -32,7 +32,7 @@ export class AuthController {
   async login(
     @Body() loginDto: { email: string; password: string },
   ): Promise<{ accessToken: string }> {
-    const accessToken = await this.usersService.validateUser(
+    const accessToken = await this.authService.validateUser(
       loginDto.email,
       loginDto.password,
     );

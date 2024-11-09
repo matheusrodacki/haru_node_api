@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -53,11 +52,14 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({ where: { email } });
+    return this.usersRepository.findOne({
+      where: { email },
+      relations: ['organization'],
+    });
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { name, email, password, organizationId } = createUserDto;
+    const { name, email, password, role, organizationId } = createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
       where: { email },
@@ -83,21 +85,9 @@ export class UsersService {
     user.passwordHash = passwordHash;
     user.name = name;
     user.email = email;
+    user.role = role;
     user.organization = org;
     return this.usersRepository.save(user);
-  }
-
-  async validateUser(email: string, password: string): Promise<string> {
-    const user = await this.usersRepository.findOne({ where: { email } });
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    const payload = { userId: user.id, email: user.email };
-    return this.jwtService.sign(payload);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {

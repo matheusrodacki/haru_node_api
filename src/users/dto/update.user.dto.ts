@@ -30,6 +30,15 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsString()
   password?: string;
 
+  @ApiProperty({
+    description: 'User role',
+    example: 'admin',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  role?: string;
+
   @ApiProperty({ description: 'Organization ID', example: 2, required: false })
   @IsOptional()
   @IsNumber()

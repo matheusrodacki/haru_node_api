@@ -24,6 +24,9 @@ import { CreateOrganizationDto } from './dto/create.organization.dto';
 import { UserDto } from 'src/users/dto/user.dto';
 import { UsersService } from 'src/users/users.service';
 import { UpdateOrganizationDto } from './dto/update.organization.dto';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Role } from 'src/auth/roles.enum';
+import { Roles } from 'src/auth/roles.decorator';
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -41,7 +44,8 @@ export class OrganizationsController {
     type: OrganizationDto,
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.SUPERADMIN)
   @Get()
   async findAll(): Promise<OrganizationDto[]> {
     return await this.organizationsService.findAll();
@@ -59,7 +63,8 @@ export class OrganizationsController {
     description: 'The ID of the organization to retrieve',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.SUPERADMIN)
   @Get(':id')
   async findOne(
     @Param('id', ParseIntPipe) id: number,
@@ -78,6 +83,9 @@ export class OrganizationsController {
     name: 'id',
     description: 'ID of the organization',
   })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.SUPERADMIN)
   @Get(':id/users')
   async getUsers(@Param('id') id: number): Promise<UserDto[]> {
     return await this.usersService.findByOrganizationId(id);
@@ -116,7 +124,8 @@ export class OrganizationsController {
   })
   @ApiResponse({ status: 404, description: 'Organization not found' })
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -133,7 +142,8 @@ export class OrganizationsController {
   })
   @ApiResponse({ status: 404, description: 'Organization not found' })
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.SUPERADMIN)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.organizationsService.remove(id);

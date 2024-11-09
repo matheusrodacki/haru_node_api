@@ -24,6 +24,9 @@ export class User {
   @Column()
   passwordHash: string;
 
+  @Column()
+  role: string;
+
   @Column({ default: 1 })
   status: number;
 

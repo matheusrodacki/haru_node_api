@@ -11,6 +11,9 @@ export class UserDto {
   @ApiProperty({ description: 'User email', example: 'john.doe@example.com' })
   email: string;
 
+  @ApiProperty({ description: 'User role', example: 'user' })
+  role: string;
+
   @ApiProperty({ description: 'User status', example: 1 })
   status: number;
 
