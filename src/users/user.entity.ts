@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Organization } from '../organizations/organization.entity';
+import { Client } from '../clients/client.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -30,10 +30,10 @@ export class User {
   @Column({ default: 1 })
   status: number;
 
-  @ManyToOne(() => Organization, (organization) => organization.users, {
+  @ManyToOne(() => Client, (client) => client.users, {
     nullable: false,
   })
-  organization: Organization;
+  client: Client;
 
   @CreateDateColumn()
   created_at: Date;

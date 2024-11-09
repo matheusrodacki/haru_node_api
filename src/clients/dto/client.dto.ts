@@ -1,17 +1,17 @@
-// create-organization.dto.ts
+// create-client.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty } from 'class-validator';
 
-export class OrganizationDto {
-  @ApiProperty({ description: 'Organization ID', example: 1 })
-  id: number;
+export class ClienteDto {
+  @ApiProperty({ description: 'Client ID', example: 1 })
+  client_id: number;
 
-  @ApiProperty({ description: 'Organization name', example: 'Tech Corp' })
+  @ApiProperty({ description: 'Client name', example: 'Tech Corp' })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ description: 'Organization status', example: 1 })
+  @ApiProperty({ description: 'Client status', example: 1 })
   status: number;
 
   @ApiProperty({

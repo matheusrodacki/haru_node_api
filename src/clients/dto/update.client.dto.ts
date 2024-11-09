@@ -2,7 +2,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsOptional, IsInt } from 'class-validator';
 
-export class UpdateOrganizationDto {
+export class UpdateClientDto {
   @ApiProperty({
     description: 'Organization name',
     example: 'Tech Corp',

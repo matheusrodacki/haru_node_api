@@ -32,17 +32,17 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @ApiProperty({
     description: 'User role',
-    example: 'admin',
+    example: 'operator',
     required: false,
   })
   @IsOptional()
   @IsString()
   role?: string;
 
-  @ApiProperty({ description: 'Organization ID', example: 2, required: false })
+  @ApiProperty({ description: 'Client ID', example: 2, required: false })
   @IsOptional()
   @IsNumber()
-  organizationId?: number;
+  clientId?: number;
 
   @ApiProperty({ description: 'User status', example: 1, required: false })
   @IsOptional()

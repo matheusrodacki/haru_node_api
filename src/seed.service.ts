@@ -1,36 +1,34 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { UsersService } from './users/users.service';
 import { CreateUserDto } from './users/dto/create.user.dto';
-import { CreateOrganizationDto } from './organizations/dto/create.organization.dto';
-import { OrganizationsService } from './organizations/organizations.service';
+import { CreateClientDto } from './clients/dto/create.client.dto';
+import { ClientsService } from './clients/client.service';
 
 @Injectable()
 export class SeedService implements OnModuleInit {
   constructor(
     private readonly usersService: UsersService,
-    private readonly organizationsService: OrganizationsService,
+    private readonly clientService: ClientsService,
   ) {}
 
   async onModuleInit() {
-    const organizations = await this.organizationsService.findAll();
-    if (organizations.length === 0) {
-      organizations.push(
-        await this.organizationsService.create({
+    const clients = await this.clientService.findAll();
+    if (clients.length === 0) {
+      clients.push(
+        await this.clientService.create({
           name: 'Tech Corp',
-        } as CreateOrganizationDto),
+        } as CreateClientDto),
       );
     }
 
-    const users = await this.usersService.findByOrganizationId(
-      organizations[0].id,
-    );
+    const users = await this.usersService.findByClientId(clients[0].client_id);
     if (users.length === 0) {
       await this.usersService.create({
         name: 'John Doe',
         email: 'john.doe@example.com',
         password: 'yourpassword',
         role: 'superadmin',
-        organizationId: organizations[0].id,
+        clientId: clients[0].client_id,
       } as CreateUserDto);
     }
   }

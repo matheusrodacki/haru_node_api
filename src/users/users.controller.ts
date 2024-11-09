@@ -44,7 +44,7 @@ export class UsersController {
     if (user.role === Role.SUPERADMIN) {
       return await this.usersService.findAll();
     } else if (user.role === Role.ADMIN) {
-      return await this.usersService.findByOrganizationId(user.organizationId);
+      return await this.usersService.findByClientId(user.clientId);
     } else if (user.role === Role.OPERATOR) {
       return [await this.usersService.findOne(user.id)];
     } else {

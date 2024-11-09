@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Organization } from '../../organizations/organization.entity';
+import { Client } from '../../clients/client.entity';
 
 export class UserDto {
   @ApiProperty({ description: 'User ID', example: 1 })
@@ -18,10 +18,10 @@ export class UserDto {
   status: number;
 
   @ApiProperty({
-    description: 'Organization the user belongs to',
-    type: () => Organization,
+    description: 'Client the user belongs to',
+    type: () => Client,
   })
-  organization: Organization;
+  client: Client;
 
   @ApiProperty({
     description: 'Creation date',

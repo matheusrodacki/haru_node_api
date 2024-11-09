@@ -10,15 +10,15 @@ import { User } from '../users/user.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
-export class Organization {
+export class Client {
   @PrimaryGeneratedColumn()
-  id: number;
+  client_id: number;
 
   @Column()
   name: string;
 
   @Exclude()
-  @OneToMany(() => User, (user) => user.organization)
+  @OneToMany(() => User, (user) => user.client)
   users: User[];
 
   @Column({ default: 1 })

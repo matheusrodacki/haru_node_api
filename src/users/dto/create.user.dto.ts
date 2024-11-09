@@ -34,9 +34,9 @@ export class CreateUserDto {
 
   @ApiProperty({
     example: 1,
-    description: 'ID of the organization the user belongs to',
+    description: 'ID of the client the user belongs to',
   })
   @IsNumber()
   @IsNotEmpty()
-  organizationId: number;
+  clientId: number;
 }

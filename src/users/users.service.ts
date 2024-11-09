@@ -9,42 +9,42 @@ import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create.user.dto';
-import { Organization } from 'src/organizations/organization.entity';
 import { UpdateUserDto } from './dto/update.user.dto';
+import { Client } from 'src/clients/client.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(Organization)
-    private organizationsRepository: Repository<Organization>,
+    @InjectRepository(Client)
+    private clientsRepository: Repository<Client>,
     private jwtService: JwtService,
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find({ relations: ['organization'] });
+    return this.usersRepository.find({ relations: ['client'] });
   }
 
   findOne(id: number): Promise<User> {
     return this.usersRepository.findOne({
       where: { id },
-      relations: ['organization'],
+      relations: ['client'],
     });
   }
 
-  async findByOrganizationId(organizationId: number): Promise<User[]> {
-    const org = await this.organizationsRepository.findOne({
-      where: { id: organizationId },
+  async findByClientId(clientId: number): Promise<User[]> {
+    const client = await this.clientsRepository.findOne({
+      where: { client_id: clientId },
     });
-    if (!org) {
-      throw new NotFoundException('Organization not found');
+    if (!client) {
+      throw new NotFoundException('Client not found');
     }
 
     const queryBuilder = this.usersRepository
       .createQueryBuilder('user')
-      .leftJoinAndSelect('user.organization', 'organization')
-      .where('organization.id = :organizationId', { organizationId });
+      .leftJoinAndSelect('user.client', 'client')
+      .where('client.id = :clientId', { clientId });
 
     const users = await queryBuilder.getMany();
 
@@ -54,12 +54,12 @@ export class UsersService {
   async findByEmail(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({
       where: { email },
-      relations: ['organization'],
+      relations: ['client'],
     });
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { name, email, password, role, organizationId } = createUserDto;
+    const { name, email, password, role, clientId } = createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
       where: { email },
@@ -68,14 +68,12 @@ export class UsersService {
       throw new BadRequestException('Email is already in use');
     }
 
-    const org = await this.organizationsRepository.findOne({
-      where: { id: organizationId },
+    const client = await this.clientsRepository.findOne({
+      where: { client_id: clientId },
     });
 
-    if (!org) {
-      throw new BadRequestException(
-        'Cannot create a user without an organization',
-      );
+    if (!client) {
+      throw new BadRequestException('Cannot create a user without a client');
     }
 
     // Generate salt and hash password
@@ -86,14 +84,14 @@ export class UsersService {
     user.name = name;
     user.email = email;
     user.role = role;
-    user.organization = org;
+    user.client = client;
     return this.usersRepository.save(user);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.usersRepository.findOne({
       where: { id },
-      relations: ['organization'],
+      relations: ['client'],
     });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -110,18 +108,18 @@ export class UsersService {
       user.email = updateUserDto.email;
     }
 
-    // Update organization if provided
+    // Update client if provided
     if (
-      updateUserDto.organizationId &&
-      updateUserDto.organizationId !== user.organization.id
+      updateUserDto.clientId &&
+      updateUserDto.clientId !== user.client.client_id
     ) {
-      const org = await this.organizationsRepository.findOne({
-        where: { id: updateUserDto.organizationId },
+      const client = await this.clientsRepository.findOne({
+        where: { client_id: updateUserDto.clientId },
       });
-      if (!org) {
-        throw new BadRequestException('Organization does not exist');
+      if (!client) {
+        throw new BadRequestException('Client does not exist');
       }
-      user.organization = org;
+      user.client = client;
     }
 
     // Update password if provided

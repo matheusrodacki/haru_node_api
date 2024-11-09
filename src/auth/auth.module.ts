@@ -5,13 +5,13 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AuthController } from './auth.controller';
 import { UsersModule } from 'src/users/users.module';
-import { OrganizationsModule } from 'src/organizations/organizations.module';
+import { ClientsModule } from 'src/clients/client.module';
 import { AuthService } from './auth.service';
 
 @Module({
   imports: [
     UsersModule,
-    OrganizationsModule,
+    ClientsModule,
     PassportModule,
     JwtModule.register({
       secret: 'secretKey',

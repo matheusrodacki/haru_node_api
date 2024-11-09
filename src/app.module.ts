@@ -3,10 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { OrganizationsModule } from './organizations/organizations.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { SeedService } from './seed.service';
+import { ClientsModule } from './clients/client.module';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ import { SeedService } from './seed.service';
       inject: [ConfigService],
     }),
     UsersModule,
-    OrganizationsModule,
+    ClientsModule,
     AuthModule,
   ],
   controllers: [AppController],
