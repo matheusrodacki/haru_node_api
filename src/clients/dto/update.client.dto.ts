@@ -1,23 +1,29 @@
 // create-organization.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsEnum } from 'class-validator';
+import { ClientType } from 'src/enum/clientType.enum';
+import { Status } from 'src/enum/status.enum';
 
 export class UpdateClientDto {
   @ApiProperty({
-    description: 'Organization name',
-    example: 'Tech Corp',
-    required: false,
+    description: 'Client type',
+    enum: ClientType,
+  })
+  @IsEnum(ClientType)
+  clientType: ClientType;
+
+  @ApiProperty({
+    description: 'Client status',
+    enum: Status,
+  })
+  @IsEnum(Status)
+  status: Status;
+
+  @ApiProperty({
+    description: 'Client notes',
+    example: 'Some notes about the client',
   })
   @IsString()
   @IsOptional()
-  name: string;
-
-  @ApiProperty({
-    description: 'Organization status',
-    example: 1,
-    required: false,
-  })
-  @IsInt()
-  @IsOptional()
-  status: number;
+  notes: string;
 }

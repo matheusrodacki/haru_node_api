@@ -15,7 +15,6 @@ import {
   ApiOperation,
   ApiResponse,
   ApiParam,
-  ApiBody,
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -25,7 +24,7 @@ import { UserDto } from 'src/users/dto/user.dto';
 import { UsersService } from 'src/users/users.service';
 import { UpdateClientDto } from './dto/update.client.dto';
 import { RolesGuard } from 'src/auth/roles.guard';
-import { Role } from 'src/auth/roles.enum';
+import { Role } from 'src/enum/roles.enum';
 import { Roles } from 'src/auth/roles.decorator';
 
 @ApiTags('clients')
@@ -95,16 +94,6 @@ export class ClientsController {
     status: 201,
     description: 'The client has been successfully created.',
     type: ClienteDto,
-  })
-  @ApiBody({
-    description: 'The client data to create a new client',
-    schema: {
-      type: 'object',
-      properties: {
-        name: { type: 'string', example: 'Tech Corp' },
-      },
-      required: ['name'],
-    },
   })
   @Post()
   async create(@Body() createClientDto: CreateClientDto): Promise<ClienteDto> {

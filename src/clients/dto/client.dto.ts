@@ -1,18 +1,34 @@
 // create-client.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsEnum } from 'class-validator';
+import { ClientType } from 'src/enum/clientType.enum';
+import { Status } from 'src/enum/status.enum';
 
 export class ClienteDto {
   @ApiProperty({ description: 'Client ID', example: 1 })
   client_id: number;
 
-  @ApiProperty({ description: 'Client name', example: 'Tech Corp' })
+  @ApiProperty({
+    description: 'Client type',
+    enum: ClientType,
+  })
+  @IsEnum(ClientType)
+  clientType: ClientType;
+
+  @ApiProperty({
+    description: 'Client status',
+    enum: Status,
+  })
+  @IsEnum(Status)
+  status: Status;
+
+  @ApiProperty({
+    description: 'Client notes',
+    example: 'Some notes about the client',
+  })
   @IsString()
   @IsNotEmpty()
-  name: string;
-
-  @ApiProperty({ description: 'Client status', example: 1 })
-  status: number;
+  notes: string;
 
   @ApiProperty({
     description: 'Creation date',

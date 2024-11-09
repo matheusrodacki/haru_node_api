@@ -25,7 +25,7 @@ import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
-import { Role } from 'src/auth/roles.enum';
+import { Role } from 'src/enum/roles.enum';
 
 @ApiTags('users')
 @Controller('users')

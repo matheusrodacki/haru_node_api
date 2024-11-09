@@ -16,7 +16,9 @@ export class SeedService implements OnModuleInit {
     if (clients.length === 0) {
       clients.push(
         await this.clientService.create({
-          name: 'Tech Corp',
+          clientType: 'Company',
+          status: 'Active',
+          notes: 'Some notes about the client',
         } as CreateClientDto),
       );
     }
