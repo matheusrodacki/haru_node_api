@@ -14,5 +14,11 @@
     }
   },
   "postCreateCommand": "npm install",
-  "remoteUser": "node"
+  "remoteUser": "node",
+  "mounts": [
+    "type=bind,source=/tmp/ssh-XXXXXXZlj8GT/agent.23793,target=/ssh-agent"
+  ],
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "/ssh-agent"
+  }
 }
