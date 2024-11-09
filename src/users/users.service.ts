@@ -44,7 +44,7 @@ export class UsersService {
     const queryBuilder = this.usersRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.client', 'client')
-      .where('client.id = :clientId', { clientId });
+      .where('client.client_id = :clientId', { clientId });
 
     const users = await queryBuilder.getMany();
 
