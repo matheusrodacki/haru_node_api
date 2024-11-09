@@ -9,6 +9,8 @@ import {
   ParseIntPipe,
   Put,
   Delete,
+  Req,
+  ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -35,10 +37,19 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'List of users', type: [UserDto] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.OPERATOR)
   @Get()
-  async findAll(): Promise<UserDto[]> {
-    return await this.usersService.findAll();
+  async findAll(@Req() req: any): Promise<UserDto[]> {
+    const user = req.user;
+    if (user.role === Role.SUPERADMIN) {
+      return await this.usersService.findAll();
+    } else if (user.role === Role.ADMIN) {
+      return await this.usersService.findByOrganizationId(user.organizationId);
+    } else if (user.role === Role.OPERATOR) {
+      return [await this.usersService.findOne(user.id)];
+    } else {
+      throw new ForbiddenException('Access denied');
+    }
   }
 
   //Find one user
