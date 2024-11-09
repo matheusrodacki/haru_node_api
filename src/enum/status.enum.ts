@@ -1,7 +1,7 @@
 export enum Status {
-  ACTIVE = 'Active',
-  INACTIVE = 'Inactive',
-  ARCHIVED = 'Archived',
-  DELETED = 'Deleted',
-  LEAD = 'Lead',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ARCHIVED = 'archived',
+  DELETED = 'deleted',
+  LEAD = 'lead',
 }

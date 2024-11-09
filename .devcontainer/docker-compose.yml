@@ -9,13 +9,13 @@ services:
     # env_file:
     #   - ../.env
     environment:
-      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_HOST=${MYSQL_HOST:-mysql}
       - MYSQL_PORT=3306
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - NODE_ENV=${NODE_ENV}
-      - DB_SYNCHRONIZE=${DB_SYNCHRONIZE}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-haru_node_api}
+      - MYSQL_USER=${MYSQL_USER:-haru_db_user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-harudbpassword}
+      - NODE_ENV=${NODE_ENV:-development}
+      - DB_SYNCHRONIZE=${DB_SYNCHRONIZE:-true}
     depends_on:
       - mysql
 
@@ -23,16 +23,16 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-harudbpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-haru_node_api}
+      MYSQL_USER: ${MYSQL_USER:-haru_db_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-harudbpassword}
     ports:
-      - '3306:3306'
+      - '3307:3306'
     volumes:
       - mysql-data:/var/lib/mysql
     deploy:
-      replicas: ${MYSQL_REPLICAS}
+      replicas: ${MYSQL_REPLICAS:-1}
 
 volumes:
   mysql-data:
