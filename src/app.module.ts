@@ -6,8 +6,6 @@ import { UsersModule } from './users/users.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './auth/roles.guard';
 import { SeedService } from './seed.service';
 
 @Module({
@@ -39,10 +37,10 @@ import { SeedService } from './seed.service';
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
     SeedService,
   ],
 })
