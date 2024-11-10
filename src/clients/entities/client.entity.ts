@@ -12,6 +12,7 @@ import { Status } from 'src/enum/status.enum';
 import { Exclude } from 'class-transformer';
 import { User } from 'src/users/entities/user.entity';
 import { Individual } from 'src/individuals/entities/individual.entity';
+import { Company } from 'src/companies/entities/company.entity';
 
 @Entity('clients')
 export class Client {
@@ -43,6 +44,12 @@ export class Client {
     nullable: true,
   })
   individual?: Individual;
+
+  @OneToOne(() => Company, (company) => company.client, {
+    cascade: true,
+    nullable: true,
+  })
+  company?: Company;
 
   @Exclude()
   @OneToMany(() => User, (user) => user.client)
