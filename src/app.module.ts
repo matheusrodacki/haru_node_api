@@ -7,7 +7,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { SeedService } from './seed.service';
 import { ClientsModule } from './clients/client.module';
-import { CompaniesModule } from './companies/companies.module';
 
 @Module({
   imports: [
@@ -34,7 +33,6 @@ import { CompaniesModule } from './companies/companies.module';
     UsersModule,
     ClientsModule,
     AuthModule,
-    CompaniesModule,
   ],
   controllers: [AppController],
   providers: [

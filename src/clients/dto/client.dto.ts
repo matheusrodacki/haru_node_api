@@ -1,10 +1,10 @@
 // create-client.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEnum } from 'class-validator';
-import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
+import { CompanyDto } from 'src/companies/dto/company.dto';
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
-import { CreateIndividualDto } from 'src/individuals/dto/create-individual.dto';
+import { IndividualDto } from 'src/individuals/dto/individual.dto';
 
 export class ClienteDto {
   @ApiProperty({ description: 'Client ID', example: 1 })
@@ -19,15 +19,15 @@ export class ClienteDto {
 
   @ApiProperty({
     description: 'Individual data',
-    type: CreateIndividualDto,
+    type: IndividualDto,
   })
-  individual?: CreateIndividualDto;
+  individual?: IndividualDto;
 
   @ApiProperty({
     description: 'Company data',
-    type: CreateCompanyDto,
+    type: CompanyDto,
   })
-  company?: CreateCompanyDto;
+  company?: CompanyDto;
 
   @ApiProperty({
     description: 'Client status',

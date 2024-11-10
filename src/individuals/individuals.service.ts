@@ -13,13 +13,8 @@ export class IndividualsService {
   ) {}
 
   async create(individualDto: IndividualDto): Promise<Individual> {
-    const individual = await this.individualRepository.findOne({
-      where: { client_id: individualDto.client_id },
-    });
-    if (individual) {
-      throw new BadRequestException('Individual already exists');
-    }
-    return await this.individualRepository.create(individualDto);
+    const individual = this.individualRepository.create(individualDto);
+    return await this.individualRepository.save(individual);
   }
 
   async findAll(): Promise<Individual[]> {

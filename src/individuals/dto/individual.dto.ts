@@ -8,7 +8,7 @@ export class IndividualDto {
 
   @ApiProperty({
     description: 'Full name',
-    example: 1,
+    example: 'Alice Johnson',
   })
   @IsString()
   full_name: string;

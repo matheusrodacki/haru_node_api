@@ -1,11 +1,11 @@
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { CreateIndividualDto } from './create-individual.dto';
-import { IsDate, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class UpdateIndividualDto extends PartialType(CreateIndividualDto) {
   @ApiPropertyOptional({
     description: 'Full name',
-    example: 1,
+    example: 'Alice Johnson',
   })
   @IsString()
   @IsOptional()
@@ -23,7 +23,7 @@ export class UpdateIndividualDto extends PartialType(CreateIndividualDto) {
     description: 'Date of birth',
     example: '2023-10-01',
   })
-  @IsDate()
+  @IsDateString()
   @IsOptional()
-  date_of_birth?: Date;
+  date_of_birth?: string;
 }

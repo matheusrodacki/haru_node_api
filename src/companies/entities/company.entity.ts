@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Client } from 'src/clients/entities/client.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
@@ -18,5 +19,6 @@ export class Company {
   // Relationships
   @OneToOne(() => Client, (client) => client.company)
   @JoinColumn({ name: 'client_id' })
+  @Exclude()
   client: Client;
 }

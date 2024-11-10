@@ -13,13 +13,8 @@ export class CompaniesService {
   ) {}
 
   async create(companyDto: CompanyDto): Promise<Company> {
-    const company = this.companyRepository.findOne({
-      where: { client_id: companyDto.client_id },
-    });
-    if (company) {
-      throw new BadRequestException('Company already exists');
-    }
-    return await this.companyRepository.save(companyDto);
+    const company = this.companyRepository.create(companyDto);
+    return await this.companyRepository.save(company);
   }
 
   async findAll(): Promise<Company[]> {

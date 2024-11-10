@@ -1,6 +1,13 @@
 // create-client.dto.ts
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsEnum } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsString,
+  IsEnum,
+  ValidateIf,
+  ValidateNested,
+  IsOptional,
+} from 'class-validator';
 import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
@@ -19,6 +26,10 @@ export class CreateClientDto {
     type: CreateIndividualDto,
     nullable: true,
   })
+  @ValidateIf((o) => o.clientType === 'individual')
+  @ValidateNested()
+  @Type(() => CreateIndividualDto)
+  @IsOptional()
   individual?: CreateIndividualDto;
 
   @ApiPropertyOptional({
@@ -26,6 +37,10 @@ export class CreateClientDto {
     type: CreateCompanyDto,
     nullable: true,
   })
+  @ValidateIf((o) => o.clientType === 'company')
+  @ValidateNested()
+  @Type(() => CreateCompanyDto)
+  @IsOptional()
   company?: CreateCompanyDto;
 
   @ApiPropertyOptional({

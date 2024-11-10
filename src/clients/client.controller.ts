@@ -36,6 +36,7 @@ export class ClientsController {
   ) {}
 
   // Find all clients
+  @Get()
   @ApiOperation({ summary: 'Get all clients' })
   @ApiResponse({
     status: 200,
@@ -45,63 +46,69 @@ export class ClientsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.SUPERADMIN)
-  @Get()
   async findAll(): Promise<ClienteDto[]> {
     return await this.clientsService.findAll();
   }
 
   // Find one client
+  @Get(':id')
   @ApiOperation({ summary: 'Get a client by ID' })
+  @ApiParam({
+    name: 'id',
+    description: 'The ID of the client to retrieve',
+  })
   @ApiResponse({
     status: 200,
     description: 'Return a client by ID.',
     type: [ClienteDto],
   })
-  @ApiParam({
-    name: 'id',
-    description: 'The ID of the client to retrieve',
-  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.SUPERADMIN)
-  @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<ClienteDto> {
     return await this.clientsService.findOne(id);
   }
 
   // Get users of a client
+  @Get(':id/users')
   @ApiOperation({ summary: 'Get users of a client' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID of the client',
+  })
   @ApiResponse({
     status: 200,
     description: 'List of users in the client',
     type: [UserDto],
   })
-  @ApiParam({
-    name: 'id',
-    description: 'ID of the client',
-  })
+  @ApiResponse({ status: 404, description: 'Client not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.SUPERADMIN)
-  @Get(':id/users')
   async getUsers(@Param('id') id: number): Promise<UserDto[]> {
     return await this.usersService.findByClientId(id);
   }
 
   // Create a client
+  @Post()
   @ApiOperation({ summary: 'Create a new client' })
   @ApiResponse({
     status: 201,
     description: 'The client has been successfully created.',
     type: ClienteDto,
   })
-  @Post()
+  @ApiResponse({ status: 400, description: 'Bad request' })
   async create(@Body() createClientDto: CreateClientDto): Promise<ClienteDto> {
     return await this.clientsService.create(createClientDto);
   }
 
   // Update a client
+  @Put(':id')
   @ApiOperation({ summary: 'Update a client' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID of the client',
+  })
   @ApiResponse({
     status: 200,
     description: 'The client has been successfully updated.',
@@ -111,7 +118,6 @@ export class ClientsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateClientDto: UpdateClientDto,
@@ -120,7 +126,12 @@ export class ClientsController {
   }
 
   // Delete a client
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete a client' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID of the client',
+  })
   @ApiResponse({
     status: 200,
     description: 'The client has been successfully deleted.',
@@ -129,7 +140,6 @@ export class ClientsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.SUPERADMIN)
-  @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.clientsService.remove(id);
   }

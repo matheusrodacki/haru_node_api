@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsString } from 'class-validator';
+import { IsDateString, IsString } from 'class-validator';
 
 export class CreateIndividualDto {
   @ApiProperty({
     description: 'Full name',
-    example: 1,
+    example: 'Alice Johnson',
   })
   @IsString()
   full_name: string;
@@ -20,6 +20,6 @@ export class CreateIndividualDto {
     description: 'Date of birth',
     example: '2023-10-01',
   })
-  @IsDate()
-  date_of_birth: Date;
+  @IsDateString()
+  date_of_birth: string;
 }
