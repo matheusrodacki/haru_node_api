@@ -13,6 +13,7 @@ import { Exclude } from 'class-transformer';
 import { User } from 'src/users/entities/user.entity';
 import { Individual } from 'src/individuals/entities/individual.entity';
 import { Company } from 'src/companies/entities/company.entity';
+import { Address } from 'src/addresses/entities/address.entity';
 
 @Entity('clients')
 export class Client {
@@ -50,6 +51,9 @@ export class Client {
     nullable: true,
   })
   company?: Company;
+
+  @OneToMany(() => Address, (address) => address.client, { cascade: true })
+  addresses: Address[];
 
   @Exclude()
   @OneToMany(() => User, (user) => user.client)

@@ -7,7 +7,9 @@ import {
   ValidateIf,
   ValidateNested,
   IsOptional,
+  IsNotEmptyObject,
 } from 'class-validator';
+import { CreateAddressDto } from 'src/addresses/dto/create-address.dto';
 import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
@@ -42,6 +44,15 @@ export class CreateClientDto {
   @Type(() => CreateCompanyDto)
   @IsOptional()
   company?: CreateCompanyDto;
+
+  @ApiProperty({
+    description: 'Client address',
+    type: CreateAddressDto,
+  })
+  @ValidateNested()
+  @Type(() => CreateAddressDto)
+  @IsNotEmptyObject()
+  address: CreateAddressDto;
 
   @ApiPropertyOptional({
     description: 'Client status',
