@@ -20,22 +20,6 @@ export class RolesGuard implements CanActivate {
 
     const { user } = context.switchToHttp().getRequest();
 
-    const userRoleIndex = this.getRolePriority(user.role);
-    return requiredRoles.some(
-      (role) => userRoleIndex <= this.getRolePriority(role),
-    );
-  }
-
-  private getRolePriority(role: ClientsRoles): number {
-    switch (role) {
-      case ClientsRoles.SUPERADMIN:
-        return 1;
-      case ClientsRoles.ADMIN:
-        return 2;
-      case ClientsRoles.OPERATOR:
-        return 3;
-      default:
-        return 999;
-    }
+    return requiredRoles.includes(user.role);
   }
 }

@@ -32,6 +32,19 @@ import { ClientsRoles } from 'src/roles/clientsRoles.enum';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  //Create a new user
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({
+    status: 201,
+    description: 'User created successfully',
+    type: UserDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
+    return this.usersService.create(createUserDto);
+  }
+
   //Find all users
   @ApiOperation({ summary: 'Retrieve all users' })
   @ApiResponse({ status: 200, description: 'List of users', type: [UserDto] })
@@ -61,19 +74,6 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserDto> {
     return await this.usersService.findOne(id);
-  }
-
-  //Create a new user
-  @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({
-    status: 201,
-    description: 'User created successfully',
-    type: UserDto,
-  })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    return this.usersService.create(createUserDto);
   }
 
   //Update a user

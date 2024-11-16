@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { SeedService } from './seed.service';
 import { ClientsModule } from './clients/client.module';
 import { AddressesModule } from './addresses/addresses.module';
+import { AuthorizationModule } from './roles/authorization.module';
 
 @Module({
   imports: [
@@ -31,19 +32,13 @@ import { AddressesModule } from './addresses/addresses.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    AuthorizationModule,
     UsersModule,
     ClientsModule,
-    AuthModule,
     AddressesModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
-    SeedService,
-  ],
+  providers: [AppService, SeedService],
 })
 export class AppModule {}
