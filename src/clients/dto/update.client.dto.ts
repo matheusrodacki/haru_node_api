@@ -13,7 +13,7 @@ export class UpdateClientDto {
   })
   @IsOptional()
   @IsEnum(ClientType)
-  clientType?: ClientType;
+  client_type?: ClientType;
 
   @ApiPropertyOptional({
     description: 'Individual data',

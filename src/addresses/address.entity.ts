@@ -1,4 +1,5 @@
 import { Client } from 'src/clients/client.entity';
+import { AddressType } from 'src/enum/adressType.enum';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('addresses')
@@ -26,6 +27,9 @@ export class Address {
 
   @Column()
   postalCode: string;
+
+  @Column({ type: 'enum', enum: AddressType })
+  address_type: AddressType;
 
   // Relationships
   @ManyToOne(() => Client, (client) => client.addresses)

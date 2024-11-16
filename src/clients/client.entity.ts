@@ -21,7 +21,7 @@ export class Client {
   client_id: number;
 
   @Column({ type: 'enum', enum: ClientType })
-  clientType: ClientType;
+  client_type: ClientType;
 
   @Column({
     type: 'enum',

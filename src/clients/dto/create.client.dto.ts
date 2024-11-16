@@ -21,14 +21,14 @@ export class CreateClientDto {
     enum: ClientType,
   })
   @IsEnum(ClientType)
-  clientType: ClientType;
+  client_type: ClientType;
 
   @ApiPropertyOptional({
     description: 'Individual data',
     type: CreateIndividualDto,
     nullable: true,
   })
-  @ValidateIf((o) => o.clientType === 'individual')
+  @ValidateIf((o) => o.client_type === 'individual')
   @ValidateNested()
   @Type(() => CreateIndividualDto)
   @IsOptional()
@@ -39,7 +39,7 @@ export class CreateClientDto {
     type: CreateCompanyDto,
     nullable: true,
   })
-  @ValidateIf((o) => o.clientType === 'company')
+  @ValidateIf((o) => o.client_type === 'company')
   @ValidateNested()
   @Type(() => CreateCompanyDto)
   @IsOptional()

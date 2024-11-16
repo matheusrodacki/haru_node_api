@@ -26,7 +26,7 @@ export class ClientsService {
 
     // Create individual or company if applicable
     if (
-      createClientsDto.clientType === 'individual' &&
+      createClientsDto.client_type === 'individual' &&
       createClientsDto.individual
     ) {
       const individual = this.individualRepository.create({
@@ -36,7 +36,7 @@ export class ClientsService {
       await this.individualRepository.save(individual);
       client.individual = individual;
     } else if (
-      createClientsDto.clientType === 'company' &&
+      createClientsDto.client_type === 'company' &&
       createClientsDto.company
     ) {
       const company = this.companyRepository.create({

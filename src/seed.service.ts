@@ -16,7 +16,7 @@ export class SeedService implements OnModuleInit {
     if (clients.length === 0) {
       clients.push(
         await this.clientService.create({
-          clientType: 'company',
+          client_type: 'company',
           company: {
             company_name: 'Company Inc',
             tax_id_number: '123-45-6789',

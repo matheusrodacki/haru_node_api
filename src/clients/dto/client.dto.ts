@@ -15,7 +15,7 @@ export class ClienteDto {
     enum: ClientType,
   })
   @IsEnum(ClientType)
-  clientType: ClientType;
+  client_type: ClientType;
 
   @ApiProperty({
     description: 'Individual data',
