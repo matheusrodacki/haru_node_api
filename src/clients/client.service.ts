@@ -18,19 +18,6 @@ export class ClientsService {
     private companyRepository: Repository<Company>,
   ) {}
 
-  async findAll(): Promise<Client[]> {
-    return await this.clientRepository.find({
-      relations: ['individual', 'company', 'users'],
-    });
-  }
-
-  async findOne(client_id: number): Promise<Client> {
-    return this.clientRepository.findOne({
-      where: { client_id },
-      relations: ['individual', 'company', 'users'],
-    });
-  }
-
   async create(createClientsDto: CreateClientDto): Promise<Client> {
     let client = this.clientRepository.create(createClientsDto);
     client = await this.clientRepository.save(client); // Salva o cliente primeiro
@@ -58,6 +45,19 @@ export class ClientsService {
     }
 
     return client;
+  }
+
+  async findAll(): Promise<Client[]> {
+    return await this.clientRepository.find({
+      relations: ['individual', 'company', 'users'],
+    });
+  }
+
+  async findOne(client_id: number): Promise<Client> {
+    return this.clientRepository.findOne({
+      where: { client_id },
+      relations: ['individual', 'company', 'users'],
+    });
   }
 
   async update(
