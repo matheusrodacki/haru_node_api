@@ -5,7 +5,7 @@ import { AddressType } from 'src/enum/adressType.enum';
 export class AddressDto {
   @ApiProperty({ description: 'Address ID', example: 1 })
   @IsInt()
-  addressId: number;
+  address_id: number;
 
   @ApiProperty({ description: 'Street name' })
   @IsString()

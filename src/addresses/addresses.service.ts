@@ -40,32 +40,38 @@ export class AddressesService {
   }
 
   // Get an address by ID
-  async findOne(id: number): Promise<Address> {
-    const address = await this.addressRepository.findOne({ where: { id } });
+  async findOne(address_id: number): Promise<Address> {
+    const address = await this.addressRepository.findOne({
+      where: { address_id },
+    });
     if (!address) {
-      throw new NotFoundException(`Address with ID ${id} not found`);
+      throw new NotFoundException(`Address with ID ${address_id} not found`);
     }
     return address;
   }
 
   // Update an address
   async update(
-    id: number,
+    address_id: number,
     updateAddressDto: UpdateAddressDto,
   ): Promise<Address> {
-    const address = await this.addressRepository.findOne({ where: { id } });
+    const address = await this.addressRepository.findOne({
+      where: { address_id },
+    });
     if (!address) {
-      throw new NotFoundException(`Address with ID ${id} not found`);
+      throw new NotFoundException(`Address with ID ${address_id} not found`);
     }
     Object.assign(address, updateAddressDto);
     return await this.addressRepository.save(address);
   }
 
   // Delete an address
-  async remove(id: number): Promise<void> {
-    const address = await this.addressRepository.findOne({ where: { id } });
+  async remove(address_id: number): Promise<void> {
+    const address = await this.addressRepository.findOne({
+      where: { address_id },
+    });
     if (!address) {
-      throw new NotFoundException(`Address with ID ${id} not found`);
+      throw new NotFoundException(`Address with ID ${address_id} not found`);
     }
     await this.addressRepository.remove(address);
   }
