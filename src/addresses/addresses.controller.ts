@@ -20,9 +20,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { Role } from 'src/enum/roles.enum';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { Roles } from 'src/roles/roles.decorator';
+import { ClientsRoles } from 'src/roles/clientsRoles.enum';
 
 @ApiTags('Addresses')
 @Controller('addresses')
@@ -40,7 +40,7 @@ export class AddressesController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(ClientsRoles.ADMIN)
   create(@Body() createAddressDto: CreateAddressDto) {
     const { clientId } = createAddressDto;
     return this.addressesService.create(createAddressDto, clientId);
@@ -56,7 +56,7 @@ export class AddressesController {
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(ClientsRoles.ADMIN)
   findAll() {
     return this.addressesService.findAll();
   }
@@ -76,7 +76,7 @@ export class AddressesController {
   @ApiResponse({ status: 404, description: 'Address not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(ClientsRoles.ADMIN)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.addressesService.findOne(id);
   }
@@ -96,7 +96,7 @@ export class AddressesController {
   @ApiResponse({ status: 404, description: 'Address not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(ClientsRoles.ADMIN)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateAddressDto: UpdateAddressDto,
@@ -118,7 +118,7 @@ export class AddressesController {
   @ApiResponse({ status: 404, description: 'Address not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(ClientsRoles.ADMIN)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.addressesService.remove(id);
   }

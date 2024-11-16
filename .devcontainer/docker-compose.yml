@@ -16,6 +16,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-harudbpassword}
       - NODE_ENV=${NODE_ENV:-development}
       - DB_SYNCHRONIZE=${DB_SYNCHRONIZE:-true}
+      - JWT_SECRET=${JWT_SECRET:-haru_jwt_secret}
     depends_on:
       - mysql
 

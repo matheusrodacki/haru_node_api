@@ -23,9 +23,9 @@ import {
 } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { Role } from 'src/enum/roles.enum';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { Roles } from 'src/roles/roles.decorator';
+import { ClientsRoles } from 'src/roles/clientsRoles.enum';
 
 @ApiTags('Users')
 @Controller('users')
@@ -37,15 +37,15 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'List of users', type: [UserDto] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.OPERATOR)
+  @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN, ClientsRoles.OPERATOR)
   @Get()
   async findAll(@Req() req: any): Promise<UserDto[]> {
     const user = req.user;
-    if (user.role === Role.SUPERADMIN) {
+    if (user.role === ClientsRoles.SUPERADMIN) {
       return await this.usersService.findAll();
-    } else if (user.role === Role.ADMIN) {
+    } else if (user.role === ClientsRoles.ADMIN) {
       return await this.usersService.findByClientId(user.clientId);
-    } else if (user.role === Role.OPERATOR) {
+    } else if (user.role === ClientsRoles.OPERATOR) {
       return [await this.usersService.findOne(user.user_id)];
     } else {
       throw new ForbiddenException('Access denied');
@@ -57,7 +57,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User data', type: UserDto })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.OPERATOR)
+  @Roles(ClientsRoles.OPERATOR)
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserDto> {
     return await this.usersService.findOne(id);
@@ -86,7 +86,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.OPERATOR)
+  @Roles(ClientsRoles.OPERATOR)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -102,7 +102,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(ClientsRoles.ADMIN)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.usersService.remove(id);

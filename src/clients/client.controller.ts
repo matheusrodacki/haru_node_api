@@ -23,9 +23,9 @@ import { CreateClientDto } from './dto/create.client.dto';
 import { UserDto } from 'src/users/dto/user.dto';
 import { UsersService } from 'src/users/users.service';
 import { UpdateClientDto } from './dto/update.client.dto';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Role } from 'src/enum/roles.enum';
-import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { ClientsRoles } from 'src/roles/clientsRoles.enum';
+import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Clients')
 @Controller('clients')
@@ -58,7 +58,7 @@ export class ClientsController {
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.SUPERADMIN)
+  @Roles(ClientsRoles.SUPERADMIN)
   async findAll(): Promise<ClienteDto[]> {
     return await this.clientsService.findAll();
   }
@@ -77,7 +77,7 @@ export class ClientsController {
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.SUPERADMIN)
+  @Roles(ClientsRoles.SUPERADMIN)
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<ClienteDto> {
     return await this.clientsService.findOne(id);
   }
@@ -97,7 +97,7 @@ export class ClientsController {
   @ApiResponse({ status: 404, description: 'Client not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.SUPERADMIN)
+  @Roles(ClientsRoles.SUPERADMIN)
   async getUsers(@Param('id') id: number): Promise<UserDto[]> {
     return await this.usersService.findByClientId(id);
   }
@@ -117,7 +117,7 @@ export class ClientsController {
   @ApiResponse({ status: 404, description: 'Client not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(ClientsRoles.ADMIN)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateClientDto: UpdateClientDto,
@@ -139,7 +139,7 @@ export class ClientsController {
   @ApiResponse({ status: 404, description: 'Client not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.SUPERADMIN)
+  @Roles(ClientsRoles.SUPERADMIN)
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.clientsService.remove(id);
   }

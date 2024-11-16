@@ -1,5 +1,5 @@
 // roles.enum.ts
-export enum Role {
+export enum ClientsRoles {
   SUPERADMIN = 'superadmin',
   ADMIN = 'admin',
   OPERATOR = 'operator',

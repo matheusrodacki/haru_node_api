@@ -12,7 +12,7 @@ import { User } from './user.entity';
     TypeOrmModule.forFeature([User, Client]),
     forwardRef(() => ClientsModule),
     JwtModule.register({
-      secret: 'secretKey',
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
   ],
