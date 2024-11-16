@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './clientContext/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { SeedService } from './seed.service';
-import { ClientsModule } from './clients/client.module';
-import { AddressesModule } from './addresses/addresses.module';
+import { ClientsModule } from './clientContext/clientTenants/client.module';
+import { AddressesModule } from './clientContext/addresses/addresses.module';
 import { AuthorizationModule } from './roles/authorization.module';
 
 @Module({

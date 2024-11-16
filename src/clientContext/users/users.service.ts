@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
-import { Client } from 'src/clients/client.entity';
+import { Client } from 'src/clientContext/clientTenants/client.entity';
 import { User } from './user.entity';
 
 @Injectable()
@@ -59,7 +59,8 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { name, email, password, role, clientId } = createUserDto;
+    const { first_name, last_name, email, password, role, clientId } =
+      createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
       where: { email },
@@ -81,7 +82,8 @@ export class UsersService {
     const passwordHash = await bcrypt.hash(password, 10);
 
     user.passwordHash = passwordHash;
-    user.name = name;
+    user.first_name = first_name;
+    user.last_name = last_name;
     user.email = email;
     user.role = role;
     user.client = client;
@@ -127,9 +129,14 @@ export class UsersService {
       user.passwordHash = await bcrypt.hash(updateUserDto.password, 10);
     }
 
-    // Update name if provided
-    if (updateUserDto.name !== undefined) {
-      user.name = updateUserDto.name;
+    // Update first name if provided
+    if (updateUserDto.first_name !== undefined) {
+      user.first_name = updateUserDto.first_name;
+    }
+
+    // Update last name if provided
+    if (updateUserDto.last_name !== undefined) {
+      user.last_name = updateUserDto.last_name;
     }
 
     // Update status if provided

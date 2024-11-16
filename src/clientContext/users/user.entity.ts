@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Client } from 'src/clients/client.entity';
+import { Client } from 'src/clientContext/clientTenants/client.entity';
 
 @Entity('users')
 export class User {
@@ -15,7 +15,10 @@ export class User {
   user_id: number;
 
   @Column()
-  name: string;
+  first_name: string;
+
+  @Column()
+  last_name: string;
 
   @Column()
   email: string;

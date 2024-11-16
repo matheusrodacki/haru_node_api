@@ -1,12 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Client } from '../../clients/client.entity';
+import { Client } from '../../clientTenants/client.entity';
 
 export class UserDto {
   @ApiProperty({ description: 'User ID', example: 1 })
   user_id: number;
 
-  @ApiProperty({ description: 'User name', example: 'John Doe' })
-  name: string;
+  @ApiProperty({ description: 'User  first name', example: 'John' })
+  first_name: string;
+
+  @ApiProperty({ description: 'User last name', example: 'Doe' })
+  last_name: string;
 
   @ApiProperty({ description: 'User email', example: 'john.doe@example.com' })
   email: string;

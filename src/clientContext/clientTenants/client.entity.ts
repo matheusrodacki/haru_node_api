@@ -10,10 +10,10 @@ import {
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
 import { Exclude } from 'class-transformer';
-import { User } from 'src/users/user.entity';
-import { Individual } from 'src/individuals/individual.entity';
-import { Company } from 'src/companies/company.entity';
-import { Address } from 'src/addresses/address.entity';
+import { User } from 'src/clientContext/users/user.entity';
+import { Individual } from 'src/clientContext/individuals/individual.entity';
+import { Company } from 'src/clientContext/companies/company.entity';
+import { Address } from 'src/clientContext/addresses/address.entity';
 
 @Entity('clients')
 export class Client {
@@ -42,20 +42,28 @@ export class Client {
   // Relationships
   @OneToOne(() => Individual, (individual) => individual.client, {
     cascade: true,
+    onDelete: 'CASCADE',
     nullable: true,
   })
   individual?: Individual;
 
   @OneToOne(() => Company, (company) => company.client, {
     cascade: true,
+    onDelete: 'CASCADE',
     nullable: true,
   })
   company?: Company;
 
-  @OneToMany(() => Address, (address) => address.client, { cascade: true })
+  @OneToMany(() => Address, (address) => address.client, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   addresses: Address[];
 
   @Exclude()
-  @OneToMany(() => User, (user) => user.client)
+  @OneToMany(() => User, (user) => user.client, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   users: User[];
 }

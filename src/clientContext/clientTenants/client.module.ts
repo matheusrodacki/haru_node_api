@@ -3,11 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientsService } from './client.service';
 import { ClientsController } from './client.controller';
 import { Client } from './client.entity';
-import { UsersModule } from 'src/users/users.module';
-import { Individual } from 'src/individuals/individual.entity';
-import { Company } from 'src/companies/company.entity';
-import { AddressesService } from 'src/addresses/addresses.service';
-import { Address } from 'src/addresses/address.entity';
+import { UsersModule } from 'src/clientContext/users/users.module';
+import { Individual } from 'src/clientContext/individuals/individual.entity';
+import { Company } from 'src/clientContext/companies/company.entity';
+import { AddressesService } from 'src/clientContext/addresses/addresses.service';
+import { Address } from 'src/clientContext/addresses/address.entity';
 
 @Module({
   imports: [

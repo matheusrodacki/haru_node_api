@@ -4,9 +4,9 @@ import { Repository } from 'typeorm';
 import { Client } from './client.entity';
 import { CreateClientDto } from './dto/create.client.dto';
 import { UpdateClientDto } from './dto/update.client.dto';
-import { Individual } from 'src/individuals/individual.entity';
-import { Company } from 'src/companies/company.entity';
-import { AddressesService } from 'src/addresses/addresses.service';
+import { Individual } from 'src/clientContext/individuals/individual.entity';
+import { Company } from 'src/clientContext/companies/company.entity';
+import { AddressesService } from 'src/clientContext/addresses/addresses.service';
 
 @Injectable()
 export class ClientsService {

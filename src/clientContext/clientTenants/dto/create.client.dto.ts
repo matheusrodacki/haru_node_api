@@ -9,11 +9,11 @@ import {
   IsOptional,
   IsNotEmptyObject,
 } from 'class-validator';
-import { CreateAddressDto } from 'src/addresses/dto/create-address.dto';
-import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
+import { CreateAddressDto } from 'src/clientContext/addresses/dto/create-address.dto';
+import { CreateCompanyDto } from 'src/clientContext/companies/dto/create-company.dto';
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
-import { CreateIndividualDto } from 'src/individuals/dto/create-individual.dto';
+import { CreateIndividualDto } from 'src/clientContext/individuals/dto/create-individual.dto';
 
 export class CreateClientDto {
   @ApiProperty({

@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { ClientsModule } from 'src/clients/client.module';
-import { Client } from 'src/clients/client.entity';
+import { ClientsModule } from 'src/clientContext/clientTenants/client.module';
+import { Client } from 'src/clientContext/clientTenants/client.entity';
 import { User } from './user.entity';
 
 @Module({

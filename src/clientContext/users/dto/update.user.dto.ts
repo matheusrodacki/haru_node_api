@@ -5,12 +5,21 @@ import { CreateUserDto } from './create.user.dto';
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({
     description: 'User name',
-    example: 'John Doe',
+    example: 'John',
     required: false,
   })
   @IsOptional()
   @IsString()
-  name?: string;
+  first_name?: string;
+
+  @ApiProperty({
+    description: 'User last name',
+    example: 'Doe',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  last_name?: string;
 
   @ApiProperty({
     description: 'User email',

@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { UsersService } from './users/users.service';
-import { CreateUserDto } from './users/dto/create.user.dto';
-import { CreateClientDto } from './clients/dto/create.client.dto';
-import { ClientsService } from './clients/client.service';
+import { UsersService } from './clientContext/users/users.service';
+import { CreateUserDto } from './clientContext/users/dto/create.user.dto';
+import { CreateClientDto } from './clientContext/clientTenants/dto/create.client.dto';
+import { ClientsService } from './clientContext/clientTenants/client.service';
 
 @Injectable()
 export class SeedService implements OnModuleInit {
@@ -31,7 +31,8 @@ export class SeedService implements OnModuleInit {
     const users = await this.usersService.findByClientId(clients[0].client_id);
     if (users.length === 0) {
       await this.usersService.create({
-        name: 'John Doe',
+        first_name: 'John',
+        last_name: 'Doe',
         email: 'john.doe@example.com',
         password: 'yourpassword',
         phone: '1234567890',
