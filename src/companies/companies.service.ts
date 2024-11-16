@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Company } from './entities/company.entity';
+import { Company } from './company.entity';
 import { Repository } from 'typeorm';
 import { CompanyDto } from './dto/company.dto';
 

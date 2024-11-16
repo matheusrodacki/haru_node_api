@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Client } from 'src/clients/entities/client.entity';
+import { Client } from 'src/clients/client.entity';
 
 @Entity('users')
 export class User {

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateIndividualDto } from './dto/update-individual.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Individual } from './entities/individual.entity';
+import { Individual } from './individual.entity';
 import { Repository } from 'typeorm';
 import { IndividualDto } from './dto/individual.dto';
 

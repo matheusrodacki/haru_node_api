@@ -10,10 +10,10 @@ import {
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
 import { Exclude } from 'class-transformer';
-import { User } from 'src/users/entities/user.entity';
-import { Individual } from 'src/individuals/entities/individual.entity';
-import { Company } from 'src/companies/entities/company.entity';
-import { Address } from 'src/addresses/entities/address.entity';
+import { User } from 'src/users/user.entity';
+import { Individual } from 'src/individuals/individual.entity';
+import { Company } from 'src/companies/company.entity';
+import { Address } from 'src/addresses/address.entity';
 
 @Entity('clients')
 export class Client {
