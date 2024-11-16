@@ -4,17 +4,33 @@ import { UpdateAddressDto } from './dto/update-address.dto';
 import { Address } from './address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Client } from 'src/clients/client.entity';
 
 @Injectable()
 export class AddressesService {
   constructor(
     @InjectRepository(Address)
     private addressRepository: Repository<Address>,
+    @InjectRepository(Client)
+    private clientRepository: Repository<Client>,
   ) {}
 
   // Create a new address
-  async create(createAddressDto: CreateAddressDto): Promise<Address> {
-    const address = this.addressRepository.create(createAddressDto);
+  async create(
+    createAddressDto: CreateAddressDto,
+    clientId: number,
+  ): Promise<Address> {
+    const client = await this.clientRepository.findOne({
+      where: { client_id: clientId },
+    });
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${clientId} not found`);
+    }
+
+    const address = this.addressRepository.create({
+      ...createAddressDto,
+      client,
+    });
     return await this.addressRepository.save(address);
   }
 

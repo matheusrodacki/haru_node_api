@@ -6,6 +6,7 @@ import { CreateClientDto } from './dto/create.client.dto';
 import { UpdateClientDto } from './dto/update.client.dto';
 import { Individual } from 'src/individuals/individual.entity';
 import { Company } from 'src/companies/company.entity';
+import { AddressesService } from 'src/addresses/addresses.service';
 
 @Injectable()
 export class ClientsService {
@@ -16,12 +17,14 @@ export class ClientsService {
     private individualRepository: Repository<Individual>,
     @InjectRepository(Company)
     private companyRepository: Repository<Company>,
+    private addressesService: AddressesService,
   ) {}
 
   async create(createClientsDto: CreateClientDto): Promise<Client> {
     let client = this.clientRepository.create(createClientsDto);
-    client = await this.clientRepository.save(client); // Salva o cliente primeiro
+    client = await this.clientRepository.save(client); // Save the client first
 
+    // Create individual or company if applicable
     if (
       createClientsDto.clientType === 'individual' &&
       createClientsDto.individual
@@ -44,19 +47,27 @@ export class ClientsService {
       client.company = company;
     }
 
+    // Create address if provided
+    if (createClientsDto.address) {
+      await this.addressesService.create(
+        createClientsDto.address,
+        client.client_id,
+      );
+    }
+
     return client;
   }
 
   async findAll(): Promise<Client[]> {
     return await this.clientRepository.find({
-      relations: ['individual', 'company', 'users'],
+      relations: ['individual', 'company', 'users', 'addresses'],
     });
   }
 
   async findOne(client_id: number): Promise<Client> {
     return this.clientRepository.findOne({
       where: { client_id },
-      relations: ['individual', 'company', 'users'],
+      relations: ['individual', 'company', 'users', 'addresses'],
     });
   }
 

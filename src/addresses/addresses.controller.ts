@@ -42,7 +42,8 @@ export class AddressesController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   create(@Body() createAddressDto: CreateAddressDto) {
-    return this.addressesService.create(createAddressDto);
+    const { clientId } = createAddressDto;
+    return this.addressesService.create(createAddressDto, clientId);
   }
 
   // Get all addresses

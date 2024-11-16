@@ -35,6 +35,19 @@ export class ClientsController {
     private readonly usersService: UsersService,
   ) {}
 
+  // Create a client
+  @Post()
+  @ApiOperation({ summary: 'Create a new client' })
+  @ApiResponse({
+    status: 201,
+    description: 'The client has been successfully created.',
+    type: ClienteDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  async create(@Body() createClientDto: CreateClientDto): Promise<ClienteDto> {
+    return await this.clientsService.create(createClientDto);
+  }
+
   // Find all clients
   @Get()
   @ApiOperation({ summary: 'Get all clients' })
@@ -87,19 +100,6 @@ export class ClientsController {
   @Roles(Role.SUPERADMIN)
   async getUsers(@Param('id') id: number): Promise<UserDto[]> {
     return await this.usersService.findByClientId(id);
-  }
-
-  // Create a client
-  @Post()
-  @ApiOperation({ summary: 'Create a new client' })
-  @ApiResponse({
-    status: 201,
-    description: 'The client has been successfully created.',
-    type: ClienteDto,
-  })
-  @ApiResponse({ status: 400, description: 'Bad request' })
-  async create(@Body() createClientDto: CreateClientDto): Promise<ClienteDto> {
-    return await this.clientsService.create(createClientDto);
   }
 
   // Update a client
