@@ -15,6 +15,7 @@ services:
       - MYSQL_USER=${MYSQL_USER:-haru_db_user}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-harudbpassword}
       - NODE_ENV=${NODE_ENV:-development}
+      - DB_SYNCHRONIZE=${DB_SYNCHRONIZE:-true}
     depends_on:
       - mysql
 
