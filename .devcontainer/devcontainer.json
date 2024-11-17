@@ -2,7 +2,7 @@
   "name": "Node.js & MySQL",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/haru_node_api",
+  "workspaceFolder": "/workspaces/",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -14,7 +14,7 @@
       ]
     }
   },
-  "postCreateCommand": "npm install",
+  "postCreateCommand": " cd /workspaces/haru_node_api && pnpm install",
   "remoteUser": "node",
   "mounts": [
     "type=bind,source=/tmp/ssh-XXXXXXZlj8GT/agent.23793,target=/ssh-agent"

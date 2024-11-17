@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspaces/haru_node_api:cached
+      - ..:/workspaces:cached
     command: 'sleep infinity'
     ports:
       - '8000:8000'
