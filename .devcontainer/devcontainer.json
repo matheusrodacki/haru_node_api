@@ -14,7 +14,7 @@
       ]
     }
   },
-  "postCreateCommand": " cd /workspaces/haru_node_api && pnpm install",
+  "postCreateCommand": "git clone https://github.com/matheusrodacki/api_front_next.git /workspaces/api_front_next && cd /workspaces/haru_node_api && pnpm install && cd /workspaces/api_front_next && pnpm install",
   "remoteUser": "node",
   "mounts": [
     "type=bind,source=/tmp/ssh-XXXXXXZlj8GT/agent.23793,target=/ssh-agent"
