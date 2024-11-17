@@ -1,6 +1,8 @@
 services:
   app:
-    image: node:23
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ..:/workspaces/haru_node_api:cached
     command: 'sleep infinity'
