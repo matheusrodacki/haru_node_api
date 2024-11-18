@@ -20,12 +20,12 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ClienteDto } from './dto/client.dto';
 import { CreateClientDto } from './dto/create.client.dto';
-import { UserDto } from 'src/clientContext/users/dto/user.dto';
-import { UsersService } from 'src/clientContext/users/users.service';
 import { UpdateClientDto } from './dto/update.client.dto';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { ClientsRoles } from 'src/roles/clientsRoles.enum';
 import { Roles } from 'src/roles/roles.decorator';
+import { UserDto } from '../users_admin/dto/user.dto';
+import { UsersService } from '../users_admin/users.service';
 
 @ApiTags('Clients')
 @Controller('clients')

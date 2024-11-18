@@ -9,8 +9,8 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
-import { Client } from 'src/clientContext/clientTenants/client.entity';
 import { User } from './user.entity';
+import { Client } from '../clients_tenants/client.entity';
 
 @Injectable()
 export class UsersService {

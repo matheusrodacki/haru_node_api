@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { UsersService } from './clientContext/users/users.service';
-import { CreateUserDto } from './clientContext/users/dto/create.user.dto';
-import { CreateClientDto } from './clientContext/clientTenants/dto/create.client.dto';
-import { ClientsService } from './clientContext/clientTenants/client.service';
+import { ClientsService } from './admin/clients_tenants/client.service';
+import { CreateClientDto } from './admin/clients_tenants/dto/create.client.dto';
+import { CreateUserDto } from './admin/users_admin/dto/create.user.dto';
+import { UsersService } from './admin/users_admin/users.service';
 
 @Injectable()
 export class SeedService implements OnModuleInit {

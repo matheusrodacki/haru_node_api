@@ -1,10 +1,10 @@
 // create-client.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEnum } from 'class-validator';
-import { CompanyDto } from 'src/clientContext/companies/dto/company.dto';
+import { CompanyDto } from 'src/admin/companies/dto/company.dto';
+import { IndividualDto } from 'src/admin/individuals/dto/individual.dto';
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
-import { IndividualDto } from 'src/clientContext/individuals/dto/individual.dto';
 
 export class ClienteDto {
   @ApiProperty({ description: 'Client ID', example: 1 })

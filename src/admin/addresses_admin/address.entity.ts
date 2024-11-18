@@ -1,4 +1,4 @@
-import { Client } from 'src/clientContext/clientTenants/client.entity';
+import { Client } from 'src/admin/clients_tenants/client.entity';
 import { AddressType } from 'src/enum/adressType.enum';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 

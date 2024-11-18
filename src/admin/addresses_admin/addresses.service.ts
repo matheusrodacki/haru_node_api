@@ -4,7 +4,7 @@ import { UpdateAddressDto } from './dto/update-address.dto';
 import { Address } from './address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Client } from 'src/clientContext/clientTenants/client.entity';
+import { Client } from '../clients_tenants/client.entity';
 
 @Injectable()
 export class AddressesService {

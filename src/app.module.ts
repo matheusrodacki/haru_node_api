@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './clientContext/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { SeedService } from './seed.service';
-import { ClientsModule } from './clientContext/clientTenants/client.module';
-import { AddressesModule } from './clientContext/addresses/addresses.module';
 import { AuthorizationModule } from './roles/authorization.module';
+import { AddressesModule } from './admin/addresses_admin/addresses.module';
+import { ClientsModule } from './admin/clients_tenants/client.module';
+import { UsersModule } from './admin/users_admin/users.module';
 
 @Module({
   imports: [
