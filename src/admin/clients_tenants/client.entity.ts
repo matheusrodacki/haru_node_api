@@ -34,9 +34,6 @@ export class Client {
   @Column({ type: 'text', nullable: true })
   notes: string;
 
-  @Column({ type: 'int', nullable: true })
-  matricula: number;
-
   @CreateDateColumn()
   created_at: Date;
 
