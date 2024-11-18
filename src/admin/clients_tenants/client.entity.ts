@@ -7,13 +7,14 @@ import {
   UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
-import { ClientType } from 'src/enum/clientType.enum';
-import { Status } from 'src/enum/status.enum';
+
 import { Exclude } from 'class-transformer';
 import { Address } from '../addresses_admin/address.entity';
 import { Company } from '../companies/company.entity';
 import { Individual } from '../individuals/individual.entity';
 import { User } from '../users_admin/user.entity';
+import { ClientType } from 'src/enum/clientType.enum';
+import { Status } from 'src/enum/status.enum';
 
 @Entity('clients')
 export class Client {
@@ -32,6 +33,9 @@ export class Client {
 
   @Column({ type: 'text', nullable: true })
   notes: string;
+
+  @Column({ type: 'int', nullable: true })
+  matricula: number;
 
   @CreateDateColumn()
   created_at: Date;

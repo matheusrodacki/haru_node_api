@@ -16,6 +16,9 @@ export class Company {
   @Column()
   contact_person: string;
 
+  @Column()
+  teste_coluna: string;
+
   // Relationships
   @OneToOne(() => Client, (client) => client.company)
   @JoinColumn({ name: 'client_id' })
