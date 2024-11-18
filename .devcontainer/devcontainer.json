@@ -8,9 +8,16 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
+        "rvest.vs-code-prettier-eslint",
         "ms-azuretools.vscode-docker",
+        "YoavBls.pretty-ts-errors",
         "github.copilot",
-        "rangav.vscode-thunder-client"
+        "rangav.vscode-thunder-client",
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-portuguese-brazilian",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "ryu1kn.partial-diff"
       ]
     }
   },

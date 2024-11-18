@@ -9,7 +9,7 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { ClientsService } from './client.service';
+import { ClientsService } from './clients.service';
 import {
   ApiTags,
   ApiOperation,

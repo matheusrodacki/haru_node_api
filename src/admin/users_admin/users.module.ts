@@ -5,7 +5,7 @@ import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from './user.entity';
 import { Client } from '../clients_tenants/client.entity';
-import { ClientsModule } from '../clients_tenants/client.module';
+import { ClientsModule } from '../clients_tenants/clients.module';
 
 @Module({
   imports: [

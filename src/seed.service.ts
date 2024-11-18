@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { ClientsService } from './admin/clients_tenants/client.service';
+import { ClientsService } from './admin/clients_tenants/clients.service';
 import { CreateClientDto } from './admin/clients_tenants/dto/create.client.dto';
 import { CreateUserDto } from './admin/users_admin/dto/create.user.dto';
 import { UsersService } from './admin/users_admin/users.service';

@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientsService } from './client.service';
-import { ClientsController } from './client.controller';
+import { ClientsService } from './clients.service';
+import { ClientsController } from './clients.controller';
 import { Client } from './client.entity';
 import { Address } from '../addresses_admin/address.entity';
 import { AddressesService } from '../addresses_admin/addresses.service';

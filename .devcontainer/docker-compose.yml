@@ -11,13 +11,17 @@ services:
     # env_file:
     #   - ../.env
     environment:
-      - MYSQL_HOST=${MYSQL_HOST:-mysql}
+      - ADMIN_MYSQL_HOST=${ADMIN_MYSQL_HOST:-mysql}
       - MYSQL_PORT=3306
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-haru_node_api}
-      - MYSQL_USER=${MYSQL_USER:-haru_db_user}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-harudbpassword}
+      - ADMIN_MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-haru_admin_db}
+      - ADMIN_MYSQL_USER=${ADMIN_MYSQL_USER:-haru_db_admin_user}
+      - ADMIN_MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD:-harudbadminpassword}
+      - CLIENT_DB_HOST=${CLIENT_DB_HOST:-mysql}
+      - CLIENT_DB_PORT=3306
+      - CLIENT_DB_DATABASE=${CLIENT_DB_DATABASE:-haru_client_db}
+      - CLIENT_DB_USER=${CLIENT_DB_USER:-haru_db_client_user}
+      - CLIENT_DB_PASSWORD=${CLIENT_DB_PASSWORD:-harudbuserpassword}
       - NODE_ENV=${NODE_ENV:-development}
-      - DB_SYNCHRONIZE=${DB_SYNCHRONIZE:-true}
       - JWT_SECRET=${JWT_SECRET:-haru_jwt_secret}
     depends_on:
       - mysql
@@ -26,10 +30,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-harudbpassword}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-haru_node_api}
-      MYSQL_USER: ${MYSQL_USER:-haru_db_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-harudbpassword}
+      MYSQL_ROOT_PASSWORD: ${ADMIN_MYSQL_PASSWORD:-harudbpassword}
+      MYSQL_DATABASE: ${ADMIN_MYSQL_DATABASE:-haru_admin_db}
+      MYSQL_USER: ${ADMIN_MYSQL_USER:-haru_db_admin_user}
+      MYSQL_PASSWORD: ${ADMIN_MYSQL_PASSWORD:-harudbpassword}
     ports:
       - '3307:3306'
     volumes:

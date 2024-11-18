@@ -71,6 +71,44 @@ $ mau deploy
 
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
+
+## TypeORM
+
+## Create Admin Migrations:
+
+To create the migrations for the admin database, use the following command:
+
+```bash
+$ npx typeorm-ts-node-esm migration:generate src/admin/migrations/NameOfAdminMigration -d [ormconfig.admin.ts]
+```
+
+## Running Admin Database Migrations
+
+To run the migrations for the admin database, use the following command:
+
+```bash
+$ npx typeorm-ts-node-esm migration:run -d [ormconfig.admin.ts]
+```
+
+## Create Client's Migrations:
+
+To create the migrations for the clients databases, use the following command:
+
+```bash
+$ npx typeorm-ts-node-esm migration:generate src/client/migrations/NameOfClientMigration -d [ormconfig.client.ts]
+```
+
+## Running Client's Database Migrations
+
+To run the migrations for the client's databases, execute the following command in your terminal:
+
+```bash
+$ npx ts-node src/scripts/run-client-migrations.ts
+```
+
+This script will apply all pending migrations to each client's database. Ensure that your environment is properly configured and that all necessary dependencies are installed before running the command.
+
+
 ## Resources
 
 Check out a few resources that may come in handy when working with NestJS:

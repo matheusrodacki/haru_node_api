@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsString } from 'class-validator';
-import { AddressType } from 'src/enum/adressType.enum';
+import { AddressType } from 'src/enum/addressType.enum';
 
 export class AddressDto {
   @ApiProperty({ description: 'Address ID', example: 1 })

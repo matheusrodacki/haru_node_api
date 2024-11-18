@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { AddressType } from 'src/enum/adressType.enum';
+import { AddressType } from 'src/enum/addressType.enum';
 
 export class CreateAddressDto {
   @ApiProperty({ description: 'Street name' })

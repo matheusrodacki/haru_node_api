@@ -1,5 +1,5 @@
 import { Client } from 'src/admin/clients_tenants/client.entity';
-import { AddressType } from 'src/enum/adressType.enum';
+import { AddressType } from 'src/enum/addressType.enum';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('addresses')
