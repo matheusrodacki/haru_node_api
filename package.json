@@ -20,11 +20,16 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-commonjs",
     "schema:sync": "npx typeorm-ts-node-commonjs schema:sync",
-    "migration:create": "typeorm migration:create ./src/migrations/db-update",
-    "migration:show": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:show -d ./src/database/AppDataSource.ts",
-    "migration:generate": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate ./src/database/migrations/db-update/ -d ./src/database/AppDataSource.ts",
-    "migration:run": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/database/AppDataSource.ts",
-    "migration:revert": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/database/AppDataSource.ts"
+    "migration:create:admin": "typeorm migration:create ./src/migrations/admin/db-update",
+    "migration:show:admin": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:show -d ./src/database/ormconfig/ormconfig.admin.ts",
+    "migration:generate:admin": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate ./src/database/migrations/admin/db-update/ -d ./src/database/ormconfig/ormconfig.admin.ts",
+    "migration:run:admin": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/database/ormconfig/ormconfig.admin.ts",
+    "migration:revert:admin": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/database/ormconfig/ormconfig.admin.ts",
+    "migration:create:client": "typeorm migration:create ./src/migrations/client/db-update",
+    "migration:show:client": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:show -d ./src/database/ormconfig/ormconfig.client.ts",
+    "migration:generate:client": "npx ts-node src/scripts/run-client-migrations.ts",
+    "migration:run:client": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/database/ormconfig/ormconfig.client.ts",
+    "migration:revert:client": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/database/ormconfig/ormconfig.client.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
