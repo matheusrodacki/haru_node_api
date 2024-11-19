@@ -5,7 +5,7 @@ import { CreateUserDto } from './users_admin/dto/create.user.dto';
 import { UsersService } from './users_admin/users.service';
 
 @Injectable()
-export class SeedService implements OnModuleInit {
+export class AdminSeedService implements OnModuleInit {
   constructor(
     private readonly usersService: UsersService,
     private readonly clientService: ClientsService,
@@ -22,23 +22,13 @@ export class SeedService implements OnModuleInit {
             tax_id_number: '123-45-6789',
             contact_person: 'John Doe',
           },
-          address: {
-            street: '1234 Main St',
-            number: '1',
-            additional_info: 'Suite 100',
-            city: 'Springfield',
-            state: 'IL',
-            country: 'USA',
-            postal_code: '62701',
-            adress_type: 'commercial',
-          },
           status: 'active',
           notes: 'Some notes about the client',
         } as CreateClientDto),
       );
     }
 
-    const users = await this.usersService.findByClientId(clients[0].client_id);
+    const users = await this.usersService.findAll();
     if (users.length === 0) {
       await this.usersService.create({
         first_name: 'John',
@@ -47,7 +37,6 @@ export class SeedService implements OnModuleInit {
         password: 'yourpassword',
         phone: '1234567890',
         role: 'superadmin',
-        clientId: clients[0].client_id,
       } as CreateUserDto);
     }
   }

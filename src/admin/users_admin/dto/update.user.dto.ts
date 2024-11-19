@@ -1,8 +1,8 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
-import { CreateUserDto } from './create.user.dto';
+import { UpdateAddressAdminDto } from 'src/admin/addresses_admin/dto/update-address.dto';
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class UpdateUserDto {
   @ApiProperty({
     description: 'User name',
     example: 'John',
@@ -49,6 +49,14 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   phone?: string;
 
   @ApiProperty({
+    description: 'User address',
+    required: false,
+    type: UpdateAddressAdminDto,
+  })
+  @IsOptional()
+  address?: UpdateAddressAdminDto;
+
+  @ApiProperty({
     description: 'User role',
     example: 'operator',
     required: false,
@@ -56,11 +64,6 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsString()
   role?: string;
-
-  @ApiProperty({ description: 'Client ID', example: 2, required: false })
-  @IsOptional()
-  @IsNumber()
-  clientId?: number;
 
   @ApiProperty({ description: 'User status', example: 1, required: false })
   @IsOptional()

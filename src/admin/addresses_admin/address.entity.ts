@@ -1,11 +1,12 @@
-import { Client } from 'src/admin/clients/client.entity';
 import { AddressType } from 'src/enum/addressType.enum';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { User } from '../users_admin/user.entity';
+import { Exclude } from 'class-transformer';
 
-@Entity('addresses')
-export class Address {
-  @PrimaryGeneratedColumn()
-  address_id: number;
+@Entity('addresses_admin')
+export class AddressAdmin {
+  @PrimaryColumn()
+  user_id: number;
 
   @Column()
   street: string;
@@ -31,7 +32,9 @@ export class Address {
   @Column({ type: 'enum', enum: AddressType })
   address_type: AddressType;
 
-  // Relationships
-  @ManyToOne(() => Client, (client) => client.addresses)
-  client: Client;
+  //Relationships
+  @OneToOne(() => User, (user) => user.address)
+  @JoinColumn({ name: 'user_id' })
+  @Exclude()
+  user: User;
 }

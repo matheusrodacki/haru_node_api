@@ -2,6 +2,9 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './admin/users_admin/users.module';
+import { ClientsModule } from './admin/clients/clients.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,14 +22,22 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   // Configuração básica do Swagger
-  const config = new DocumentBuilder()
-    .setTitle('API Documentation')
+  const adminConfig = new DocumentBuilder()
+    .setTitle('Admin API')
+    .setDescription('Admin API Documentation')
+    .setContact(
+      'HD Soltec',
+      'https://www.hdsoltec.com.br',
+      'equipehdbrasil@gmail.com',
+    )
     .setVersion('1.0')
     .addBearerAuth() // Se estiver usando autenticação JWT
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  const adminDocument = SwaggerModule.createDocument(app, adminConfig, {
+    include: [AuthModule, ClientsModule, UsersModule],
+  });
+  SwaggerModule.setup('api-admin', app, adminDocument);
 
   //Enable CORS
 

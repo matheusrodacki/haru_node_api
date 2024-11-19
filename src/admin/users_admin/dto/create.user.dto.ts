@@ -1,16 +1,16 @@
 // create-user.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsEmail, IsNotEmpty, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsString, IsEmail, ValidateNested } from 'class-validator';
+import { CreateAddressAdminDto } from 'src/admin/addresses_admin/dto/create-address.dto';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'John', description: 'User first name' })
   @IsString()
-  @IsNotEmpty()
   first_name: string;
 
   @ApiProperty({ example: 'Doe', description: 'User last name' })
   @IsString()
-  @IsNotEmpty()
   last_name: string;
 
   @ApiProperty({
@@ -18,7 +18,6 @@ export class CreateUserDto {
     description: 'User email',
   })
   @IsEmail()
-  @IsNotEmpty()
   email: string;
 
   @ApiProperty({
@@ -26,7 +25,6 @@ export class CreateUserDto {
     description: 'User password',
   })
   @IsString()
-  @IsNotEmpty()
   password: string;
 
   @ApiProperty({
@@ -37,18 +35,17 @@ export class CreateUserDto {
   phone: string;
 
   @ApiProperty({
+    description: 'User address',
+    type: CreateAddressAdminDto,
+  })
+  @ValidateNested()
+  @Type(() => CreateAddressAdminDto)
+  address?: CreateAddressAdminDto;
+
+  @ApiProperty({
     example: 'admin',
     description: 'User role',
   })
   @IsString()
-  @IsNotEmpty()
   role: string;
-
-  @ApiProperty({
-    example: 1,
-    description: 'ID of the client the user belongs to',
-  })
-  @IsNumber()
-  @IsNotEmpty()
-  clientId: number;
 }

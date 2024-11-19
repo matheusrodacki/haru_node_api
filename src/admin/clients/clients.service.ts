@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Client } from './client.entity';
 import { CreateClientDto } from './dto/create.client.dto';
 import { UpdateClientDto } from './dto/update.client.dto';
-import { AddressesService } from '../addresses_admin/addresses.service';
+import { AddressesAdminService } from '../addresses_admin/addresses.service';
 import { Company } from '../companies/company.entity';
 import { Individual } from '../individuals/individual.entity';
 
@@ -17,7 +17,7 @@ export class ClientsService {
     private individualRepository: Repository<Individual>,
     @InjectRepository(Company)
     private companyRepository: Repository<Company>,
-    private addressesService: AddressesService,
+    private addressesService: AddressesAdminService,
   ) {}
 
   async create(createClientsDto: CreateClientDto): Promise<Client> {
@@ -47,27 +47,19 @@ export class ClientsService {
       client.company = company;
     }
 
-    // Create address if provided
-    if (createClientsDto.address) {
-      await this.addressesService.create(
-        createClientsDto.address,
-        client.client_id,
-      );
-    }
-
     return client;
   }
 
   async findAll(): Promise<Client[]> {
     return await this.clientRepository.find({
-      relations: ['individual', 'company', 'users', 'addresses'],
+      relations: ['individual', 'company'],
     });
   }
 
   async findOne(client_id: number): Promise<Client> {
     return this.clientRepository.findOne({
       where: { client_id },
-      relations: ['individual', 'company', 'users', 'addresses'],
+      relations: ['individual', 'company'],
     });
   }
 
@@ -77,13 +69,13 @@ export class ClientsService {
   ): Promise<Client> {
     const client = await this.clientRepository.findOne({
       where: { client_id },
-      relations: ['users'],
     });
     if (!client) {
       throw new NotFoundException('Client not found');
     }
 
     Object.assign(client, updateClientDto);
+
     return await this.clientRepository.save(client);
   }
 

@@ -42,7 +42,7 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    return this.usersService.create(createUserDto);
+    return await this.usersService.create(createUserDto);
   }
 
   //Find all users
@@ -56,8 +56,6 @@ export class UsersController {
     const user = req.user;
     if (user.role === ClientsRoles.SUPERADMIN) {
       return await this.usersService.findAll();
-    } else if (user.role === ClientsRoles.ADMIN) {
-      return await this.usersService.findByClientId(user.clientId);
     } else if (user.role === ClientsRoles.OPERATOR) {
       return [await this.usersService.findOne(user.user_id)];
     } else {

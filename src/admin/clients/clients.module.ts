@@ -3,18 +3,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientsService } from './clients.service';
 import { ClientsController } from './clients.controller';
 import { Client } from './client.entity';
-import { Address } from '../addresses_admin/address.entity';
-import { AddressesService } from '../addresses_admin/addresses.service';
+import { AddressAdmin } from '../addresses_admin/address.entity';
+import { AddressesAdminService } from '../addresses_admin/addresses.service';
 import { Company } from '../companies/company.entity';
 import { Individual } from '../individuals/individual.entity';
 import { UsersModule } from '../users_admin/users.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Client, Individual, Company, Address]),
+    TypeOrmModule.forFeature([Client, Individual, Company, AddressAdmin]),
     forwardRef(() => UsersModule),
   ],
-  providers: [ClientsService, AddressesService],
+  providers: [ClientsService, AddressesAdminService],
   controllers: [ClientsController],
   exports: [ClientsService, TypeOrmModule],
 })

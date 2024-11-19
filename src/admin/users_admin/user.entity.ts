@@ -2,12 +2,12 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Client } from '../clients/client.entity';
+import { AddressAdmin } from '../addresses_admin/address.entity';
 
 @Entity('users')
 export class User {
@@ -36,10 +36,10 @@ export class User {
   @Column({ default: 1 })
   status: number;
 
-  @ManyToOne(() => Client, (client) => client.users, {
-    nullable: false,
+  @OneToOne(() => AddressAdmin, (address) => address.user_id, {
+    cascade: true,
   })
-  client: Client;
+  address: AddressAdmin;
 
   @CreateDateColumn()
   created_at: Date;

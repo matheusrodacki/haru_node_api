@@ -10,56 +10,20 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { User } from './user.entity';
-import { Client } from '../clients/client.entity';
+import { AddressAdmin } from '../addresses_admin/address.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(Client)
-    private clientsRepository: Repository<Client>,
+    @InjectRepository(AddressAdmin)
+    private addressesRepository: Repository<AddressAdmin>,
     private jwtService: JwtService,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find({ relations: ['client'] });
-  }
-
-  findOne(user_id: number): Promise<User> {
-    return this.usersRepository.findOne({
-      where: { user_id },
-      relations: ['client'],
-    });
-  }
-
-  async findByClientId(client_id: number): Promise<User[]> {
-    const client = await this.clientsRepository.findOne({
-      where: { client_id },
-    });
-    if (!client) {
-      throw new NotFoundException('Client not found');
-    }
-
-    const queryBuilder = this.usersRepository
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.client', 'client')
-      .where('client.client_id = :client_id', { client_id });
-
-    const users = await queryBuilder.getMany();
-
-    return users;
-  }
-
-  async findByEmail(email: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({
-      where: { email },
-      relations: ['client'],
-    });
-  }
-
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { first_name, last_name, email, password, phone, role, clientId } =
+    const { first_name, last_name, email, password, address, phone, role } =
       createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
@@ -67,14 +31,6 @@ export class UsersService {
     });
     if (existingUser) {
       throw new BadRequestException('Email is already in use');
-    }
-
-    const client = await this.clientsRepository.findOne({
-      where: { client_id: clientId },
-    });
-
-    if (!client) {
-      throw new BadRequestException('Cannot create a user without a client');
     }
 
     // Generate salt and hash password
@@ -87,14 +43,30 @@ export class UsersService {
     user.email = email;
     user.phone = phone;
     user.role = role;
-    user.client = client;
-    return this.usersRepository.save(user);
+    Object.assign(user.address, address);
+
+    return await this.usersRepository.save(user);
+  }
+
+  findAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
+  findOne(user_id: number): Promise<User> {
+    return this.usersRepository.findOne({
+      where: { user_id },
+    });
+  }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({
+      where: { email },
+    });
   }
 
   async update(user_id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.usersRepository.findOne({
       where: { user_id },
-      relations: ['client'],
     });
     if (!user) {
       throw new NotFoundException(`User with ID ${user_id} not found`);
@@ -109,20 +81,6 @@ export class UsersService {
         throw new BadRequestException('Email is already in use');
       }
       user.email = updateUserDto.email;
-    }
-
-    // Update client if provided
-    if (
-      updateUserDto.clientId &&
-      updateUserDto.clientId !== user.client.client_id
-    ) {
-      const client = await this.clientsRepository.findOne({
-        where: { client_id: updateUserDto.clientId },
-      });
-      if (!client) {
-        throw new BadRequestException('Client does not exist');
-      }
-      user.client = client;
     }
 
     // Update password if provided
@@ -143,6 +101,21 @@ export class UsersService {
     // Update status if provided
     if (updateUserDto.status !== undefined) {
       user.status = updateUserDto.status;
+    }
+
+    // Update phone if provided
+    if (updateUserDto.phone !== undefined) {
+      user.phone = updateUserDto.phone;
+    }
+
+    // Update role if provided
+    if (updateUserDto.role !== undefined) {
+      user.role = updateUserDto.role;
+    }
+
+    // Update address if provided
+    if (updateUserDto.address) {
+      Object.assign(user.address, updateUserDto.address);
     }
 
     // Save the updated user

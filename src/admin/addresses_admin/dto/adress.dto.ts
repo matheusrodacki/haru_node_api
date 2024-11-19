@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsString } from 'class-validator';
 import { AddressType } from 'src/enum/addressType.enum';
 
-export class AddressDto {
-  @ApiProperty({ description: 'Address ID', example: 1 })
+export class AddressAdminDto {
+  @ApiProperty({ description: 'User ID', example: 1 })
   @IsInt()
-  address_id: number;
+  user_id: number;
 
   @ApiProperty({ description: 'Street name' })
   @IsString()
@@ -37,9 +37,5 @@ export class AddressDto {
 
   @ApiProperty({ description: 'Address Type', enum: AddressType })
   @IsEnum(AddressType)
-  adress_type: AddressType;
-
-  @ApiProperty({ description: 'Client ID' })
-  @IsInt()
-  clientId?: number;
+  address_type: AddressType;
 }

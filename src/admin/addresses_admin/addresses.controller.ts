@@ -9,9 +9,9 @@ import {
   UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
-import { AddressesService } from './addresses.service';
-import { CreateAddressDto } from './dto/create-address.dto';
-import { UpdateAddressDto } from './dto/update-address.dto';
+import { AddressesAdminService } from './addresses.service';
+import { CreateAddressAdminDto } from './dto/create-address.dto';
+import { UpdateAddressAdminDto } from './dto/update-address.dto';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -26,8 +26,8 @@ import { ClientsRoles } from 'src/roles/clientsRoles.enum';
 
 @ApiTags('Addresses')
 @Controller('addresses')
-export class AddressesController {
-  constructor(private readonly addressesService: AddressesService) {}
+export class AddressesAdminController {
+  constructor(private readonly addressesService: AddressesAdminService) {}
 
   // Create a new address
   @Post()
@@ -35,15 +35,14 @@ export class AddressesController {
   @ApiResponse({
     status: 201,
     description: 'The address has been successfully created.',
-    type: CreateAddressDto,
+    type: CreateAddressAdminDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.ADMIN)
-  create(@Body() createAddressDto: CreateAddressDto) {
-    const { clientId } = createAddressDto;
-    return this.addressesService.create(createAddressDto, clientId);
+  create(@Body() createAddressDto: CreateAddressAdminDto) {
+    return this.addressesService.create(createAddressDto);
   }
 
   // Get all addresses
@@ -52,7 +51,7 @@ export class AddressesController {
   @ApiResponse({
     status: 200,
     description: 'Return all addresses.',
-    type: [CreateAddressDto],
+    type: [CreateAddressAdminDto],
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -71,7 +70,7 @@ export class AddressesController {
   @ApiResponse({
     status: 200,
     description: 'Return an address by ID.',
-    type: CreateAddressDto,
+    type: CreateAddressAdminDto,
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
   @ApiBearerAuth()
@@ -91,7 +90,7 @@ export class AddressesController {
   @ApiResponse({
     status: 200,
     description: 'The address has been successfully updated.',
-    type: UpdateAddressDto,
+    type: UpdateAddressAdminDto,
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
   @ApiBearerAuth()
@@ -99,7 +98,7 @@ export class AddressesController {
   @Roles(ClientsRoles.ADMIN)
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateAddressDto: UpdateAddressDto,
+    @Body() updateAddressDto: UpdateAddressAdminDto,
   ) {
     return this.addressesService.update(id, updateAddressDto);
   }

@@ -1,9 +1,9 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { CreateAddressDto } from './create-address.dto';
-import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
+import { CreateAddressAdminDto } from './create-address.dto';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { AddressType } from 'src/enum/addressType.enum';
 
-export class UpdateAddressDto extends PartialType(CreateAddressDto) {
+export class UpdateAddressAdminDto extends PartialType(CreateAddressAdminDto) {
   @ApiProperty({ description: 'Street name' })
   @IsOptional()
   @IsString()
@@ -42,10 +42,5 @@ export class UpdateAddressDto extends PartialType(CreateAddressDto) {
   @ApiProperty({ description: 'Address Type', enum: AddressType })
   @IsOptional()
   @IsEnum(AddressType)
-  adress_type?: AddressType;
-
-  @ApiProperty({ description: 'Client ID' })
-  @IsOptional()
-  @IsInt()
-  clientId?: number;
+  address_type?: AddressType;
 }

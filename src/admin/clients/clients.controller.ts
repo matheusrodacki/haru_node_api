@@ -24,16 +24,11 @@ import { UpdateClientDto } from './dto/update.client.dto';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { ClientsRoles } from 'src/roles/clientsRoles.enum';
 import { Roles } from 'src/roles/roles.decorator';
-import { UserDto } from '../users_admin/dto/user.dto';
-import { UsersService } from '../users_admin/users.service';
 
 @ApiTags('Clients')
 @Controller('clients')
 export class ClientsController {
-  constructor(
-    private readonly clientsService: ClientsService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly clientsService: ClientsService) {}
 
   // Create a client
   @Post()
@@ -80,26 +75,6 @@ export class ClientsController {
   @Roles(ClientsRoles.SUPERADMIN)
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<ClienteDto> {
     return await this.clientsService.findOne(id);
-  }
-
-  // Get users of a client
-  @Get(':id/users')
-  @ApiOperation({ summary: 'Get users of a client' })
-  @ApiParam({
-    name: 'id',
-    description: 'ID of the client',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'List of users in the client',
-    type: [UserDto],
-  })
-  @ApiResponse({ status: 404, description: 'Client not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
-  async getUsers(@Param('id') id: number): Promise<UserDto[]> {
-    return await this.usersService.findByClientId(id);
   }
 
   // Update a client

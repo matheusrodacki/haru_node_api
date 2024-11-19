@@ -25,10 +25,7 @@ export class Admin1731963129140 implements MigrationInterface {
           country varchar(255) NOT NULL,
           postal_code varchar(255) NOT NULL,
           address_type enum('comercial','residential','billing','shipping') NOT NULL,
-          clientClientId int(11) DEFAULT NULL,
-          PRIMARY KEY (address_id),
-          KEY FK_22283b0980bf1cb28158732aaff (clientClientId),
-          CONSTRAINT FK_22283b0980bf1cb28158732aaff FOREIGN KEY (clientClientId) REFERENCES clients (client_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+          PRIMARY KEY (address_id)
         ); 
     `);
 
@@ -66,10 +63,7 @@ export class Admin1731963129140 implements MigrationInterface {
           status int(11) NOT NULL DEFAULT '1',
           created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
           updated_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-          clientClientId int(11) NOT NULL,
-          PRIMARY KEY (user_id),
-          KEY FK_7cca1d87838cac1ab798ac66760 (clientClientId),
-          CONSTRAINT FK_7cca1d87838cac1ab798ac66760 FOREIGN KEY (clientClientId) REFERENCES clients (client_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+          PRIMARY KEY (user_id)
         ); 
     `);
   }

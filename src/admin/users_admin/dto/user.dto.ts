@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Client } from '../../clients/client.entity';
+import { AddressAdminDto } from 'src/admin/addresses_admin/dto/adress.dto';
 
 export class UserDto {
   @ApiProperty({ description: 'User ID', example: 1 })
@@ -17,17 +17,14 @@ export class UserDto {
   @ApiProperty({ description: 'User phone number', example: '1234567890' })
   phone: string;
 
+  @ApiProperty({ description: 'User address', type: AddressAdminDto })
+  address?: AddressAdminDto;
+
   @ApiProperty({ description: 'User role', example: 'user' })
   role: string;
 
   @ApiProperty({ description: 'User status', example: 1 })
   status: number;
-
-  @ApiProperty({
-    description: 'Client the user belongs to',
-    type: () => Client,
-  })
-  client: Client;
 
   @ApiProperty({
     description: 'Creation date',
