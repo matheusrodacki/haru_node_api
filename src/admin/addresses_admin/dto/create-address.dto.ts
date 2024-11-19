@@ -34,5 +34,5 @@ export class CreateAddressAdminDto {
 
   @ApiProperty({ description: 'Address Type', enum: AddressType })
   @IsEnum(AddressType)
-  adress_type: AddressType;
+  address_type: AddressType;
 }

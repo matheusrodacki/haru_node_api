@@ -1,7 +1,6 @@
 import { AddressType } from 'src/enum/addressType.enum';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { User } from '../users_admin/user.entity';
-import { Exclude } from 'class-transformer';
 
 @Entity('addresses_admin')
 export class AddressAdmin {
@@ -33,8 +32,7 @@ export class AddressAdmin {
   address_type: AddressType;
 
   //Relationships
-  @OneToOne(() => User, (user) => user.address)
+  @OneToOne(() => User, (user) => user.addressAdmin)
   @JoinColumn({ name: 'user_id' })
-  @Exclude()
   user: User;
 }

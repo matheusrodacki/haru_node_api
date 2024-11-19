@@ -16,7 +16,7 @@ export const AdminDatabaseProvider = {
         entities: [__dirname + '/../admin/**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/../migrations/admin/*{.ts,.js}'],
         migrationsRun: true,
-        logging: false,
+        logging: true,
         synchronize: false,
       });
       await adminDataSource.initialize();

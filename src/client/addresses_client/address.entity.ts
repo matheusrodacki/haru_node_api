@@ -1,7 +1,7 @@
 import { AddressType } from 'src/enum/addressType.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('addresses')
+@Entity('addresses_client')
 export class AddressClient {
   @PrimaryGeneratedColumn()
   address_id: number;

@@ -15,21 +15,6 @@ export class Admin1731963129140 implements MigrationInterface {
     `);
 
     queryRunner.query(`
-        CREATE TABLE IF NOT EXISTS addresses (
-          address_id int(11) NOT NULL AUTO_INCREMENT,
-          street varchar(255) NOT NULL,
-          number varchar(255) NOT NULL,
-          additional_info varchar(255) DEFAULT NULL,
-          city varchar(255) NOT NULL,
-          state varchar(255) NOT NULL,
-          country varchar(255) NOT NULL,
-          postal_code varchar(255) NOT NULL,
-          address_type enum('comercial','residential','billing','shipping') NOT NULL,
-          PRIMARY KEY (address_id)
-        ); 
-    `);
-
-    queryRunner.query(`
         CREATE TABLE IF NOT EXISTS companies (
           client_id int(11) NOT NULL,
           company_name varchar(255) NOT NULL,
@@ -66,6 +51,22 @@ export class Admin1731963129140 implements MigrationInterface {
           PRIMARY KEY (user_id)
         ); 
     `);
+
+    queryRunner.query(`
+      CREATE TABLE IF NOT EXISTS addresses_admin (
+        user_id int(11) NOT NULL,
+        street varchar(255) NOT NULL,
+        number varchar(255) NOT NULL,
+        additional_info varchar(255) DEFAULT NULL,
+        city varchar(255) NOT NULL,
+        state varchar(255) NOT NULL,
+        country varchar(255) NOT NULL,
+        postal_code varchar(255) NOT NULL,
+        address_type enum('comercial','residential','billing','shipping') NOT NULL,
+        PRIMARY KEY (user_id),
+        CONSTRAINT FK_aa727779812d993e6933953da52 FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+      ); 
+  `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

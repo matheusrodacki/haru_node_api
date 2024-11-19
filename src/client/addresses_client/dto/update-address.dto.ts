@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { AddressType } from 'src/enum/addressType.enum';
 import { CreateAddressClientDto } from './create-address.dto';
 
@@ -44,5 +44,5 @@ export class UpdateAddressClientDto extends PartialType(
   @ApiProperty({ description: 'Address Type', enum: AddressType })
   @IsOptional()
   @IsEnum(AddressType)
-  adress_type?: AddressType;
+  address_type?: AddressType;
 }

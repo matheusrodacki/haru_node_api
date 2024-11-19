@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { AddressAdmin } from '../addresses_admin/address.entity';
@@ -39,7 +40,8 @@ export class User {
   @OneToOne(() => AddressAdmin, (address) => address.user_id, {
     cascade: true,
   })
-  address: AddressAdmin;
+  @JoinColumn({ name: 'user_id' })
+  addressAdmin: AddressAdmin;
 
   @CreateDateColumn()
   created_at: Date;

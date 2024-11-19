@@ -34,7 +34,7 @@ export class UsersService {
     }
 
     // Generate salt and hash password
-    const user = new User();
+    let user = new User();
     const passwordHash = await bcrypt.hash(password, 10);
 
     user.passwordHash = passwordHash;
@@ -43,13 +43,26 @@ export class UsersService {
     user.email = email;
     user.phone = phone;
     user.role = role;
-    Object.assign(user.address, address);
 
-    return await this.usersRepository.save(user);
+    //Create user to get user_id
+    user = await this.usersRepository.save(user);
+
+    // Create address
+    if (address) {
+      const userAddress = this.addressesRepository.create({
+        ...address,
+        user,
+      });
+      await this.addressesRepository.save(userAddress);
+    }
+
+    return user;
   }
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      relations: ['addressAdmin'],
+    });
   }
 
   findOne(user_id: number): Promise<User> {
@@ -115,7 +128,7 @@ export class UsersService {
 
     // Update address if provided
     if (updateUserDto.address) {
-      Object.assign(user.address, updateUserDto.address);
+      Object.assign(user.addressAdmin, updateUserDto.address);
     }
 
     // Save the updated user
