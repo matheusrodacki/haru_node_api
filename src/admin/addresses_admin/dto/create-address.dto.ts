@@ -22,7 +22,7 @@ export class CreateAddressDto {
   @ApiProperty({ description: 'Additional information (optional)' })
   @IsOptional()
   @IsString()
-  additionalInfo?: string;
+  additional_info?: string;
 
   @ApiProperty({ description: 'City' })
   @IsNotEmpty()
@@ -42,7 +42,7 @@ export class CreateAddressDto {
   @ApiProperty({ description: 'Postal code' })
   @IsNotEmpty()
   @IsString()
-  postalCode: string;
+  postal_code: string;
 
   @ApiProperty({ description: 'Address Type', enum: AddressType })
   @IsNotEmpty()

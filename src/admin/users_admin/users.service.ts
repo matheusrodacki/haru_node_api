@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { User } from './user.entity';
-import { Client } from '../clients_tenants/client.entity';
+import { Client } from '../clients/client.entity';
 
 @Injectable()
 export class UsersService {
@@ -59,7 +59,7 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { first_name, last_name, email, password, role, clientId } =
+    const { first_name, last_name, email, password, phone, role, clientId } =
       createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
@@ -85,6 +85,7 @@ export class UsersService {
     user.first_name = first_name;
     user.last_name = last_name;
     user.email = email;
+    user.phone = phone;
     user.role = role;
     user.client = client;
     return this.usersRepository.save(user);

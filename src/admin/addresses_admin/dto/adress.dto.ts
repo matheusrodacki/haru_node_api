@@ -17,7 +17,7 @@ export class AddressDto {
 
   @ApiProperty({ description: 'Additional information (optional)' })
   @IsString()
-  additionalInfo?: string;
+  additional_info?: string;
 
   @ApiProperty({ description: 'City' })
   @IsString()
@@ -33,7 +33,7 @@ export class AddressDto {
 
   @ApiProperty({ description: 'Postal code' })
   @IsString()
-  postalCode: string;
+  postal_code: string;
 
   @ApiProperty({ description: 'Address Type', enum: AddressType })
   @IsEnum(AddressType)

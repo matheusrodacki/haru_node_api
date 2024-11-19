@@ -1,5 +1,5 @@
 export enum AddressType {
-  Comercial = 'comercial',
+  Comercial = 'commercial',
   Residential = 'residential',
   Billing = 'billing',
   Shipping = 'shipping',

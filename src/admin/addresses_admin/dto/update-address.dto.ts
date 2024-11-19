@@ -17,7 +17,7 @@ export class UpdateAddressDto extends PartialType(CreateAddressDto) {
   @ApiProperty({ description: 'Additional information (optional)' })
   @IsOptional()
   @IsString()
-  additionalInfo?: string;
+  additional_info?: string;
 
   @ApiProperty({ description: 'City' })
   @IsOptional()
@@ -37,7 +37,7 @@ export class UpdateAddressDto extends PartialType(CreateAddressDto) {
   @ApiProperty({ description: 'Postal code' })
   @IsOptional()
   @IsString()
-  postalCode?: string;
+  postal_code?: string;
 
   @ApiProperty({ description: 'Address Type', enum: AddressType })
   @IsOptional()

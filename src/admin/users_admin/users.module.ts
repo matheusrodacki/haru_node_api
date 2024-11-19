@@ -4,8 +4,8 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from './user.entity';
-import { Client } from '../clients_tenants/client.entity';
-import { ClientsModule } from '../clients_tenants/clients.module';
+import { Client } from '../clients/client.entity';
+import { ClientsModule } from '../clients/clients.module';
 
 @Module({
   imports: [

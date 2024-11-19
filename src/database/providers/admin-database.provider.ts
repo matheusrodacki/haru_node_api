@@ -13,7 +13,10 @@ export const AdminDatabaseProvider = {
         username: process.env.ADMIN_MYSQL_USER,
         password: process.env.ADMIN_MYSQL_PASSWORD,
         database: process.env.ADMIN_MYSQL_DATABASE,
-        entities: [__dirname + '/../admin/entities/*.entity{.ts,.js}'],
+        entities: [__dirname + '/../admin/**/*.entity{.ts,.js}'],
+        migrations: [__dirname + '/../migrations/admin/*{.ts,.js}'],
+        migrationsRun: true,
+        logging: true,
         synchronize: false,
       });
       await adminDataSource.initialize();

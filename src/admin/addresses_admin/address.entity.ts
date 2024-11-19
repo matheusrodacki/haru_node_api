@@ -1,4 +1,4 @@
-import { Client } from 'src/admin/clients_tenants/client.entity';
+import { Client } from 'src/admin/clients/client.entity';
 import { AddressType } from 'src/enum/addressType.enum';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -14,7 +14,7 @@ export class Address {
   number: string;
 
   @Column({ nullable: true })
-  additionalInfo: string;
+  additional_info: string;
 
   @Column()
   city: string;
@@ -26,7 +26,7 @@ export class Address {
   country: string;
 
   @Column()
-  postalCode: string;
+  postal_code: string;
 
   @Column({ type: 'enum', enum: AddressType })
   address_type: AddressType;

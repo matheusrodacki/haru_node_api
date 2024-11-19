@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Client } from '../clients_tenants/client.entity';
+import { Client } from '../clients/client.entity';
 import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity('individuals')

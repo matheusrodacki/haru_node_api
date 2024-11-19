@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 import { AddressesModule } from './addresses_admin/addresses.module';
-import { ClientsModule } from './clients_tenants/clients.module';
+import { ClientsModule } from './clients/clients.module';
 import { CompaniesModule } from './companies/companies.module';
 import { IndividualsModule } from './individuals/individuals.module';
 import { UsersModule } from './users_admin/users.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminDatabaseProvider } from 'src/database/providers/admin-database.provider';
+import { SeedService } from './seed.service';
 
 @Module({
   imports: [
@@ -31,6 +32,6 @@ import { AdminDatabaseProvider } from 'src/database/providers/admin-database.pro
     UsersModule,
   ],
   controllers: [], // Defina aqui os controllers do admin
-  providers: [], // Defina aqui os serviços do admin
+  providers: [SeedService], // Defina aqui os serviços do admin
 })
 export class AdminModule {}
