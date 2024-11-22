@@ -62,7 +62,7 @@ export class Admin1731963129140 implements MigrationInterface {
         state varchar(255) NOT NULL,
         country varchar(255) NOT NULL,
         postal_code varchar(255) NOT NULL,
-        address_type enum('comercial','residential','billing','shipping') NOT NULL,
+        address_type enum('commercial','residential','billing','shipping') NOT NULL,
         PRIMARY KEY (user_id),
         CONSTRAINT FK_aa727779812d993e6933953da52 FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
       ); 
