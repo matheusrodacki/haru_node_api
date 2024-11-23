@@ -3,12 +3,18 @@ import { ClientsService } from './clients/clients.service';
 import { CreateClientDto } from './clients/dto/create.client.dto';
 import { CreateUserDto } from './users_admin/dto/create.user.dto';
 import { UsersService } from './users_admin/users.service';
+import { PlansService } from './plans/plans.service';
+import { CreatePlanDto } from './plans/dto/create.plan.dto';
+import { ContractsService } from './contracts/contracts.service';
+import { CreateContractDto } from './contracts/dto/create.contract.dto';
 
 @Injectable()
 export class AdminSeedService implements OnModuleInit {
   constructor(
     private readonly usersService: UsersService,
     private readonly clientService: ClientsService,
+    private readonly plansService: PlansService,
+    private readonly contractsService: ContractsService,
   ) {}
 
   async onModuleInit() {
@@ -48,6 +54,31 @@ export class AdminSeedService implements OnModuleInit {
           address_type: 'billing',
         },
       } as CreateUserDto);
+    }
+
+    const plans = await this.plansService.findAll();
+    if (plans.length === 0) {
+      plans.push(
+        await this.plansService.create({
+          name: 'Deluxe',
+          price: 99.45,
+          expiration: '2027-31-12',
+          status: 'active',
+        } as CreatePlanDto),
+      );
+    }
+
+    const contracts = await this.contractsService.findAll();
+    if (contracts.length === 0) {
+      contracts.push(
+        await this.contractsService.create({
+          contracted_price: 99.45,
+          contract_date: '2024-08-01',
+          status: 'active',
+          client_id: clients[0].client_id,
+          plan_id: plans[0].plan_id,
+        } as CreateContractDto),
+      );
     }
   }
 }

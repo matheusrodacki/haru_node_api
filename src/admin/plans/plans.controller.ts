@@ -39,6 +39,9 @@ export class PlansController {
     type: PlanDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ClientsRoles.SUPERADMIN)
   async create(@Body() createPlanDto: CreatePlanDto): Promise<PlanDto> {
     return await this.plansService.create(createPlanDto);
   }

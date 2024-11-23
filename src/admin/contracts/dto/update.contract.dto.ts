@@ -3,9 +3,11 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEnum,
   IsDateString,
-  IsDecimal,
-  IsInt,
   IsOptional,
+  IsPositive,
+  Max,
+  Min,
+  IsNumber,
 } from 'class-validator';
 import { Status } from 'src/enum/status.enum';
 
@@ -15,12 +17,14 @@ export class UpdateContractDto {
     example: 100,
   })
   @IsOptional()
-  @IsDecimal()
+  @IsPositive()
+  @Max(999999.99)
+  @Min(0)
   contracted_price?: number;
 
   @ApiPropertyOptional({
     description: 'Contract date',
-    example: '2023-10-01',
+    example: '2024-08-01',
   })
   @IsOptional()
   @IsDateString()
@@ -29,6 +33,7 @@ export class UpdateContractDto {
   @ApiPropertyOptional({
     description: 'Contract status',
     enum: Status,
+    example: 'active',
   })
   @IsOptional()
   @IsEnum(Status)
@@ -39,7 +44,7 @@ export class UpdateContractDto {
     example: 1,
   })
   @IsOptional()
-  @IsInt()
+  @IsNumber()
   client_id?: number;
 
   @ApiPropertyOptional({
@@ -47,6 +52,6 @@ export class UpdateContractDto {
     example: 1,
   })
   @IsOptional()
-  @IsInt()
+  @IsNumber()
   plan_id?: number;
 }

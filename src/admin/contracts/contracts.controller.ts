@@ -39,6 +39,9 @@ export class ContractsController {
     type: ContractDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ClientsRoles.SUPERADMIN)
   async create(
     @Body() createContractDto: CreateContractDto,
   ): Promise<ContractDto> {

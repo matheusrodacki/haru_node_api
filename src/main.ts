@@ -5,6 +5,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './admin/users_admin/users.module';
 import { ClientsModule } from './admin/clients/clients.module';
+import { PlansModule } from './admin/plans/plans.module';
+import { ContractsModule } from './admin/contracts/contracts.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,7 +37,13 @@ async function bootstrap() {
     .build();
 
   const adminDocument = SwaggerModule.createDocument(app, adminConfig, {
-    include: [AuthModule, ClientsModule, UsersModule],
+    include: [
+      AuthModule,
+      ClientsModule,
+      UsersModule,
+      PlansModule,
+      ContractsModule,
+    ],
   });
   SwaggerModule.setup('api-admin', app, adminDocument);
 

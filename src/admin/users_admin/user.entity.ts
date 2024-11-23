@@ -36,7 +36,7 @@ export class User {
   @Column({ default: 1 })
   status: number;
 
-  @OneToOne(() => AddressAdmin, (address) => address.user_id, {
+  @OneToOne(() => AddressAdmin, (address) => address.user, {
     cascade: true,
   })
   addressAdmin: AddressAdmin;
