@@ -62,7 +62,7 @@ export class AdminSeedService implements OnModuleInit {
         await this.plansService.create({
           name: 'Deluxe',
           price: 99.45,
-          expiration: '2027-31-12',
+          expiration: '2027-12-31',
           status: 'active',
         } as CreatePlanDto),
       );
