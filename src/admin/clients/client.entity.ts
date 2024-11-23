@@ -52,6 +52,9 @@ export class Client {
   })
   company?: Company;
 
-  @OneToMany(() => Contract, (contract) => contract.client)
-  contracts: Contract[];
+  @OneToMany(() => Contract, (contract) => contract.client, {
+    cascade: true,
+    nullable: true,
+  })
+  contracts?: Contract[];
 }
