@@ -30,12 +30,12 @@ export class CreateContractDto {
     example: 1,
   })
   @IsInt()
-  client: number;
+  client_id: number;
 
   @ApiPropertyOptional({
     description: 'Plan ID',
     example: 1,
   })
   @IsInt()
-  plan: number;
+  plan_id: number;
 }

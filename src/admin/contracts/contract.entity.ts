@@ -38,16 +38,23 @@ export class Contract {
   })
   updated_at: Date;
 
+  // Colunas de Chave Estrangeira
+  @Column({ name: 'client_id' })
+  client_id: number;
+
+  @Column({ name: 'plan_id' })
+  plan_id: number;
+
   //Relationships
   @ManyToOne(() => Client, (client) => client.contracts, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'id_client' })
+  @JoinColumn({ name: 'client_id' })
   @Exclude()
   client: Client;
 
   @ManyToOne(() => Plan, (plan) => plan.contracts, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'id_plan' })
+  @JoinColumn({ name: 'plan_id' })
   @Exclude()
   plan: Plan;
 }

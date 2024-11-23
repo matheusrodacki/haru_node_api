@@ -20,11 +20,11 @@ export class ContractsService {
 
   async create(createContractDto: CreateContractDto): Promise<Contract> {
     const client = await this.clientRepository.findOneOrFail({
-      where: { id_client: createContractDto.client_id },
+      where: { client_id: createContractDto.client_id },
     });
 
     const plan = await this.planRepository.findOneOrFail({
-      where: { id_plan: createContractDto.plan_id },
+      where: { plan_id: createContractDto.plan_id },
     });
 
     const contract = this.contractRepository.create({
@@ -32,15 +32,10 @@ export class ContractsService {
       plan,
       contracted_price: plan.price,
       contract_date: new Date(),
-      status: createContractDto.status || 'Active',
+      status: createContractDto.status,
     });
 
-    const savedContract = await this.contractRepository.save(contract);
-
-    // Transforma a entidade em DTO
-    return plainToInstance(ContractDto, savedContract, {
-      excludeExtraneousValues: true,
-    });
+    return await this.contractRepository.save(contract);
   }
 
   async findAll(): Promise<Contract[]> {

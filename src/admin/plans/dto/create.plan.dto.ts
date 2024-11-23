@@ -19,7 +19,7 @@ export class CreatePlanDto {
     description: 'Plan expiration date',
     example: '2021-12-31',
   })
-  expiration: Date;
+  expiration: string;
 
   @ApiPropertyOptional({
     description: 'Plan status',

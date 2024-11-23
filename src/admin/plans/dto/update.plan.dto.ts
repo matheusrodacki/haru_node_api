@@ -23,7 +23,7 @@ export class UpdatePlanDto {
     example: '2021-12-31',
   })
   @IsOptional()
-  expiration?: Date;
+  expiration?: string;
 
   @ApiPropertyOptional({
     description: 'Plan status',
