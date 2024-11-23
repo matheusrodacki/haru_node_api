@@ -8,7 +8,6 @@ import {
 import { Client } from '../clients/client.entity';
 import { Status } from 'src/enum/status.enum';
 import { Plan } from '../plans/plan.entity';
-import { Exclude } from 'class-transformer';
 
 @Entity('contracts')
 export class Contract {
@@ -50,11 +49,9 @@ export class Contract {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'client_id' })
-  @Exclude()
   client: Client;
 
   @ManyToOne(() => Plan, (plan) => plan.contracts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'plan_id' })
-  @Exclude()
   plan: Plan;
 }

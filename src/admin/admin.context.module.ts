@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminDatabaseProvider } from 'src/database/providers/admin-database.provider';
 import { AdminSeedService } from './admin.seed.service';
+import { PlansModule } from './plans/plans.module';
+import { ContractsModule } from './contracts/contracts.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { AdminSeedService } from './admin.seed.service';
     ClientsModule,
     CompaniesModule,
     IndividualsModule,
+    PlansModule,
+    ContractsModule,
     UsersModule,
   ],
   controllers: [], // Defina aqui os controllers do admin
