@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspaces/haru_node_api:cached
+      - ..:/workspaces/_node_api:cached
     command: 'sleep infinity'
     ports:
       - '8000:8000'
@@ -13,16 +13,16 @@ services:
     environment:
       - ADMIN_MYSQL_HOST=${ADMIN_MYSQL_HOST:-mysql}
       - MYSQL_PORT=3306
-      - ADMIN_MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-haru_db_admin}
-      - ADMIN_MYSQL_USER=${ADMIN_MYSQL_USER:-haru_user_admin}
-      - ADMIN_MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD:-harudbpassword}
+      - ADMIN_MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-db_admin}
+      - ADMIN_MYSQL_USER=${ADMIN_MYSQL_USER:-user_admin}
+      - ADMIN_MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD:-dbpassword}
       - CLIENT_DB_HOST=${CLIENT_DB_HOST:-mysql}
       - CLIENT_DB_PORT=3306
-      - CLIENT_DB_DATABASE=${CLIENT_DB_DATABASE:-haru_client_db}
-      - CLIENT_DB_USER=${CLIENT_DB_USER:-haru_user_admin}
-      - CLIENT_DB_PASSWORD=${CLIENT_DB_PASSWORD:-harudbpassword}
+      - CLIENT_DB_DATABASE=${CLIENT_DB_DATABASE:-_client_db}
+      - CLIENT_DB_USER=${CLIENT_DB_USER:-user_admin}
+      - CLIENT_DB_PASSWORD=${CLIENT_DB_PASSWORD:-dbpassword}
       - NODE_ENV=${NODE_ENV:-development}
-      - JWT_SECRET=${JWT_SECRET:-haru_jwt_secret}
+      - JWT_SECRET=${JWT_SECRET:-_jwt_secret}
     depends_on:
       - mysql
 
@@ -30,10 +30,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=${ADMIN_MYSQL_PASSWORD:-harudbpassword}
-      - MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-haru_db_admin}
-      - MYSQL_USER=${ADMIN_MYSQL_USER:-haru_user_admin}
-      - MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD:-harudbpassword}
+      - MYSQL_ROOT_PASSWORD=${ADMIN_MYSQL_PASSWORD:-dbpassword}
+      - MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-db_admin}
+      - MYSQL_USER=${ADMIN_MYSQL_USER:-user_admin}
+      - MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD:-dbpassword}
     ports:
       - '3307:3306'
     volumes:
