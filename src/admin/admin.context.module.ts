@@ -11,6 +11,8 @@ import { AdminDatabaseProvider } from 'src/database/providers/admin-database.pro
 import { AdminSeedService } from './admin.seed.service';
 import { PlansModule } from './plans/plans.module';
 import { ContractsModule } from './contracts/contracts.module';
+import { ProfilesModule } from './profiles_admin/profile.module';
+import { PermissionsModule } from './permissions_admin/permissions.module';
 
 @Module({
   imports: [
@@ -34,6 +36,8 @@ import { ContractsModule } from './contracts/contracts.module';
     PlansModule,
     ContractsModule,
     UsersModule,
+    ProfilesModule,
+    PermissionsModule,
   ],
   controllers: [], // Defina aqui os controllers do admin
   providers: [AdminSeedService], // Defina aqui os serviços do admin

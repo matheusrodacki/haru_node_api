@@ -10,7 +10,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 import { User } from '../users_admin/user.entity';
-import { Permission } from '../permissions_admin/permission.entity';
+import { Permission } from '../permissions_admin/permissions.entity';
 
 @Entity('profiles')
 export class Profile {

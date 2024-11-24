@@ -37,8 +37,8 @@ export class User {
   @Column()
   role: string;
 
-  @Column()
-  profile_id: number;
+  @Column({ nullable: true })
+  profile_id?: number;
 
   @Column({ default: 1 })
   status: number;
@@ -61,5 +61,5 @@ export class User {
 
   @ManyToOne(() => Profile, (profile) => profile.users)
   @JoinColumn({ name: 'profile_id' })
-  profile: Profile;
+  profile?: Profile;
 }

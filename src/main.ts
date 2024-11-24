@@ -7,6 +7,8 @@ import { UsersModule } from './admin/users_admin/users.module';
 import { ClientsModule } from './admin/clients/clients.module';
 import { PlansModule } from './admin/plans/plans.module';
 import { ContractsModule } from './admin/contracts/contracts.module';
+import { ProfilesModule } from './admin/profiles_admin/profile.module';
+import { PermissionsModule } from './admin/permissions_admin/permissions.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -40,9 +42,11 @@ async function bootstrap() {
     include: [
       AuthModule,
       ClientsModule,
-      UsersModule,
       PlansModule,
       ContractsModule,
+      UsersModule,
+      ProfilesModule,
+      PermissionsModule,
     ],
   });
   SwaggerModule.setup('api-admin', app, adminDocument);

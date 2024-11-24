@@ -17,6 +17,9 @@ export class Permission {
   @Column()
   name: string;
 
+  @Column()
+  role: string;
+
   @CreateDateColumn()
   created_at: Date;
 

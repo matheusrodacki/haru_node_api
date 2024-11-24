@@ -34,28 +34,6 @@ export class AdminSeedService implements OnModuleInit {
       );
     }
 
-    const users = await this.usersService.findAll();
-    if (users.length === 0) {
-      await this.usersService.create({
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'john.doe@example.com',
-        password: 'yourpassword',
-        phone: '1234567890',
-        role: 'superadmin',
-        address: {
-          street: '1234 Main St',
-          number: 'Apt 123',
-          additional_info: 'Some additional info',
-          city: 'Springfield',
-          state: 'IL',
-          country: 'USA',
-          postal_code: '62701',
-          address_type: 'billing',
-        },
-      } as CreateUserDto);
-    }
-
     const plans = await this.plansService.findAll();
     if (plans.length === 0) {
       plans.push(
@@ -79,6 +57,28 @@ export class AdminSeedService implements OnModuleInit {
           plan_id: plans[0].plan_id,
         } as CreateContractDto),
       );
+    }
+
+    const users = await this.usersService.findAll();
+    if (users.length === 0) {
+      await this.usersService.create({
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john.doe@example.com',
+        password: 'yourpassword',
+        phone: '1234567890',
+        role: 'superadmin',
+        address: {
+          street: '1234 Main St',
+          number: 'Apt 123',
+          additional_info: 'Some additional info',
+          city: 'Springfield',
+          state: 'IL',
+          country: 'USA',
+          postal_code: '62701',
+          address_type: 'billing',
+        },
+      } as CreateUserDto);
     }
   }
 }
