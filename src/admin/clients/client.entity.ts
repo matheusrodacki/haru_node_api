@@ -26,7 +26,7 @@ export class Client {
   @Column({
     type: 'enum',
     enum: Status,
-    default: 'Active',
+    default: Status.ACTIVE,
   })
   status: Status;
 

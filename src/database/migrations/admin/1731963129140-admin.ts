@@ -45,7 +45,7 @@ export class Admin1731963129140 implements MigrationInterface {
           passwordHash varchar(255) NOT NULL,
           phone varchar(255) DEFAULT NULL,
           role varchar(255) NOT NULL,
-          status int(11) NOT NULL DEFAULT '1',
+          status enum('active','inactive','archived','deleted','lead') NOT NULL DEFAULT 'active',
           created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
           updated_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
           PRIMARY KEY (user_id)

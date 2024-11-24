@@ -12,6 +12,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { AddressAdmin } from '../addresses_admin/address.entity';
 import { Profile } from '../profiles_admin/profile.entity';
+import { Status } from 'src/enum/status.enum';
 
 @Entity('users')
 export class User {
@@ -40,8 +41,8 @@ export class User {
   @Column({ nullable: true })
   profile_id?: number;
 
-  @Column({ default: 1 })
-  status: number;
+  @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
+  status: Status;
 
   @CreateDateColumn()
   created_at: Date;
