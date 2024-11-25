@@ -21,12 +21,13 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ClienteDto } from './dto/client.dto';
 import { CreateClientDto } from './dto/create.client.dto';
 import { UpdateClientDto } from './dto/update.client.dto';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { ClientsRoles } from 'src/roles/clientsRoles.enum';
-import { Roles } from 'src/roles/roles.decorator';
+import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Clients')
 @Controller('clients')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
@@ -39,9 +40,7 @@ export class ClientsController {
     type: ClienteDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('client.create')
   async create(@Body() createClientDto: CreateClientDto): Promise<ClienteDto> {
     return await this.clientsService.create(createClientDto);
   }
@@ -54,9 +53,7 @@ export class ClientsController {
     description: 'Return all clients.',
     type: ClienteDto,
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('client.read')
   async findAll(): Promise<ClienteDto[]> {
     return await this.clientsService.findAll();
   }
@@ -73,9 +70,7 @@ export class ClientsController {
     description: 'Return a client by ID.',
     type: [ClienteDto],
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('client.read')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<ClienteDto> {
     return await this.clientsService.findOne(id);
   }
@@ -93,9 +88,7 @@ export class ClientsController {
     type: ClienteDto,
   })
   @ApiResponse({ status: 404, description: 'Client not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
+  @Permissions('client.update')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateClientDto: UpdateClientDto,
@@ -115,9 +108,7 @@ export class ClientsController {
     description: 'The client has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Client not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('client.delete')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.clientsService.remove(id);
   }

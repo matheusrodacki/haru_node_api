@@ -13,9 +13,6 @@ import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create.permission.dto';
 import { UpdatePermissionDto } from './dto/update.permission.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { ClientsRoles } from 'src/roles/clientsRoles.enum';
 import {
   ApiTags,
   ApiBearerAuth,
@@ -23,9 +20,14 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { Permission } from './permissions.entity';
+import { Permissions } from 'src/roles/permissions.decorator';
+import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { PermissionDto } from './dto/permission.dto';
 
 @ApiTags('Permissions')
 @Controller('permissions')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
@@ -34,12 +36,10 @@ export class PermissionsController {
   @ApiResponse({
     status: 201,
     description: 'Permission created successfully',
-    type: Permission,
+    type: CreatePermissionDto,
   })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('permission.create')
   async create(
     @Body() createPermissionDto: CreatePermissionDto,
   ): Promise<Permission> {
@@ -51,12 +51,10 @@ export class PermissionsController {
   @ApiResponse({
     status: 200,
     description: 'List of permissions',
-    type: [Permission],
+    type: [PermissionDto],
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  async findAll(): Promise<Permission[]> {
+  @Permissions('permission.read')
+  async findAll(): Promise<PermissionDto[]> {
     return await this.permissionsService.findAll();
   }
 
@@ -65,12 +63,10 @@ export class PermissionsController {
   @ApiResponse({
     status: 200,
     description: 'Permission data',
-    type: Permission,
+    type: PermissionDto,
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Permission> {
+  @Permissions('permission.read')
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<PermissionDto> {
     return await this.permissionsService.findOne(id);
   }
 
@@ -82,9 +78,7 @@ export class PermissionsController {
     type: Permission,
   })
   @ApiResponse({ status: 404, description: 'Permission not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
+  @Permissions('permission.update')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePermissionDto: UpdatePermissionDto,
@@ -96,9 +90,7 @@ export class PermissionsController {
   @ApiOperation({ summary: 'Delete a permission' })
   @ApiResponse({ status: 200, description: 'Permission deleted successfully' })
   @ApiResponse({ status: 404, description: 'Permission not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
+  @Permissions('permission.delete')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.permissionsService.remove(id);
   }

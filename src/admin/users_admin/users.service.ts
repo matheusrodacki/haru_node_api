@@ -81,6 +81,7 @@ export class UsersService {
   async findByEmail(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({
       where: { email },
+      relations: ['profile', 'profile.permissions'],
     });
   }
 
