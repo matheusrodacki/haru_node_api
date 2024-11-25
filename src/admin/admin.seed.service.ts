@@ -119,11 +119,12 @@ export class AdminSeedService implements OnModuleInit {
     if (profiles.length === 0) {
       // Obter as permissões necessárias
       const allPermissions = await this.permissionsService.findAll();
-
-      this.profilesService.create({
-        name: 'Super Cow',
-        permissions: allPermissions.map((permission) => permission.role), // Associa todas as permissões ao perfil Admin
-      });
+      profiles.push(
+        await this.profilesService.create({
+          name: 'Super Cow',
+          permissions: allPermissions.map((permission) => permission.role), // Associa todas as permissões ao perfil Admin
+        }),
+      );
     }
 
     //seed de users
@@ -135,7 +136,7 @@ export class AdminSeedService implements OnModuleInit {
         email: 'john.doe@example.com',
         password: 'yourpassword',
         phone: '1234567890',
-        role: 'superadmin',
+        profile_id: profiles[0].profile_id,
         address: {
           street: '1234 Main St',
           number: 'Apt 123',

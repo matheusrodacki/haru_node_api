@@ -23,8 +23,15 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { first_name, last_name, email, password, address, phone, role } =
-      createUserDto;
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      address,
+      phone,
+      profile_id,
+    } = createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
       where: { email },
@@ -42,7 +49,7 @@ export class UsersService {
     user.last_name = last_name;
     user.email = email;
     user.phone = phone;
-    user.role = role;
+    user.profile_id = profile_id;
 
     //Create user to get user_id
     user = await this.usersRepository.save(user);
@@ -122,8 +129,8 @@ export class UsersService {
     }
 
     // Update role if provided
-    if (updateUserDto.role !== undefined) {
-      user.role = updateUserDto.role;
+    if (updateUserDto.profile_id !== undefined) {
+      user.profile_id = updateUserDto.profile_id;
     }
 
     // Update address if provided

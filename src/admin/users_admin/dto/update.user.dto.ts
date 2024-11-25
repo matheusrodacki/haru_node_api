@@ -58,13 +58,11 @@ export class UpdateUserDto {
   address?: UpdateAddressAdminDto;
 
   @ApiProperty({
-    description: 'User role',
-    example: 'operator',
-    required: false,
+    example: '1',
+    description: 'User profile id',
   })
   @IsOptional()
-  @IsString()
-  role?: string;
+  profile_id?: number;
 
   @ApiPropertyOptional({
     description: 'User status',

@@ -1,5 +1,5 @@
 // create-contract.dto.ts
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDateString,
   IsEnum,
@@ -13,7 +13,7 @@ import {
 import { Status } from 'src/enum/status.enum';
 
 export class CreateContractDto {
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Contracted price',
     example: 99.45,
   })
@@ -23,7 +23,7 @@ export class CreateContractDto {
   @Min(0)
   contracted_price: number;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Contract date',
     example: '2024-08-01',
   })
@@ -40,7 +40,7 @@ export class CreateContractDto {
   @IsEnum(Status)
   status?: Status;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Client ID',
     example: 1,
   })
@@ -48,7 +48,7 @@ export class CreateContractDto {
   @IsNumber()
   client_id: number;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Plan ID',
     example: 1,
   })

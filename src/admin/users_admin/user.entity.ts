@@ -35,9 +35,6 @@ export class User {
   @Column({ nullable: true })
   phone: string;
 
-  @Column()
-  role: string;
-
   @Column({ nullable: true })
   profile_id?: number;
 
