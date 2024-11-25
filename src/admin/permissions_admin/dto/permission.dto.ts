@@ -4,9 +4,6 @@ export class PermissionDto {
   @ApiProperty({ description: 'Permission ID', example: 1 })
   permission_id: number;
 
-  @ApiProperty({ description: 'Permission name', example: 'Read' })
-  name: string;
-
   @ApiProperty({ description: 'Permission role', example: 'user.create' })
   role: string;
 

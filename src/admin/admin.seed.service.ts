@@ -7,6 +7,8 @@ import { PlansService } from './plans/plans.service';
 import { CreatePlanDto } from './plans/dto/create.plan.dto';
 import { ContractsService } from './contracts/contracts.service';
 import { CreateContractDto } from './contracts/dto/create.contract.dto';
+import { PermissionsService } from './permissions_admin/permissions.service';
+import { ProfilesService } from './profiles_admin/profiles.service';
 
 @Injectable()
 export class AdminSeedService implements OnModuleInit {
@@ -15,9 +17,50 @@ export class AdminSeedService implements OnModuleInit {
     private readonly clientService: ClientsService,
     private readonly plansService: PlansService,
     private readonly contractsService: ContractsService,
+    private readonly permissionsService: PermissionsService,
+    private readonly profilesService: ProfilesService,
   ) {}
 
   async onModuleInit() {
+    const permissionsList = [
+      // Usuários
+      'user.create',
+      'user.read',
+      'user.update',
+      'user.delete',
+
+      // Perfis
+      'profile.create',
+      'profile.read',
+      'profile.update',
+      'profile.delete',
+
+      // Permissões
+      'permission.create',
+      'permission.read',
+      'permission.update',
+      'permission.delete',
+
+      // Clientes
+      'client.create',
+      'client.read',
+      'client.update',
+      'client.delete',
+
+      // Contratos
+      'contract.create',
+      'contract.read',
+      'contract.update',
+      'contract.delete',
+
+      // Planos
+      'plan.create',
+      'plan.read',
+      'plan.update',
+      'plan.delete',
+    ];
+
+    //seed de clientes
     const clients = await this.clientService.findAll();
     if (clients.length === 0) {
       clients.push(
@@ -34,6 +77,7 @@ export class AdminSeedService implements OnModuleInit {
       );
     }
 
+    //seed de planos
     const plans = await this.plansService.findAll();
     if (plans.length === 0) {
       plans.push(
@@ -46,6 +90,7 @@ export class AdminSeedService implements OnModuleInit {
       );
     }
 
+    //seed de contratos
     const contracts = await this.contractsService.findAll();
     if (contracts.length === 0) {
       contracts.push(
@@ -59,6 +104,29 @@ export class AdminSeedService implements OnModuleInit {
       );
     }
 
+    //seed de permissões
+    for (const role of permissionsList) {
+      const permissionExists = await this.permissionsService.findByRole(role);
+      if (!permissionExists) {
+        this.permissionsService.create({
+          role,
+        });
+      }
+    }
+
+    // Seed de perfis
+    const profiles = await this.profilesService.findAll();
+    if (profiles.length === 0) {
+      // Obter as permissões necessárias
+      const allPermissions = await this.permissionsService.findAll();
+
+      this.profilesService.create({
+        name: 'Super Cow',
+        permissions: allPermissions.map((permission) => permission.role), // Associa todas as permissões ao perfil Admin
+      });
+    }
+
+    //seed de users
     const users = await this.usersService.findAll();
     if (users.length === 0) {
       await this.usersService.create({

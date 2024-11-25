@@ -16,9 +16,6 @@ export class Permission {
   permission_id: number;
 
   @Column()
-  name: string;
-
-  @Column()
   role: string;
 
   @CreateDateColumn()
