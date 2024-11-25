@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspaces/_node_api:cached
+      - ..:/workspaces/micro_saas_nest_api:cached
     command: 'sleep infinity'
     ports:
       - '8000:8000'

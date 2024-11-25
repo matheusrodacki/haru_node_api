@@ -63,6 +63,22 @@ export class ContractsController {
     return await this.contractsService.findAll();
   }
 
+  // Find contracts by client ID
+  @Get('client/:client_id')
+  @ApiOperation({ summary: 'Get contracts by client ID' })
+  @ApiParam({ name: 'client_id', type: Number, description: 'Client ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of contracts',
+    type: [ContractDto],
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ClientsRoles.SUPERADMIN)
+  async findByClientId(@Param('client_id', ParseIntPipe) client_id: number) {
+    return this.contractsService.findByClientId(client_id);
+  }
+
   // Find one contract
   @Get(':id')
   @ApiOperation({ summary: 'Get a contract by ID' })
