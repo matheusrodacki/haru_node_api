@@ -23,6 +23,8 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { Profile } from './profile.entity';
+import { ProfileDto } from './dto/profile.dto';
+import { plainToClass } from 'class-transformer';
 
 @ApiTags('Profiles')
 @Controller('profiles')
@@ -40,8 +42,19 @@ export class ProfilesController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN)
-  async create(@Body() createProfileDto: CreateProfileDto): Promise<Profile> {
-    return await this.profilesService.create(createProfileDto);
+  async create(
+    @Body() createProfileDto: CreateProfileDto,
+  ): Promise<ProfileDto> {
+    const profile = await this.profilesService.create(createProfileDto);
+    const permissions = profile.permissions.map((perm) => perm.role);
+
+    const profileDto = plainToClass(
+      ProfileDto,
+      { ...profile, permissions },
+      { excludeExtraneousValues: true },
+    );
+
+    return profileDto;
   }
 
   @Get()
@@ -49,23 +62,43 @@ export class ProfilesController {
   @ApiResponse({
     status: 200,
     description: 'List of profiles',
-    type: [Profile],
+    type: [ProfileDto],
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  async findAll(): Promise<Profile[]> {
-    return await this.profilesService.findAll();
+  async findAll(): Promise<ProfileDto[]> {
+    const profiles = await this.profilesService.findAll();
+
+    const profilesDto = profiles.map((profile) => {
+      const permissions = profile.permissions.map((perm) => perm.role);
+      return plainToClass(
+        ProfileDto,
+        { ...profile, permissions },
+        { excludeExtraneousValues: true },
+      );
+    });
+
+    return profilesDto;
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Retrieve a profile by ID' })
-  @ApiResponse({ status: 200, description: 'Profile data', type: Profile })
+  @ApiResponse({ status: 200, description: 'Profile data', type: ProfileDto })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Profile> {
-    return await this.profilesService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<ProfileDto> {
+    const profile = await this.profilesService.findOne(id);
+    const permissions = profile.permissions.map((perm) => perm.role);
+
+    const profileDto = plainToClass(
+      ProfileDto,
+      { ...profile, permissions },
+      { excludeExtraneousValues: true },
+    );
+
+    return profileDto;
   }
 
   @Put(':id')
@@ -82,8 +115,17 @@ export class ProfilesController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProfileDto: UpdateProfileDto,
-  ): Promise<Profile> {
-    return await this.profilesService.update(id, updateProfileDto);
+  ): Promise<ProfileDto> {
+    const profile = await this.profilesService.update(id, updateProfileDto);
+    const permissions = profile.permissions.map((perm) => perm.role);
+
+    const profileDto = plainToClass(
+      ProfileDto,
+      { ...profile, permissions },
+      { excludeExtraneousValues: true },
+    );
+
+    return profileDto;
   }
 
   @Delete(':id')

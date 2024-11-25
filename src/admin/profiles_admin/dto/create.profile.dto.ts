@@ -1,8 +1,6 @@
 // create.profile.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsString, IsOptional, ValidateNested, IsArray } from 'class-validator';
-import { CreatePermissionDto } from 'src/admin/permissions_admin/dto/create.permission.dto';
+import { IsString, IsOptional, IsArray } from 'class-validator';
 
 export class CreateProfileDto {
   @ApiProperty({ example: 'Admin', description: 'Nome do perfil' })
@@ -11,11 +9,11 @@ export class CreateProfileDto {
 
   @ApiProperty({
     description: 'Permissões do perfil',
-    type: [CreatePermissionDto],
+    example: ['user.create', 'user.read', 'user.delete'],
+    type: [String],
   })
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreatePermissionDto)
-  permissions?: CreatePermissionDto[];
+  @IsString({ each: true })
+  permissions?: string[];
 }

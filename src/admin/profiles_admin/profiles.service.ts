@@ -32,8 +32,14 @@ export class ProfilesService {
     const profile = this.profilesRepository.create({ name });
 
     if (permissions && permissions.length > 0) {
-      const permissionsEntities =
-        await this.permissionsRepository.findByIds(permissions);
+      const permissionsEntities = await this.permissionsRepository.find({
+        where: permissions.map((role) => ({ role })),
+      });
+
+      if (permissionsEntities.length !== permissions.length) {
+        throw new BadRequestException('One or more permissions are invalid');
+      }
+
       profile.permissions = permissionsEntities;
     }
 
@@ -66,9 +72,14 @@ export class ProfilesService {
     }
 
     if (updateProfileDto.permissions) {
-      const permissionsEntities = await this.permissionsRepository.findByIds(
-        updateProfileDto.permissions,
-      );
+      const permissionsEntities = await this.permissionsRepository.find({
+        where: updateProfileDto.permissions.map((role) => ({ role })),
+      });
+
+      if (permissionsEntities.length !== updateProfileDto.permissions.length) {
+        throw new BadRequestException('One or more permissions are invalid');
+      }
+
       profile.permissions = permissionsEntities;
     }
 

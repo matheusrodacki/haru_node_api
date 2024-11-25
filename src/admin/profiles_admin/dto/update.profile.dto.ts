@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsArray, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-import { UpdatePermissionDto } from 'src/admin/permissions_admin/dto/update.permission.dto';
+import { IsOptional, IsString, IsArray } from 'class-validator';
 
 export class UpdateProfileDto {
   @ApiProperty({
@@ -15,12 +13,11 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     description: 'Profile permissions',
-    type: [UpdatePermissionDto],
-    required: false,
+    example: ['user.create', 'user.read', 'user.delete'],
+    type: [String],
   })
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => UpdatePermissionDto)
-  permissions?: UpdatePermissionDto[];
+  @IsString({ each: true })
+  permissions?: string[];
 }
