@@ -29,11 +29,6 @@ async function bootstrap() {
   const adminConfig = new DocumentBuilder()
     .setTitle('Admin API')
     .setDescription('Admin API Documentation')
-    .setContact(
-      'HD Soltec',
-      'https://www.hdsoltec.com.br',
-      'equipehdbrasil@gmail.com',
-    )
     .setVersion('1.0')
     .addBearerAuth() // Se estiver usando autenticação JWT
     .build();

@@ -1,5 +1,11 @@
+import { Exclude } from 'class-transformer';
 import { AddressType } from 'src/enum/addressType.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('addresses_client')
 export class AddressClient {
@@ -26,6 +32,10 @@ export class AddressClient {
 
   @Column()
   postalCode: string;
+
+  @DeleteDateColumn()
+  @Exclude()
+  deleted_at?: Date;
 
   @Column({ type: 'enum', enum: AddressType })
   address_type: AddressType;

@@ -70,6 +70,6 @@ export class ContractsService {
       throw new NotFoundException('Contract not found');
     }
 
-    await this.contractRepository.remove(contract);
+    await this.contractRepository.softRemove(contract);
   }
 }

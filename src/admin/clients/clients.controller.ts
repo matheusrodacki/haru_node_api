@@ -39,6 +39,9 @@ export class ClientsController {
     type: ClienteDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ClientsRoles.SUPERADMIN)
   async create(@Body() createClientDto: CreateClientDto): Promise<ClienteDto> {
     return await this.clientsService.create(createClientDto);
   }

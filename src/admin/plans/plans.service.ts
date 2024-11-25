@@ -45,6 +45,6 @@ export class PlansService {
     if (!plan) {
       throw new NotFoundException('Plan not found');
     }
-    await this.planRepository.remove(plan);
+    await this.planRepository.softRemove(plan);
   }
 }

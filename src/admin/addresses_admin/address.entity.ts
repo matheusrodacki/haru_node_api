@@ -1,6 +1,14 @@
 import { AddressType } from 'src/enum/addressType.enum';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { User } from '../users_admin/user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('addresses_admin')
 export class AddressAdmin {
@@ -30,6 +38,10 @@ export class AddressAdmin {
 
   @Column({ type: 'enum', enum: AddressType })
   address_type: AddressType;
+
+  @DeleteDateColumn()
+  @Exclude()
+  deleted_at?: Date;
 
   //Relationships
   @OneToOne(() => User, (user) => user.addressAdmin)

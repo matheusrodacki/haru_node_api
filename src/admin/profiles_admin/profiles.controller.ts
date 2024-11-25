@@ -29,6 +29,7 @@ import { Profile } from './profile.entity';
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
+  @Post()
   @ApiOperation({ summary: 'Create a new profile' })
   @ApiResponse({
     status: 201,
@@ -36,11 +37,14 @@ export class ProfilesController {
     type: Profile,
   })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  @Post()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ClientsRoles.SUPERADMIN)
   async create(@Body() createProfileDto: CreateProfileDto): Promise<Profile> {
     return await this.profilesService.create(createProfileDto);
   }
 
+  @Get()
   @ApiOperation({ summary: 'Retrieve all profiles' })
   @ApiResponse({
     status: 200,
@@ -50,21 +54,21 @@ export class ProfilesController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Get()
   async findAll(): Promise<Profile[]> {
     return await this.profilesService.findAll();
   }
 
+  @Get(':id')
   @ApiOperation({ summary: 'Retrieve a profile by ID' })
   @ApiResponse({ status: 200, description: 'Profile data', type: Profile })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Profile> {
     return await this.profilesService.findOne(id);
   }
 
+  @Put(':id')
   @ApiOperation({ summary: 'Update a profile' })
   @ApiResponse({
     status: 200,
@@ -75,7 +79,6 @@ export class ProfilesController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProfileDto: UpdateProfileDto,
@@ -83,13 +86,13 @@ export class ProfilesController {
     return await this.profilesService.update(id, updateProfileDto);
   }
 
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete a profile' })
   @ApiResponse({ status: 200, description: 'Profile deleted successfully' })
   @ApiResponse({ status: 404, description: 'Profile not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.profilesService.remove(id);
   }

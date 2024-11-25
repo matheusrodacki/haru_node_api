@@ -51,6 +51,7 @@ export class User {
   updated_at: Date;
 
   @DeleteDateColumn()
+  @Exclude()
   deleted_at?: Date;
 
   // Relationships

@@ -26,7 +26,7 @@ export class UserDto {
   role: string;
 
   @ApiProperty({
-    description: 'Client status',
+    description: 'User status',
     enum: Status,
   })
   @IsEnum(Status)

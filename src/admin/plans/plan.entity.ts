@@ -2,6 +2,7 @@ import { Status } from 'src/enum/status.enum';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -36,6 +37,10 @@ export class Plan {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn()
+  @Exclude()
+  deleted_at?: Date;
 
   // Relationships
   @OneToMany(() => Contract, (contract) => contract.plan)

@@ -17,7 +17,7 @@ export class PermissionsService {
   ) {}
 
   async create(createPermissionDto: CreatePermissionDto): Promise<Permission> {
-    const { name } = createPermissionDto;
+    const { name, role } = createPermissionDto;
 
     const existingPermission = await this.permissionsRepository.findOne({
       where: { name },
@@ -26,7 +26,7 @@ export class PermissionsService {
       throw new BadRequestException('Permission name is already in use');
     }
 
-    const permission = this.permissionsRepository.create({ name });
+    const permission = this.permissionsRepository.create({ name, role });
     return this.permissionsRepository.save(permission);
   }
 

@@ -87,6 +87,6 @@ export class ClientsService {
       throw new NotFoundException('Client not found');
     }
 
-    await this.clientRepository.remove(client);
+    await this.clientRepository.softRemove(client);
   }
 }

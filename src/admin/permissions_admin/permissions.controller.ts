@@ -29,6 +29,7 @@ import { Permission } from './permissions.entity';
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
+  @Post()
   @ApiOperation({ summary: 'Create a new permission' })
   @ApiResponse({
     status: 201,
@@ -36,13 +37,16 @@ export class PermissionsController {
     type: Permission,
   })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  @Post()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(ClientsRoles.SUPERADMIN)
   async create(
     @Body() createPermissionDto: CreatePermissionDto,
   ): Promise<Permission> {
     return await this.permissionsService.create(createPermissionDto);
   }
 
+  @Get()
   @ApiOperation({ summary: 'Retrieve all permissions' })
   @ApiResponse({
     status: 200,
@@ -52,11 +56,11 @@ export class PermissionsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Get()
   async findAll(): Promise<Permission[]> {
     return await this.permissionsService.findAll();
   }
 
+  @Get(':id')
   @ApiOperation({ summary: 'Retrieve a permission by ID' })
   @ApiResponse({
     status: 200,
@@ -66,11 +70,11 @@ export class PermissionsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Permission> {
     return await this.permissionsService.findOne(id);
   }
 
+  @Put(':id')
   @ApiOperation({ summary: 'Update a permission' })
   @ApiResponse({
     status: 200,
@@ -81,7 +85,6 @@ export class PermissionsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePermissionDto: UpdatePermissionDto,
@@ -89,13 +92,13 @@ export class PermissionsController {
     return await this.permissionsService.update(id, updatePermissionDto);
   }
 
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete a permission' })
   @ApiResponse({ status: 200, description: 'Permission deleted successfully' })
   @ApiResponse({ status: 404, description: 'Permission not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN)
-  @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.permissionsService.remove(id);
   }

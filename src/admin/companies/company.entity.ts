@@ -1,6 +1,13 @@
 import { Exclude } from 'class-transformer';
 import { Client } from '../clients/client.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity('companies')
 export class Company {
@@ -15,6 +22,10 @@ export class Company {
 
   @Column()
   contact_person: string;
+
+  @DeleteDateColumn()
+  @Exclude()
+  deleted_at?: Date;
 
   // Relationships
   @OneToOne(() => Client, (client) => client.company)

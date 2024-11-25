@@ -46,7 +46,7 @@ export class IndividualsService {
     if (!individual) {
       throw new BadRequestException("Individual doesn't exist");
     }
-    await this.individualRepository.remove(individual);
+    await this.individualRepository.softRemove(individual);
     return `This action removes a #${client_id} individual`;
   }
 }

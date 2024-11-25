@@ -8,6 +8,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 import { Profile } from '../profiles_admin/profile.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('permissions')
 export class Permission {
@@ -27,6 +28,7 @@ export class Permission {
   updated_at: Date;
 
   @DeleteDateColumn()
+  @Exclude()
   deleted_at?: Date;
 
   // Relationships

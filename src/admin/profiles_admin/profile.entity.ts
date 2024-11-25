@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { User } from '../users_admin/user.entity';
 import { Permission } from '../permissions_admin/permissions.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('profiles')
 export class Profile {
@@ -27,6 +28,7 @@ export class Profile {
   updated_at: Date;
 
   @DeleteDateColumn()
+  @Exclude()
   deleted_at?: Date;
 
   @OneToMany(() => User, (user) => user.profile)
