@@ -2,7 +2,7 @@
   "name": "Node.js & MySQL",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/haru_node_api",
+  "workspaceFolder": "/workspaces/micro_saas_nest_api",
   "customizations": {
     "vscode": {
       "extensions": [
