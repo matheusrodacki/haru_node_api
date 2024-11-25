@@ -6,21 +6,10 @@ import {
   Param,
   Delete,
   Put,
-  UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
 
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { ClientsRoles } from 'src/roles/clientsRoles.enum';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AddressesClientService } from './addresses.service';
 import { CreateAddressClientDto } from './dto/create-address.dto';
 import { UpdateAddressClientDto } from './dto/update-address.dto';
@@ -41,9 +30,6 @@ export class AddressesClientController {
     type: CreateAddressClientDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   create(@Body() createAddressClientDto: CreateAddressClientDto) {
     return this.addressesClientService.create(createAddressClientDto);
   }
@@ -56,9 +42,6 @@ export class AddressesClientController {
     description: 'Return all addresses.',
     type: [CreateAddressClientDto],
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   findAll() {
     return this.addressesClientService.findAll();
   }
@@ -76,9 +59,6 @@ export class AddressesClientController {
     type: CreateAddressClientDto,
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.addressesClientService.findOne(id);
   }
@@ -96,9 +76,6 @@ export class AddressesClientController {
     type: UpdateAddressClientDto,
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateAddressClientDto: UpdateAddressClientDto,
@@ -118,9 +95,6 @@ export class AddressesClientController {
     description: 'The address has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.addressesClientService.remove(id);
   }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RolesGuard } from './roles.guard';
+import { PermissionsGuard } from './permissions.gaurd';
 
 @Module({
-  providers: [RolesGuard],
-  exports: [RolesGuard],
+  providers: [PermissionsGuard],
+  exports: [PermissionsGuard],
 })
 export class AuthorizationModule {}

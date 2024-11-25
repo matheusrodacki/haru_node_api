@@ -6,23 +6,12 @@ import {
   Param,
   Delete,
   Put,
-  UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
 import { AddressesAdminService } from './addresses.service';
 import { CreateAddressAdminDto } from './dto/create-address.dto';
 import { UpdateAddressAdminDto } from './dto/update-address.dto';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { ClientsRoles } from 'src/roles/clientsRoles.enum';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Addresses')
 @Controller('addresses')
@@ -38,9 +27,6 @@ export class AddressesAdminController {
     type: CreateAddressAdminDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   create(@Body() createAddressDto: CreateAddressAdminDto) {
     return this.addressesService.create(createAddressDto);
   }
@@ -53,9 +39,6 @@ export class AddressesAdminController {
     description: 'Return all addresses.',
     type: [CreateAddressAdminDto],
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   findAll() {
     return this.addressesService.findAll();
   }
@@ -73,9 +56,6 @@ export class AddressesAdminController {
     type: CreateAddressAdminDto,
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.addressesService.findOne(id);
   }
@@ -93,9 +73,6 @@ export class AddressesAdminController {
     type: UpdateAddressAdminDto,
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateAddressDto: UpdateAddressAdminDto,
@@ -115,9 +92,6 @@ export class AddressesAdminController {
     description: 'The address has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Address not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.addressesService.remove(id);
   }
