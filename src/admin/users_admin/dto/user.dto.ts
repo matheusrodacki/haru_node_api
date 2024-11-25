@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum } from 'class-validator';
 import { AddressAdminDto } from 'src/admin/addresses_admin/dto/adress.dto';
+import { Status } from 'src/enum/status.enum';
 
 export class UserDto {
   @ApiProperty({ description: 'User ID', example: 1 })
@@ -23,8 +25,12 @@ export class UserDto {
   @ApiProperty({ description: 'User role', example: 'user' })
   role: string;
 
-  @ApiProperty({ description: 'User status', example: 1 })
-  status: number;
+  @ApiProperty({
+    description: 'Client status',
+    enum: Status,
+  })
+  @IsEnum(Status)
+  status?: Status;
 
   @ApiProperty({
     description: 'Creation date',

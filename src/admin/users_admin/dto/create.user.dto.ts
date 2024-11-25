@@ -1,8 +1,9 @@
 // create-user.dto.ts
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsString, IsEmail, ValidateNested } from 'class-validator';
+import { IsString, IsEmail, ValidateNested, IsEnum } from 'class-validator';
 import { CreateAddressAdminDto } from 'src/admin/addresses_admin/dto/create-address.dto';
+import { Status } from 'src/enum/status.enum';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'John', description: 'User first name' })
@@ -48,4 +49,11 @@ export class CreateUserDto {
   })
   @IsString()
   role: string;
+
+  @ApiPropertyOptional({
+    description: 'User status',
+    enum: Status,
+  })
+  @IsEnum(Status)
+  status?: Status;
 }

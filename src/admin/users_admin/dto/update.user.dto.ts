@@ -1,6 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { UpdateAddressAdminDto } from 'src/admin/addresses_admin/dto/update-address.dto';
+import { Status } from 'src/enum/status.enum';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -65,8 +66,10 @@ export class UpdateUserDto {
   @IsString()
   role?: string;
 
-  @ApiProperty({ description: 'User status', example: 1, required: false })
-  @IsOptional()
-  @IsNumber()
-  status?: number;
+  @ApiPropertyOptional({
+    description: 'User status',
+    enum: Status,
+  })
+  @IsEnum(Status)
+  status?: Status;
 }
