@@ -1,7 +1,9 @@
+import { Logger } from '@nestjs/common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class DbUpdate1732473091900 implements MigrationInterface {
   name = 'DbUpdate1732473091900';
+  logger = new Logger('Migration DbUpdate2');
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -37,6 +39,9 @@ export class DbUpdate1732473091900 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE \`profiles_permissions_permissions\` ADD CONSTRAINT \`FK_fe6c8d3a6d63b4c2e654f548e36\` FOREIGN KEY (\`permissionsPermissionId\`) REFERENCES \`permissions\`(\`permission_id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
+    this.logger.log(
+      'Profiles, Permissions and ProfilesPermissions tables created!',
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -69,5 +74,8 @@ export class DbUpdate1732473091900 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE \`profiles_permissions_permissions\``);
     await queryRunner.query(`DROP TABLE \`profiles\``);
     await queryRunner.query(`DROP TABLE \`permissions\``);
+    this.logger.log(
+      'Profiles, Permissions and ProfilesPermissions tables dropped!',
+    );
   }
 }

@@ -1,7 +1,9 @@
+import { Logger } from '@nestjs/common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class DbUpdate1732370652275 implements MigrationInterface {
   name = 'DbUpdate1732370652275';
+  logger = new Logger('Migration DbUpdate1');
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -22,6 +24,7 @@ export class DbUpdate1732370652275 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE \`contracts\` ADD CONSTRAINT \`FK_e21b9501a425ebbe1ef5cb36198\` FOREIGN KEY (\`plan_id\`) REFERENCES \`plans\`(\`plan_id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
     );
+    this.logger.log('Contracts and Plans tables created!');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -39,5 +42,6 @@ export class DbUpdate1732370652275 implements MigrationInterface {
     );
     await queryRunner.query(`DROP TABLE \`plans\``);
     await queryRunner.query(`DROP TABLE \`contracts\``);
+    this.logger.log('Contracts and Plans tables dropped!');
   }
 }

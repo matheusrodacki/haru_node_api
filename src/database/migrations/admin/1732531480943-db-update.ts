@@ -1,7 +1,9 @@
+import { Logger } from '@nestjs/common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class DbUpdate1732531480943 implements MigrationInterface {
   name = 'DbUpdate1732531480943';
+  logger = new Logger('Migration DbUpdate3');
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -26,6 +28,7 @@ export class DbUpdate1732531480943 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE \`users\` ADD \`status\` enum ('active', 'inactive', 'archived', 'deleted', 'lead') NOT NULL DEFAULT 'active'`,
     );
+    this.logger.log('Deleted_at columns added!');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -49,5 +52,6 @@ export class DbUpdate1732531480943 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE \`addresses_admin\` DROP COLUMN \`deleted_at\``,
     );
+    this.logger.log('Deleted_at columns removed!');
   }
 }

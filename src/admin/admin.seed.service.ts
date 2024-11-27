@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientsService } from './clients/clients.service';
 import { CreateClientDto } from './clients/dto/create.client.dto';
 import { CreateUserDto } from './users_admin/dto/create.user.dto';
@@ -60,6 +60,10 @@ export class AdminSeedService implements OnModuleInit {
       'plan.delete',
     ];
 
+    const logger = new Logger('AdminSeedService');
+
+    logger.log('Initializing seed data...');
+
     //seed de clientes
     const clients = await this.clientService.findAll();
     if (clients.length === 0) {
@@ -75,6 +79,9 @@ export class AdminSeedService implements OnModuleInit {
           notes: 'Some notes about the client',
         } as CreateClientDto),
       );
+      logger.log('Clients seeded...');
+    } else {
+      logger.log('Clients already seeded...');
     }
 
     //seed de planos
@@ -88,6 +95,9 @@ export class AdminSeedService implements OnModuleInit {
           status: 'active',
         } as CreatePlanDto),
       );
+      logger.log('Plans seeded...');
+    } else {
+      logger.log('Plans already seeded...');
     }
 
     //seed de contratos
@@ -102,16 +112,27 @@ export class AdminSeedService implements OnModuleInit {
           plan_id: plans[0].plan_id,
         } as CreateContractDto),
       );
+      logger.log('Contracts seeded...');
+    } else {
+      logger.log('Contracts already seeded...');
     }
 
     //seed de permissões
+    let createdPermissions = 0;
     for (const role of permissionsList) {
       const permissionExists = await this.permissionsService.findByRole(role);
       if (!permissionExists) {
         this.permissionsService.create({
           role,
         });
+        createdPermissions++;
       }
+    }
+
+    if (createdPermissions > 0) {
+      logger.log(createdPermissions + ' Permissions seeded...');
+    } else {
+      logger.log('Permissions already seeded...');
     }
 
     // Seed de perfis
@@ -125,6 +146,9 @@ export class AdminSeedService implements OnModuleInit {
           permissions: allPermissions.map((permission) => permission.role), // Associa todas as permissões ao perfil Admin
         }),
       );
+      logger.log('Profiles seeded...');
+    } else {
+      logger.log('Profiles already seeded...');
     }
 
     //seed de users
@@ -148,6 +172,11 @@ export class AdminSeedService implements OnModuleInit {
           address_type: 'billing',
         },
       } as CreateUserDto);
+      logger.log('Users seeded...');
+    } else {
+      logger.log('Users already seeded...');
     }
+
+    logger.log('Finished seeding data!');
   }
 }
