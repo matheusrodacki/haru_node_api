@@ -3,7 +3,8 @@ import { DataSource } from 'typeorm';
 
 async function runClientMigrations() {
   const adminConnection = await getAdminConnection();
-  const clients = await adminConnection.query('SELECT id FROM clients');
+  const clients = await adminConnection.query('SELECT client_id FROM clients');
+  clients.push({ client_id: 'template' });
 
   for (const client of clients) {
     const clientConnection = new DataSource({
@@ -12,17 +13,20 @@ async function runClientMigrations() {
       port: +process.env.MYSQL_PORT,
       username: process.env.ADMIN_MYSQL_USER,
       password: process.env.ADMIN_MYSQL_PASSWORD,
-      database: `client_${client.id_client}`, // Usa o ID do cliente para acessar a base correta
-      entities: [__dirname + '/../client/**/*.entity{.ts,.js}'],
+      database: `db_client_${client.client_id}`, // Usa o ID do cliente para acessar a base correta
+      entities: ['src/client/**/*.entity{.ts,.js}'],
+      migrations: ['src/database/migrations/client/*.ts'],
       synchronize: false,
     });
 
     await clientConnection.initialize();
-    console.log(`Running migrations for client ${client.id}...`);
+    console.log(`Running migrations for client ${client.client_id}...`);
     await clientConnection.runMigrations();
-    console.log(`Migrations completed for client ${client.id}`);
+    console.log(`Migrations completed for client ${client.client_id}`);
     await clientConnection.destroy();
+    // exit process
   }
+  process.exit(0);
 }
 
 runClientMigrations()
