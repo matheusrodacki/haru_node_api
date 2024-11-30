@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Client } from './client.entity';
@@ -6,6 +6,11 @@ import { CreateClientDto } from './dto/create.client.dto';
 import { UpdateClientDto } from './dto/update.client.dto';
 import { Company } from '../companies/company.entity';
 import { Individual } from '../individuals/individual.entity';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
+const logger = new Logger('AdminSeedService');
 
 @Injectable()
 export class ClientsService {
@@ -57,25 +62,11 @@ export class ClientsService {
         `CREATE DATABASE \`db_client_${client.client_id}\``,
       );
 
-      // Nome do banco de dados do cliente
-      const clientDatabaseName = `db_client_${client.client_id}`;
+      // Chamar o script externo para rodar migrações
+      const command = `npx ts-node -r tsconfig-paths/register src/scripts/run-client-migrations.ts ${client.client_id}`;
+      const { stdout } = await execAsync(command);
 
-      // Cria um novo DataSource para o banco de dados do cliente
-      const clientDataSource = new DataSource({
-        type: 'mysql', // ou o tipo de banco de dados que você está usando
-        host: process.env.ADMIN_MYSQL_HOST,
-        port: +process.env.MYSQL_PORT,
-        username: process.env.ADMIN_MYSQL_USER,
-        password: process.env.ADMIN_MYSQL_PASSWORD,
-        database: clientDatabaseName,
-        entities: [__dirname + '/../client/**/*.entity{.ts,.js}'],
-        migrations: [__dirname + '/../migrations/client/*{.ts,.js}'],
-        synchronize: false,
-      });
-
-      await clientDataSource.initialize();
-      await clientDataSource.runMigrations();
-      await clientDataSource.destroy();
+      logger.log(`${stdout}`);
 
       return client;
     } catch (error) {

@@ -9,6 +9,12 @@ import { ContractsService } from './contracts/contracts.service';
 import { CreateContractDto } from './contracts/dto/create.contract.dto';
 import { PermissionsService } from './permissions_admin/permissions.service';
 import { ProfilesService } from './profiles_admin/profiles.service';
+import { DataSource } from 'typeorm';
+import { promisify } from 'util';
+import { exec } from 'child_process';
+
+const execAsync = promisify(exec);
+const logger = new Logger('AdminSeedService');
 
 @Injectable()
 export class AdminSeedService implements OnModuleInit {
@@ -19,6 +25,7 @@ export class AdminSeedService implements OnModuleInit {
     private readonly contractsService: ContractsService,
     private readonly permissionsService: PermissionsService,
     private readonly profilesService: ProfilesService,
+    private readonly dataSource: DataSource,
   ) {}
 
   async onModuleInit() {
@@ -60,13 +67,25 @@ export class AdminSeedService implements OnModuleInit {
       'plan.delete',
     ];
 
-    const logger = new Logger('AdminSeedService');
-
     logger.log('Initializing seed data...');
 
     //seed de clientes
     const clients = await this.clientService.findAll();
     if (clients.length === 0) {
+      // create db_client_template
+      const queryRunner = this.dataSource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.query(`CREATE DATABASE \`db_client_template\``);
+
+      // Chamar o script externo para rodar migrações
+      const command = `npx ts-node -r tsconfig-paths/register src/scripts/run-client-migrations.ts template`;
+      const { stdout } = await execAsync(command);
+
+      logger.log(`${stdout}`);
+
+      logger.log('Database db_client_template created...');
+
+      // seed de clientes
       clients.push(
         await this.clientService.create({
           client_type: 'company',
