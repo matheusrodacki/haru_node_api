@@ -1,17 +1,15 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from './user.entity';
-import { Client } from '../clients/client.entity';
-import { ClientsModule } from '../clients/clients.module';
 import { Profile } from '../profiles_admin/profile.entity';
+import { AddressAdmin } from '../addresses_admin/address.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Client, Profile]),
-    forwardRef(() => ClientsModule),
+    TypeOrmModule.forFeature([User, AddressAdmin, Profile]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },

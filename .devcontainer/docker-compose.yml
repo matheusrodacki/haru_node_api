@@ -13,7 +13,7 @@ services:
     environment:
       - ADMIN_MYSQL_HOST=${ADMIN_MYSQL_HOST:-mysql}
       - MYSQL_PORT=3306
-      - ADMIN_MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-db_admin}
+      - ADMIN_MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-root}
       - ADMIN_MYSQL_USER=${ADMIN_MYSQL_USER:-user_admin}
       - ADMIN_MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD:-dbpassword}
       - CLIENT_DB_HOST=${CLIENT_DB_HOST:-mysql}

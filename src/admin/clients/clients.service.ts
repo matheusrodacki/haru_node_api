@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Client } from './client.entity';
 import { CreateClientDto } from './dto/create.client.dto';
 import { UpdateClientDto } from './dto/update.client.dto';
-import { AddressesAdminService } from '../addresses_admin/addresses.service';
 import { Company } from '../companies/company.entity';
 import { Individual } from '../individuals/individual.entity';
+//import { ClientDatabaseService } from 'src/database/services/client-database.service';
 
 @Injectable()
 export class ClientsService {
@@ -17,37 +17,63 @@ export class ClientsService {
     private individualRepository: Repository<Individual>,
     @InjectRepository(Company)
     private companyRepository: Repository<Company>,
-    private addressesService: AddressesAdminService,
+    private readonly dataSource: DataSource,
+    //private readonly clientDatabaseService: ClientDatabaseService,
   ) {}
 
   async create(createClientsDto: CreateClientDto): Promise<Client> {
-    let client = this.clientRepository.create(createClientsDto);
-    client = await this.clientRepository.save(client); // Save the client first
+    // Inicia uma transação
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    // Create individual or company if applicable
-    if (
-      createClientsDto.client_type === 'individual' &&
-      createClientsDto.individual
-    ) {
-      const individual = this.individualRepository.create({
-        ...createClientsDto.individual,
-        client,
-      });
-      await this.individualRepository.save(individual);
-      client.individual = individual;
-    } else if (
-      createClientsDto.client_type === 'company' &&
-      createClientsDto.company
-    ) {
-      const company = this.companyRepository.create({
-        ...createClientsDto.company,
-        client,
-      });
-      await this.companyRepository.save(company);
-      client.company = company;
+    try {
+      let client = this.clientRepository.create(createClientsDto);
+      client = await this.clientRepository.save(client); // Save the client first
+
+      // Create individual or company if applicable
+      if (
+        createClientsDto.client_type === 'individual' &&
+        createClientsDto.individual
+      ) {
+        const individual = this.individualRepository.create({
+          ...createClientsDto.individual,
+          client,
+        });
+        await this.individualRepository.save(individual);
+        client.individual = individual;
+      } else if (
+        createClientsDto.client_type === 'company' &&
+        createClientsDto.company
+      ) {
+        const company = this.companyRepository.create({
+          ...createClientsDto.company,
+          client,
+        });
+        await this.companyRepository.save(company);
+        client.company = company;
+      }
+
+      // **Criar o banco de dados do cliente**
+      await queryRunner.query(
+        `CREATE DATABASE \`db_client_${client.client_id}\``,
+      );
+
+      // // **Criar o banco de dados do cliente e executar migrations**
+      // await this.clientDatabaseService.createClientDatabase(client.client_id);
+      //
+      // // Confirma a transação
+      // await queryRunner.commitTransaction();
+
+      return client;
+    } catch (error) {
+      // Reverte a transação em caso de erro
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      // Libera o queryRunner
+      await queryRunner.release();
     }
-
-    return client;
   }
 
   async findAll(): Promise<Client[]> {
