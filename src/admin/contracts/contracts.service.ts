@@ -48,6 +48,12 @@ export class ContractsService {
     });
   }
 
+  async findByClientId(client_id: number): Promise<Contract[]> {
+    return this.contractRepository.find({
+      where: { client_id },
+    });
+  }
+
   async update(
     contract_id: number,
     updateContractDto: UpdateContractDto,
@@ -70,6 +76,6 @@ export class ContractsService {
       throw new NotFoundException('Contract not found');
     }
 
-    await this.contractRepository.remove(contract);
+    await this.contractRepository.softRemove(contract);
   }
 }

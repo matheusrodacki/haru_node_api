@@ -27,8 +27,8 @@
     "migration:revert:admin": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/database/ormconfig/ormconfig.admin.ts",
     "migration:create:client": "typeorm migration:create ./src/migrations/client/db-update",
     "migration:show:client": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:show -d ./src/database/ormconfig/ormconfig.client.ts",
-    "migration:generate:client": "npx ts-node src/scripts/run-client-migrations.ts",
-    "migration:run:client": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/database/ormconfig/ormconfig.client.ts",
+    "migration:generate:client": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate ./src/database/migrations/client/db-update/ -d ./src/database/ormconfig/ormconfig.client.ts",
+    "migration:run:client": "npx ts-node -r tsconfig-paths/register src/scripts/run-client-migrations.ts all",
     "migration:revert:client": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/database/ormconfig/ormconfig.client.ts"
   },
   "dependencies": {

@@ -1,6 +1,9 @@
+import { Logger } from '@nestjs/common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class Admin1731963129140 implements MigrationInterface {
+  logger = new Logger('Migration Admin');
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
         CREATE TABLE IF NOT EXISTS clients (
@@ -13,6 +16,7 @@ export class Admin1731963129140 implements MigrationInterface {
           PRIMARY KEY (client_id)
         ); 
     `);
+    this.logger.log('Clients tables created!');
 
     queryRunner.query(`
         CREATE TABLE IF NOT EXISTS companies (
@@ -24,6 +28,7 @@ export class Admin1731963129140 implements MigrationInterface {
           CONSTRAINT FK_e3c8ca5369ea8f90fb94baa4ed9 FOREIGN KEY (client_id) REFERENCES clients (client_id) ON DELETE NO ACTION ON UPDATE NO ACTION
         ); 
     `);
+    this.logger.log('Companies tables created!');
 
     queryRunner.query(`
         CREATE TABLE IF NOT EXISTS individuals (
@@ -35,6 +40,7 @@ export class Admin1731963129140 implements MigrationInterface {
           CONSTRAINT FK_c66f54c6e3f7b73b394ea36d81a FOREIGN KEY (client_id) REFERENCES clients (client_id) ON DELETE NO ACTION ON UPDATE NO ACTION
         ); 
     `);
+    this.logger.log('Individuals tables created!');
 
     queryRunner.query(`
         CREATE TABLE IF NOT EXISTS users (
@@ -45,12 +51,13 @@ export class Admin1731963129140 implements MigrationInterface {
           passwordHash varchar(255) NOT NULL,
           phone varchar(255) DEFAULT NULL,
           role varchar(255) NOT NULL,
-          status int(11) NOT NULL DEFAULT '1',
+          status enum('active','inactive','archived','deleted','lead') NOT NULL DEFAULT 'active',
           created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
           updated_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
           PRIMARY KEY (user_id)
         ); 
     `);
+    this.logger.log('Users tables created!');
 
     queryRunner.query(`
       CREATE TABLE IF NOT EXISTS addresses_admin (
@@ -67,6 +74,7 @@ export class Admin1731963129140 implements MigrationInterface {
         CONSTRAINT FK_aa727779812d993e6933953da52 FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE NO ACTION ON UPDATE NO ACTION
       ); 
   `);
+    this.logger.log('Addresses tables created!');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -77,5 +85,6 @@ export class Admin1731963129140 implements MigrationInterface {
         DROP TABLE addresses;
         DROP TABLE clients;
     `);
+    this.logger.log('Tables dropped!');
   }
 }

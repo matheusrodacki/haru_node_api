@@ -48,7 +48,7 @@ export class CompaniesService {
     if (!company) {
       throw new BadRequestException("Company doesn't exist");
     }
-    await this.companyRepository.remove(company);
+    await this.companyRepository.softRemove(company);
     return `This action removes a #${client_id} company`;
   }
 }

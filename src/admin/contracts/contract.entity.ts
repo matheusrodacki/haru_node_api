@@ -1,5 +1,6 @@
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -8,6 +9,7 @@ import {
 import { Client } from '../clients/client.entity';
 import { Status } from 'src/enum/status.enum';
 import { Plan } from '../plans/plan.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('contracts')
 export class Contract {
@@ -23,7 +25,7 @@ export class Contract {
   @Column({
     type: 'enum',
     enum: Status,
-    default: 'Active',
+    default: Status.ACTIVE,
   })
   status: Status;
 
@@ -36,6 +38,10 @@ export class Contract {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @DeleteDateColumn()
+  @Exclude()
+  deleted_at?: Date;
 
   // Colunas de Chave Estrangeira
   @Column({ name: 'client_id' })

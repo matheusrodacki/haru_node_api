@@ -51,6 +51,6 @@ export class AddressesClientService {
     if (!addressClient) {
       throw new NotFoundException(`Address with ID ${address_id} not found`);
     }
-    await this.addressRepository.remove(addressClient);
+    await this.addressRepository.softRemove(addressClient);
   }
 }

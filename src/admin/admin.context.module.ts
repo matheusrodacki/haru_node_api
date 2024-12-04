@@ -8,9 +8,11 @@ import { UsersModule } from './users_admin/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminDatabaseProvider } from 'src/database/providers/admin-database.provider';
-import { AdminSeedService } from './admin.seed.service';
 import { PlansModule } from './plans/plans.module';
 import { ContractsModule } from './contracts/contracts.module';
+import { ProfilesModule } from './profiles_admin/profile.module';
+import { PermissionsModule } from './permissions_admin/permissions.module';
+import { AdminSeedService } from './admin.seed.service';
 
 @Module({
   imports: [
@@ -26,7 +28,6 @@ import { ContractsModule } from './contracts/contracts.module';
         };
       },
     }),
-    DatabaseModule,
     AddressesAdminModule,
     ClientsModule,
     CompaniesModule,
@@ -34,8 +35,10 @@ import { ContractsModule } from './contracts/contracts.module';
     PlansModule,
     ContractsModule,
     UsersModule,
+    ProfilesModule,
+    PermissionsModule,
+    DatabaseModule,
   ],
-  controllers: [], // Defina aqui os controllers do admin
   providers: [AdminSeedService], // Defina aqui os serviços do admin
 })
 export class AdminContextModule {}

@@ -21,12 +21,13 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ContractDto } from './dto/contract.dto';
 import { CreateContractDto } from './dto/create.contract.dto';
 import { UpdateContractDto } from './dto/update.contract.dto';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { ClientsRoles } from 'src/roles/clientsRoles.enum';
-import { Roles } from 'src/roles/roles.decorator';
+import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Contracts')
 @Controller('contracts')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class ContractsController {
   constructor(private readonly contractsService: ContractsService) {}
 
@@ -39,9 +40,7 @@ export class ContractsController {
     type: ContractDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('contract.create')
   async create(
     @Body() createContractDto: CreateContractDto,
   ): Promise<ContractDto> {
@@ -56,11 +55,23 @@ export class ContractsController {
     description: 'Return all contracts.',
     type: ContractDto,
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('contract.read')
   async findAll(): Promise<ContractDto[]> {
     return await this.contractsService.findAll();
+  }
+
+  // Find contracts by client ID
+  @Get('client/:client_id')
+  @ApiOperation({ summary: 'Get contracts by client ID' })
+  @ApiParam({ name: 'client_id', type: Number, description: 'Client ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of contracts',
+    type: [ContractDto],
+  })
+  @Permissions('contract.read')
+  async findByClientId(@Param('client_id', ParseIntPipe) client_id: number) {
+    return this.contractsService.findByClientId(client_id);
   }
 
   // Find one contract
@@ -75,9 +86,7 @@ export class ContractsController {
     description: 'Return a contract by ID.',
     type: [ContractDto],
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('contract.read')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<ContractDto> {
     return await this.contractsService.findOne(id);
   }
@@ -95,9 +104,7 @@ export class ContractsController {
     type: ContractDto,
   })
   @ApiResponse({ status: 404, description: 'Contract not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
+  @Permissions('contract.update')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateContractDto: UpdateContractDto,
@@ -117,9 +124,7 @@ export class ContractsController {
     description: 'The contract has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Contract not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('contract.delete')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.contractsService.remove(id);
   }

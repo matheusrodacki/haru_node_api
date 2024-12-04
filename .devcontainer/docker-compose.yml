@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspaces/_node_api:cached
+      - ..:/workspaces/micro_saas_nest_api:cached
     command: 'sleep infinity'
     ports:
       - '8000:8000'
@@ -14,13 +14,9 @@ services:
       - ADMIN_MYSQL_HOST=${ADMIN_MYSQL_HOST:-mysql}
       - MYSQL_PORT=3306
       - ADMIN_MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE:-db_admin}
-      - ADMIN_MYSQL_USER=${ADMIN_MYSQL_USER:-user_admin}
+      - ADMIN_MYSQL_USER=${ADMIN_MYSQL_USER:-root}
       - ADMIN_MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD:-dbpassword}
-      - CLIENT_DB_HOST=${CLIENT_DB_HOST:-mysql}
-      - CLIENT_DB_PORT=3306
-      - CLIENT_DB_DATABASE=${CLIENT_DB_DATABASE:-_client_db}
-      - CLIENT_DB_USER=${CLIENT_DB_USER:-user_admin}
-      - CLIENT_DB_PASSWORD=${CLIENT_DB_PASSWORD:-dbpassword}
+      - CLIENT_DB_TEMPLATE=${CLIENT_DB_TEMPLATE:-db_client_template}
       - NODE_ENV=${NODE_ENV:-development}
       - JWT_SECRET=${JWT_SECRET:-_jwt_secret}
     depends_on:

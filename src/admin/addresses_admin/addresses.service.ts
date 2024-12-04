@@ -60,6 +60,6 @@ export class AddressesAdminService {
     if (!address) {
       throw new NotFoundException(`Address with ID ${user_id} not found`);
     }
-    await this.addressRepository.remove(address);
+    await this.addressRepository.softRemove(address);
   }
 }

@@ -9,8 +9,6 @@ import {
   ParseIntPipe,
   Put,
   Delete,
-  Req,
-  ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -23,16 +21,18 @@ import {
 } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { ClientsRoles } from 'src/roles/clientsRoles.enum';
+import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Users')
 @Controller('users')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   //Create a new user
+  @Post()
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({
     status: 201,
@@ -40,41 +40,31 @@ export class UsersController {
     type: UserDto,
   })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  @Post()
+  @Permissions('user.create')
   async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
     return await this.usersService.create(createUserDto);
   }
 
   //Find all users
+  @Get()
   @ApiOperation({ summary: 'Retrieve all users' })
   @ApiResponse({ status: 200, description: 'List of users', type: [UserDto] })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN, ClientsRoles.ADMIN, ClientsRoles.OPERATOR)
-  @Get()
-  async findAll(@Req() req: any): Promise<UserDto[]> {
-    const user = req.user;
-    if (user.role === ClientsRoles.SUPERADMIN) {
-      return await this.usersService.findAll();
-    } else if (user.role === ClientsRoles.OPERATOR) {
-      return [await this.usersService.findOne(user.user_id)];
-    } else {
-      throw new ForbiddenException('Access denied');
-    }
+  @Permissions('user.read')
+  async findAll(): Promise<UserDto[]> {
+    return await this.usersService.findAll();
   }
 
   //Find one user
+  @Get(':id')
   @ApiOperation({ summary: 'Retrieve a user by ID' })
   @ApiResponse({ status: 200, description: 'User data', type: UserDto })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.OPERATOR)
-  @Get(':id')
+  @Permissions('user.read')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserDto> {
     return await this.usersService.findOne(id);
   }
 
   //Update a user
+  @Put(':id')
   @ApiOperation({ summary: 'Update a user' })
   @ApiResponse({
     status: 200,
@@ -82,10 +72,7 @@ export class UsersController {
     type: UserDto,
   })
   @ApiResponse({ status: 404, description: 'User not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.OPERATOR)
-  @Put(':id')
+  @Permissions('user.update')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -95,13 +82,11 @@ export class UsersController {
   }
 
   //Delete a user
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete a user' })
   @ApiResponse({ status: 200, description: 'User deleted successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
-  @Delete(':id')
+  @Permissions('user.delete')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.usersService.remove(id);
   }

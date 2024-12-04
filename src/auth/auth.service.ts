@@ -21,10 +21,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    const permissions = user.profile.permissions.map((perm) => perm.role);
+
     const payload = {
       userId: user.user_id,
       email: user.email,
-      role: user.role,
+      permissions,
     };
     const accessToken = this.jwtService.sign(payload);
     return { accessToken };

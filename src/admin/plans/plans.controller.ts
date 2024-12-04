@@ -17,16 +17,17 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { ClientsRoles } from 'src/roles/clientsRoles.enum';
-import { Roles } from 'src/roles/roles.decorator';
 import { PlanDto } from './dto/plan.dto';
 import { CreatePlanDto } from './dto/create.plan.dto';
 import { UpdatePlanDto } from './dto/update.plan.dto';
 import { PlansService } from './plans.service';
+import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Plans')
 @Controller('plans')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class PlansController {
   constructor(private readonly plansService: PlansService) {}
 
@@ -39,9 +40,7 @@ export class PlansController {
     type: PlanDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('plan.create')
   async create(@Body() createPlanDto: CreatePlanDto): Promise<PlanDto> {
     return await this.plansService.create(createPlanDto);
   }
@@ -54,9 +53,7 @@ export class PlansController {
     description: 'Return all plans.',
     type: PlanDto,
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('plan.read')
   async findAll(): Promise<PlanDto[]> {
     return await this.plansService.findAll();
   }
@@ -73,9 +70,7 @@ export class PlansController {
     description: 'Return a plan by ID.',
     type: [PlanDto],
   })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('plan.read')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<PlanDto> {
     return await this.plansService.findOne(id);
   }
@@ -93,9 +88,7 @@ export class PlansController {
     type: PlanDto,
   })
   @ApiResponse({ status: 404, description: 'Plan not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.ADMIN)
+  @Permissions('plan.update')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePlanDto: UpdatePlanDto,
@@ -115,9 +108,7 @@ export class PlansController {
     description: 'The plan has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Plan not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ClientsRoles.SUPERADMIN)
+  @Permissions('plan.delete')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.plansService.remove(id);
   }
