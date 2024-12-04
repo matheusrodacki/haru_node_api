@@ -69,12 +69,14 @@ export class AdminSeedService implements OnModuleInit {
 
     logger.log('Initializing seed data...');
 
-    //seed de clientes
-    const clients = await this.clientService.findAll();
-    if (clients.length === 0) {
-      // create db_client_template
-      const queryRunner = this.dataSource.createQueryRunner();
-      await queryRunner.connect();
+    // create db_client_template
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+
+    //verificar se o banco existe
+    const dbExists = await queryRunner.hasDatabase('db_client_template');
+
+    if (!dbExists) {
       await queryRunner.query(`CREATE DATABASE \`db_client_template\``);
 
       // Chamar o script externo para rodar migrações
@@ -84,7 +86,29 @@ export class AdminSeedService implements OnModuleInit {
       logger.log(`${stdout}`);
 
       logger.log('Database db_client_template created...');
+    } else {
+      logger.log('Database db_client_template already exists...');
 
+      //verificar se as migrações já foram rodadas
+      const migrations = await queryRunner.query(
+        `SELECT * FROM db_client_template.migrations`,
+      );
+      if (migrations.length === 0) {
+        // Chamar o script externo para rodar migrações
+        const command = `npx ts-node -r tsconfig-paths/register src/scripts/run-client-migrations.ts template`;
+        const { stdout } = await execAsync(command);
+
+        logger.log(`${stdout}`);
+
+        logger.log('Database db_client_template migrated...');
+      } else {
+        logger.log('Database db_client_template already migrated...');
+      }
+    }
+
+    //seed de clientes
+    const clients = await this.clientService.findAll();
+    if (clients.length === 0) {
       // seed de clientes
       clients.push(
         await this.clientService.create({
