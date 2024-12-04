@@ -1,7 +1,6 @@
 services:
   app:
-    build:
-      dockerfile: ghcr.io/matheusrodacki/micro_saas_nest_api:main
+    image: ghcr.io/matheusrodacki/micro_saas_nest_api:main
     ports:
       - '8001:8000'
     environment:
