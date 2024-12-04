@@ -8,7 +8,8 @@ services:
     ports:
       - '8001:8000'
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+      - MYSQL_PORT=${MYSQL_PORT}
       - ADMIN_MYSQL_HOST=${ADMIN_MYSQL_HOST}
       - ADMIN_MYSQL_DATABASE=${ADMIN_MYSQL_DATABASE}
       - ADMIN_MYSQL_USER=${ADMIN_MYSQL_USER}
