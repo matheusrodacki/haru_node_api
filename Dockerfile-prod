@@ -10,7 +10,7 @@ COPY . .
 RUN npm install 
 
 # Compila o projeto
-RUN npm build
+RUN npm run build
 
 # Define o comando padrão
 CMD ["npm", "start:prod"]
