@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-prod
+    volumes:
+      - .:/app:cached
     ports:
       - '8001:8000'
     environment:
@@ -13,4 +15,3 @@ services:
       - ADMIN_MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD}
       - CLIENT_DB_TEMPLATE=${CLIENT_DB_TEMPLATE}
       - JWT_SECRET=${JWT_SECRET}
-    restart: always
