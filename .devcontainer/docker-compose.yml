@@ -7,7 +7,7 @@ services:
       - ..:/workspaces/micro_saas_nest_api:cached
     command: 'sleep infinity'
     ports:
-      - '8000:8000'
+      - '8001:8000'
     # env_file:
     #   - ../.env
     environment:
