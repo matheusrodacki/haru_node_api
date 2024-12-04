@@ -78,18 +78,23 @@ export class AdminSeedService implements OnModuleInit {
 
     if (!dbExists) {
       await queryRunner.query(`CREATE DATABASE \`db_client_template\``);
-
-      // Chamar o script externo para rodar migrações
-      const command = `npx ts-node -r tsconfig-paths/register src/scripts/run-client-migrations.ts template`;
-      const { stdout } = await execAsync(command);
-
-      logger.log(`${stdout}`);
-
       logger.log('Database db_client_template created...');
     } else {
       logger.log('Database db_client_template already exists...');
+    }
 
-      //verificar se as migrações já foram rodadas
+    // Verificar se a tabela migrations existe
+    const tableExists = await queryRunner.hasTable(
+      'db_client_template.migrations',
+    );
+    if (!tableExists) {
+      // Chamar o script externo para rodar migrações
+      const command = `npx ts-node -r tsconfig-paths/register src/scripts/run-client-migrations.ts template`;
+      const { stdout } = await execAsync(command);
+      logger.log(`${stdout}`);
+      logger.log('Database db_client_template migrated...');
+    } else {
+      // Verificar se as migrações já foram rodadas
       const migrations = await queryRunner.query(
         `SELECT * FROM db_client_template.migrations`,
       );
@@ -97,9 +102,7 @@ export class AdminSeedService implements OnModuleInit {
         // Chamar o script externo para rodar migrações
         const command = `npx ts-node -r tsconfig-paths/register src/scripts/run-client-migrations.ts template`;
         const { stdout } = await execAsync(command);
-
         logger.log(`${stdout}`);
-
         logger.log('Database db_client_template migrated...');
       } else {
         logger.log('Database db_client_template already migrated...');
