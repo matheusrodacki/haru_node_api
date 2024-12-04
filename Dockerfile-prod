@@ -13,4 +13,4 @@ RUN npm install
 RUN npm run build
 
 # Define o comando padrão
-CMD ["npm", "start:prod"]
+CMD ["npm", "run start:prod"]
