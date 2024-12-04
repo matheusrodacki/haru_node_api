@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . .
 
 # Instala as dependências do projeto
-RUN npm install 
+RUN npm install --production
 
 # Compila o projeto
 RUN npm run build
