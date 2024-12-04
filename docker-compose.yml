@@ -12,4 +12,3 @@ services:
       - ADMIN_MYSQL_PASSWORD=${ADMIN_MYSQL_PASSWORD}
       - CLIENT_DB_TEMPLATE=${CLIENT_DB_TEMPLATE}
       - JWT_SECRET=${JWT_SECRET}
-    restart: always
