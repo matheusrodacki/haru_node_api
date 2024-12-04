@@ -1,0 +1,18 @@
+name: Redeploy on Successful Build
+
+on:
+  workflow_run:
+    workflows:
+      - 'Docker Image Publish'  # Substitua pelo nome exato do seu workflow de build
+    types:
+      - completed
+
+jobs:
+  redeploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Coodify Redeploy
+        run: |
+          curl -X POST http://191.101.78.175:8000/api/v1/deploy?uuid=xk040wcwk8g8g0oog8kck8kc&force=false \
+          -H "Content-Type: application/json" \
