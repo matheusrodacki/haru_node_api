@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspaces/micro_saas_nest_api:cached
     command: 'sleep infinity'
