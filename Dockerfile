@@ -1,25 +1,17 @@
 # Etapa 1: Build
-FROM node:23 AS builder
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-RUN npm run build
-
-# Etapa 2: Produção
 FROM node:23-alpine
 
+# Defina o diretório de trabalho
 WORKDIR /app
 
-COPY --from=builder /app/dist ./dist
+# Copia os arquivos do projeto
+COPY . .
 
-COPY --from=builder /app/package*.json ./
+# Instala as dependências do projeto
+RUN npm install
 
-RUN npm install --only=production
+# Compila o projeto
+RUN npm run build
 
-CMD ["node", "dist/src/main.js"]
+# Define o comando padrão
+CMD ["npm", "run", "start:prod"]
