@@ -24,6 +24,8 @@ COPY --from=builder /app/src/client/**/*.entity{.ts,.js} ./src/client/
 
 COPY --from=builder /app/src/database/migrations/client/*.ts ./src/database/migrations/client/
 
+COPY --from=builder /app/dist ./dist
+
 RUN npm install --only=production
 
-CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/src/main.js"]
