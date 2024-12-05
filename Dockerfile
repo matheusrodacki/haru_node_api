@@ -20,11 +20,7 @@ COPY --from=builder /app/dist ./dist
 
 COPY --from=builder /app/package*.json ./
 
-COPY --from=builder /app/src/scripts/run-client-migrations.ts ./src/scripts/run-client-migrations.ts
-
-COPY --from=builder /app/src/client/**/*.entity{.ts,.js} ./src/client/
-
-COPY --from=builder /app/src/database/migrations/client/*.ts ./src/database/migrations/client/
+COPY --from=builder /app/src/. ./src/.
 
 RUN npm install --only=production
 
