@@ -21,7 +21,7 @@ import { PlanDto } from './dto/plan.dto';
 import { CreatePlanDto } from './dto/create.plan.dto';
 import { UpdatePlanDto } from './dto/update.plan.dto';
 import { PlansService } from './plans.service';
-import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { PermissionsGuard } from 'src/roles/permissions.guard';
 import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Plans')

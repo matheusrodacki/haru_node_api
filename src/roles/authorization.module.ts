@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PermissionsGuard } from './permissions.gaurd';
+import { PermissionsGuard } from './permissions.guard';
 
 @Module({
   providers: [PermissionsGuard],
