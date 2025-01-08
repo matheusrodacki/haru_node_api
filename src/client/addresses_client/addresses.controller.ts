@@ -20,8 +20,8 @@ import { AddressesClientService } from './addresses.service';
 import { CreateAddressClientDto } from './dto/create-address.dto';
 import { UpdateAddressClientDto } from './dto/update-address.dto';
 
-@ApiTags('Addresses - Client')
-@Controller('addressesClient')
+@ApiTags('Addresses')
+@Controller('addresses')
 @ApiBearerAuth()
 export class AddressesClientController {
   constructor(

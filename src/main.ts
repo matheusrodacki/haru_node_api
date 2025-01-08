@@ -47,6 +47,7 @@ async function bootstrap() {
       PermissionsModule,
     ],
   });
+
   SwaggerModule.setup('api-admin', app, adminDocument);
 
   // Configuração básica do Swagger client
@@ -60,6 +61,7 @@ async function bootstrap() {
   const clientDocument = SwaggerModule.createDocument(app, clientConfig, {
     include: [AddressesClientModule],
   });
+
   SwaggerModule.setup('api-client', app, clientDocument);
 
   //Enable CORS
