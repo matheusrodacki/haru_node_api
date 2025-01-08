@@ -17,4 +17,4 @@ ENV PATH=$PATH:/home/node/.npm-global/bin
 WORKDIR /workspaces/micro_saas_nest_api
 
 # Opcional: instale dependências globais aqui, se necessário
-RUN npm install -g pnpm typescript @nestjs/cli
+RUN npm install -g typescript @nestjs/cli
