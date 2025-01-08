@@ -9,6 +9,7 @@ import { PlansModule } from './admin/plans/plans.module';
 import { ContractsModule } from './admin/contracts/contracts.module';
 import { ProfilesModule } from './admin/profiles_admin/profile.module';
 import { PermissionsModule } from './admin/permissions_admin/permissions.module';
+import { AddressesClientModule } from './client/addresses_client/addresses.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -27,7 +28,7 @@ async function bootstrap() {
   //app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-  // Configuração básica do Swagger
+  // Configuração básica do Swagger admin
   const adminConfig = new DocumentBuilder()
     .setTitle('Admin API')
     .setDescription('Admin API Documentation')
@@ -48,8 +49,20 @@ async function bootstrap() {
   });
   SwaggerModule.setup('api-admin', app, adminDocument);
 
-  //Enable CORS
+  // Configuração básica do Swagger client
+  const clientConfig = new DocumentBuilder()
+    .setTitle('Client API')
+    .setDescription('Client API Documentation')
+    .setVersion('1.0')
+    .addBearerAuth() // Se estiver usando autenticação JWT
+    .build();
 
+  const clientDocument = SwaggerModule.createDocument(app, clientConfig, {
+    include: [AddressesClientModule],
+  });
+  SwaggerModule.setup('api-client', app, clientDocument);
+
+  //Enable CORS
   app.enableCors();
 
   await app.listen(process.env.PORT ?? 8000);
