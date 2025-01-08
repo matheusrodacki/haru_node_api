@@ -21,8 +21,10 @@ export class AddressesClientService {
   }
 
   // Get all addresses
-  async findAll(): Promise<AddressClient[]> {
-    return await this.addressRepository.find();
+  async findAll(req: Request): Promise<AddressClient[]> {
+    const connection = req['clientConnection'];
+    const addressRepository = connection.getRepository(AddressClient);
+    return await addressRepository.find();
   }
 
   // Get an address by ID

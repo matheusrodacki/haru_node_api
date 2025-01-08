@@ -67,7 +67,7 @@ export class AdminSeedService implements OnModuleInit {
       'plan.delete',
     ];
 
-    logger.log('Initializing seed data...');
+    logger.log('Initializing admin seed data...');
 
     // create db_client_template
     const queryRunner = this.dataSource.createQueryRunner();
@@ -223,6 +223,6 @@ export class AdminSeedService implements OnModuleInit {
       logger.log('Users already seeded...');
     }
 
-    logger.log('Finished seeding data!');
+    logger.log('Finished admin seeding data!');
   }
 }

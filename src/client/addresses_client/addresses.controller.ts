@@ -7,10 +7,12 @@ import {
   Delete,
   Put,
   ParseIntPipe,
+  Req,
 } from '@nestjs/common';
 
 import {
   ApiBearerAuth,
+  ApiHeader,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -21,7 +23,12 @@ import { CreateAddressClientDto } from './dto/create-address.dto';
 import { UpdateAddressClientDto } from './dto/update-address.dto';
 
 @ApiTags('Addresses')
-@Controller('addresses')
+@Controller('client/addresses')
+@ApiHeader({
+  name: 'x-client-id',
+  description: 'Client ID',
+  required: true,
+})
 @ApiBearerAuth()
 export class AddressesClientController {
   constructor(
@@ -49,8 +56,8 @@ export class AddressesClientController {
     description: 'Return all addresses.',
     type: [CreateAddressClientDto],
   })
-  findAll() {
-    return this.addressesClientService.findAll();
+  findAll(@Req() req: Request) {
+    return this.addressesClientService.findAll(req);
   }
 
   // Get an address by ID
