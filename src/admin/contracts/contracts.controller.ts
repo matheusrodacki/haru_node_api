@@ -21,7 +21,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ContractDto } from './dto/contract.dto';
 import { CreateContractDto } from './dto/create.contract.dto';
 import { UpdateContractDto } from './dto/update.contract.dto';
-import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { PermissionsGuard } from 'src/roles/permissions.guard';
 import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Contracts')

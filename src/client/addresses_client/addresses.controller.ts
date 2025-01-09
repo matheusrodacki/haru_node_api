@@ -7,15 +7,29 @@ import {
   Delete,
   Put,
   ParseIntPipe,
+  Req,
 } from '@nestjs/common';
 
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AddressesClientService } from './addresses.service';
 import { CreateAddressClientDto } from './dto/create-address.dto';
 import { UpdateAddressClientDto } from './dto/update-address.dto';
 
-@ApiTags('Addresses - Client')
-@Controller('addressesClient')
+@ApiTags('Addresses')
+@Controller('client/addresses')
+@ApiHeader({
+  name: 'x-client-id',
+  description: 'Client ID',
+  required: true,
+})
+@ApiBearerAuth()
 export class AddressesClientController {
   constructor(
     private readonly addressesClientService: AddressesClientService,
@@ -30,8 +44,15 @@ export class AddressesClientController {
     type: CreateAddressClientDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  create(@Body() createAddressClientDto: CreateAddressClientDto) {
-    return this.addressesClientService.create(createAddressClientDto);
+  create(
+    @Body() createAddressClientDto: CreateAddressClientDto,
+    @Req() req: Request,
+  ) {
+    const connection = req['clientConnection'];
+    return this.addressesClientService.create(
+      createAddressClientDto,
+      connection,
+    );
   }
 
   // Get all addresses
@@ -42,8 +63,9 @@ export class AddressesClientController {
     description: 'Return all addresses.',
     type: [CreateAddressClientDto],
   })
-  findAll() {
-    return this.addressesClientService.findAll();
+  findAll(@Req() req: Request) {
+    const connection = req['clientConnection'];
+    return this.addressesClientService.findAll(connection);
   }
 
   // Get an address by ID

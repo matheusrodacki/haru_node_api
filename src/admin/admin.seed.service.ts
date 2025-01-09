@@ -1,14 +1,14 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientsService } from './clients/clients.service';
 import { CreateClientDto } from './clients/dto/create.client.dto';
-import { CreateUserDto } from './users_admin/dto/create.user.dto';
-import { UsersService } from './users_admin/users.service';
+import { CreateUserDto } from './users/dto/create.user.dto';
+import { UsersService } from './users/users.service';
 import { PlansService } from './plans/plans.service';
 import { CreatePlanDto } from './plans/dto/create.plan.dto';
 import { ContractsService } from './contracts/contracts.service';
 import { CreateContractDto } from './contracts/dto/create.contract.dto';
-import { PermissionsService } from './permissions_admin/permissions.service';
-import { ProfilesService } from './profiles_admin/profiles.service';
+import { PermissionsService } from './permissions/permissions.service';
+import { ProfilesService } from './profiles/profiles.service';
 import { DataSource } from 'typeorm';
 import { promisify } from 'util';
 import { exec } from 'child_process';
@@ -67,7 +67,7 @@ export class AdminSeedService implements OnModuleInit {
       'plan.delete',
     ];
 
-    logger.log('Initializing seed data...');
+    logger.log('Initializing admin seed data...');
 
     // create db_client_template
     const queryRunner = this.dataSource.createQueryRunner();
@@ -223,6 +223,6 @@ export class AdminSeedService implements OnModuleInit {
       logger.log('Users already seeded...');
     }
 
-    logger.log('Finished seeding data!');
+    logger.log('Finished admin seeding data!');
   }
 }

@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfilesService } from './profiles.service';
 import { ProfilesController } from './profiles.controller';
 import { Profile } from './profile.entity';
-import { Permission } from '../permissions_admin/permissions.entity';
+import { Permission } from '../permissions/permissions.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Profile, Permission])],

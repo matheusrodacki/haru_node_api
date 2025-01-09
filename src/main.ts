@@ -3,12 +3,12 @@ import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './admin/users_admin/users.module';
+import { UsersModule } from './admin/users/users.module';
 import { ClientsModule } from './admin/clients/clients.module';
 import { PlansModule } from './admin/plans/plans.module';
 import { ContractsModule } from './admin/contracts/contracts.module';
-import { ProfilesModule } from './admin/profiles_admin/profile.module';
-import { PermissionsModule } from './admin/permissions_admin/permissions.module';
+import { ProfilesModule } from './admin/profiles/profile.module';
+import { PermissionsModule } from './admin/permissions/permissions.module';
 import { AddressesClientModule } from './client/addresses_client/addresses.module';
 
 async function bootstrap() {
@@ -47,6 +47,7 @@ async function bootstrap() {
       PermissionsModule,
     ],
   });
+
   SwaggerModule.setup('api-admin', app, adminDocument);
 
   // Configuração básica do Swagger client
@@ -60,6 +61,7 @@ async function bootstrap() {
   const clientDocument = SwaggerModule.createDocument(app, clientConfig, {
     include: [AddressesClientModule],
   });
+
   SwaggerModule.setup('api-client', app, clientDocument);
 
   //Enable CORS
@@ -67,4 +69,5 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 8000);
 }
+
 bootstrap();

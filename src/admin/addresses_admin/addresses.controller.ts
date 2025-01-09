@@ -14,7 +14,7 @@ import { UpdateAddressAdminDto } from './dto/update-address.dto';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Addresses')
-@Controller('addresses')
+@Controller('addressesAdmin')
 export class AddressesAdminController {
   constructor(private readonly addressesService: AddressesAdminService) {}
 

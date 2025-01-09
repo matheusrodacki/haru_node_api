@@ -8,14 +8,13 @@ import {
   OneToMany,
   DeleteDateColumn,
 } from 'typeorm';
-
 import { Company } from '../companies/company.entity';
 import { Individual } from '../individuals/individual.entity';
-
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
 import { Contract } from '../contracts/contract.entity';
 import { Exclude } from 'class-transformer';
+import { User } from '../users/user.entity';
 
 @Entity('clients')
 export class Client {
@@ -57,6 +56,12 @@ export class Client {
     nullable: true,
   })
   company?: Company;
+
+  @OneToMany(() => User, (user) => user.client, {
+    cascade: true,
+    nullable: true,
+  })
+  users?: User[];
 
   @OneToMany(() => Contract, (contract) => contract.client, {
     cascade: true,

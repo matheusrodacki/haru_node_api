@@ -21,7 +21,7 @@
       ]
     }
   },
-  "postCreateCommand": "pnpm install",
+  "postCreateCommand": "npm install",
   "remoteUser": "node",
   "mounts": [
     "type=bind,source=/tmp/ssh-XXXXXXZlj8GT/agent.23793,target=/ssh-agent"

@@ -64,6 +64,13 @@ export class UpdateUserDto {
   @IsOptional()
   profile_id?: number;
 
+  @ApiProperty({
+    example: '1',
+    description: 'User client id',
+  })
+  @IsOptional()
+  client_id?: number;
+
   @ApiPropertyOptional({
     description: 'User status',
     enum: Status,

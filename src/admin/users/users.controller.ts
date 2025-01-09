@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
-import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { PermissionsGuard } from 'src/roles/permissions.guard';
 import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Users')

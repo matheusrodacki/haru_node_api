@@ -11,8 +11,9 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { AddressAdmin } from '../addresses_admin/address.entity';
-import { Profile } from '../profiles_admin/profile.entity';
+import { Profile } from '../profiles/profile.entity';
 import { Status } from 'src/enum/status.enum';
+import { Client } from '../clients/client.entity';
 
 @Entity('users')
 export class User {
@@ -36,6 +37,9 @@ export class User {
   phone: string;
 
   @Column({ nullable: true })
+  client_id?: number;
+
+  @Column({ nullable: true })
   profile_id?: number;
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
@@ -52,11 +56,14 @@ export class User {
   deleted_at?: Date;
 
   // Relationships
-
   @OneToOne(() => AddressAdmin, (address) => address.user, {
     cascade: true,
   })
   addressAdmin: AddressAdmin;
+
+  @ManyToOne(() => Client, (client) => client.users)
+  @JoinColumn({ name: 'client_id' })
+  client?: Client;
 
   @ManyToOne(() => Profile, (profile) => profile.users)
   @JoinColumn({ name: 'profile_id' })

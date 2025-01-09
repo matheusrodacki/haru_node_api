@@ -6,7 +6,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { User } from './user.entity';
@@ -19,7 +18,6 @@ export class UsersService {
     private usersRepository: Repository<User>,
     @InjectRepository(AddressAdmin)
     private addressesRepository: Repository<AddressAdmin>,
-    private jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -31,6 +29,7 @@ export class UsersService {
       address,
       phone,
       profile_id,
+      client_id,
     } = createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
@@ -50,6 +49,7 @@ export class UsersService {
     user.email = email;
     user.phone = phone;
     user.profile_id = profile_id;
+    user.client_id = client_id;
 
     //Create user to get user_id
     user = await this.usersRepository.save(user);
@@ -127,6 +127,11 @@ export class UsersService {
     // Update phone if provided
     if (updateUserDto.phone !== undefined) {
       user.phone = updateUserDto.phone;
+    }
+
+    //Update client if provided
+    if (updateUserDto.client_id !== undefined) {
+      user.client_id = updateUserDto.client_id;
     }
 
     // Update role if provided

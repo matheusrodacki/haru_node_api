@@ -22,7 +22,7 @@ import {
 import { Profile } from './profile.entity';
 import { ProfileDto } from './dto/profile.dto';
 import { plainToClass } from 'class-transformer';
-import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { PermissionsGuard } from 'src/roles/permissions.guard';
 import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Profiles')

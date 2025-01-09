@@ -21,7 +21,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ClienteDto } from './dto/client.dto';
 import { CreateClientDto } from './dto/create.client.dto';
 import { UpdateClientDto } from './dto/update.client.dto';
-import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { PermissionsGuard } from 'src/roles/permissions.guard';
 import { Permissions } from 'src/roles/permissions.decorator';
 
 @ApiTags('Clients')

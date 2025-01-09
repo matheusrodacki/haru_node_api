@@ -4,7 +4,7 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from './user.entity';
-import { Profile } from '../profiles_admin/profile.entity';
+import { Profile } from '../profiles/profile.entity';
 import { AddressAdmin } from '../addresses_admin/address.entity';
 
 @Module({

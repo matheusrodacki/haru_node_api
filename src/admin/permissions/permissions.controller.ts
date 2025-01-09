@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { Permission } from './permissions.entity';
 import { Permissions } from 'src/roles/permissions.decorator';
-import { PermissionsGuard } from 'src/roles/permissions.gaurd';
+import { PermissionsGuard } from 'src/roles/permissions.guard';
 import { PermissionDto } from './dto/permission.dto';
 
 @ApiTags('Permissions')

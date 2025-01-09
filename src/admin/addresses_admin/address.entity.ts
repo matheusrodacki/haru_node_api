@@ -7,7 +7,7 @@ import {
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { User } from '../users_admin/user.entity';
+import { User } from '../users/user.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity('addresses_admin')

@@ -7,7 +7,7 @@ import {
   ManyToMany,
   DeleteDateColumn,
 } from 'typeorm';
-import { Profile } from '../profiles_admin/profile.entity';
+import { Profile } from '../profiles/profile.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity('permissions')
