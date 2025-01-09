@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAddressClientDto } from './dto/create-address.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { AddressClient } from './address.entity';
 import { UpdateAddressClientDto } from './dto/update-address.dto';
 
@@ -15,14 +15,15 @@ export class AddressesClientService {
   // Create a new address
   async create(
     createAddressClientDto: CreateAddressClientDto,
+    connection: DataSource,
   ): Promise<AddressClient> {
-    const addressClient = this.addressRepository.create(createAddressClientDto);
-    return await this.addressRepository.save(addressClient);
+    const addressRepository = connection.getRepository(AddressClient);
+    const addressClient = addressRepository.create(createAddressClientDto);
+    return await addressRepository.save(addressClient);
   }
 
   // Get all addresses
-  async findAll(req: Request): Promise<AddressClient[]> {
-    const connection = req['clientConnection'];
+  async findAll(connection: DataSource): Promise<AddressClient[]> {
     const addressRepository = connection.getRepository(AddressClient);
     return await addressRepository.find();
   }

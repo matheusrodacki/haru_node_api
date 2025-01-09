@@ -44,8 +44,15 @@ export class AddressesClientController {
     type: CreateAddressClientDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  create(@Body() createAddressClientDto: CreateAddressClientDto) {
-    return this.addressesClientService.create(createAddressClientDto);
+  create(
+    @Body() createAddressClientDto: CreateAddressClientDto,
+    @Req() req: Request,
+  ) {
+    const connection = req['clientConnection'];
+    return this.addressesClientService.create(
+      createAddressClientDto,
+      connection,
+    );
   }
 
   // Get all addresses
@@ -57,7 +64,8 @@ export class AddressesClientController {
     type: [CreateAddressClientDto],
   })
   findAll(@Req() req: Request) {
-    return this.addressesClientService.findAll(req);
+    const connection = req['clientConnection'];
+    return this.addressesClientService.findAll(connection);
   }
 
   // Get an address by ID

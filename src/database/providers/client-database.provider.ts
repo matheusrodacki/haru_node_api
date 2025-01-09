@@ -1,7 +1,7 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 
-@Injectable({ scope: Scope.REQUEST }) // Cria um provider por request
+@Injectable() // Cria um provider por request
 export class ClientDatabaseProvider {
   private clients = new Map<string, DataSource>();
 
