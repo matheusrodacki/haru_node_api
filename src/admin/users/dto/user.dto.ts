@@ -28,6 +28,12 @@ export class UserDto {
   })
   profile_id?: number;
 
+  @ApiPropertyOptional({
+    example: '1',
+    description: 'User profile id',
+  })
+  client_id?: number;
+
   @ApiProperty({
     description: 'User status',
     enum: Status,

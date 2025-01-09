@@ -29,6 +29,7 @@ export class UsersService {
       address,
       phone,
       profile_id,
+      client_id,
     } = createUserDto;
 
     const existingUser = await this.usersRepository.findOne({
@@ -48,6 +49,7 @@ export class UsersService {
     user.email = email;
     user.phone = phone;
     user.profile_id = profile_id;
+    user.client_id = client_id;
 
     //Create user to get user_id
     user = await this.usersRepository.save(user);
@@ -125,6 +127,11 @@ export class UsersService {
     // Update phone if provided
     if (updateUserDto.phone !== undefined) {
       user.phone = updateUserDto.phone;
+    }
+
+    //Update client if provided
+    if (updateUserDto.client_id !== undefined) {
+      user.client_id = updateUserDto.client_id;
     }
 
     // Update role if provided

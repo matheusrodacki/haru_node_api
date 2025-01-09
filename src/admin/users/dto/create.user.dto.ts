@@ -56,6 +56,13 @@ export class CreateUserDto {
   @IsNumber()
   profile_id: number;
 
+  @ApiProperty({
+    example: '1',
+    description: 'User client id',
+  })
+  @IsNumber()
+  client_id?: number;
+
   @ApiPropertyOptional({
     description: 'User status',
     enum: Status,
