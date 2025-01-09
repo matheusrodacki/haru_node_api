@@ -28,6 +28,8 @@ export class ClientSeedService implements OnModuleInit {
       const connection = await this.clientDatabaseProvider.getClientConnection(
         req.headers['x-client-id'] as string,
       );
+
+      logger.log('Seeding client address data...');
       const clientAddress =
         await this.addressesClientService.findAll(connection);
 
