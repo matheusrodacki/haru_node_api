@@ -4,14 +4,14 @@ import { AddressesAdminModule } from './addresses_admin/addresses.module';
 import { ClientsModule } from './clients/clients.module';
 import { CompaniesModule } from './companies/companies.module';
 import { IndividualsModule } from './individuals/individuals.module';
-import { UsersModule } from './users_admin/users.module';
+import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminDatabaseProvider } from 'src/database/providers/admin-database.provider';
 import { PlansModule } from './plans/plans.module';
 import { ContractsModule } from './contracts/contracts.module';
-import { ProfilesModule } from './profiles_admin/profile.module';
-import { PermissionsModule } from './permissions_admin/permissions.module';
+import { ProfilesModule } from './profiles/profile.module';
+import { PermissionsModule } from './permissions/permissions.module';
 import { AdminSeedService } from './admin.seed.service';
 
 @Module({

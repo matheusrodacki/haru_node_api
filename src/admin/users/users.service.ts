@@ -6,7 +6,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { User } from './user.entity';
@@ -19,7 +18,6 @@ export class UsersService {
     private usersRepository: Repository<User>,
     @InjectRepository(AddressAdmin)
     private addressesRepository: Repository<AddressAdmin>,
-    private jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {

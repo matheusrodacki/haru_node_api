@@ -9,8 +9,8 @@ import {
   OneToMany,
   DeleteDateColumn,
 } from 'typeorm';
-import { User } from '../users_admin/user.entity';
-import { Permission } from '../permissions_admin/permissions.entity';
+import { User } from '../users/user.entity';
+import { Permission } from '../permissions/permissions.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity('profiles')

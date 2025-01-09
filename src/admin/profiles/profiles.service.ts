@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Profile } from './profile.entity';
-import { Permission } from '../permissions_admin/permissions.entity';
+import { Permission } from '../permissions/permissions.entity';
 import { CreateProfileDto } from './dto/create.profile.dto';
 import { UpdateProfileDto } from './dto/update.profile.dto';
 

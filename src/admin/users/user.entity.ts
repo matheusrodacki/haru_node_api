@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { AddressAdmin } from '../addresses_admin/address.entity';
-import { Profile } from '../profiles_admin/profile.entity';
+import { Profile } from '../profiles/profile.entity';
 import { Status } from 'src/enum/status.enum';
 
 @Entity('users')

@@ -8,10 +8,8 @@ import {
   OneToMany,
   DeleteDateColumn,
 } from 'typeorm';
-
 import { Company } from '../companies/company.entity';
 import { Individual } from '../individuals/individual.entity';
-
 import { ClientType } from 'src/enum/clientType.enum';
 import { Status } from 'src/enum/status.enum';
 import { Contract } from '../contracts/contract.entity';
